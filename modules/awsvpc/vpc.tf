@@ -32,13 +32,13 @@ resource "aws_route_table" "public_internet" {
   tags = merge(var.aws_build_tags, {Name = "golden_public"})
 }
 
-resource "aws_nat_gateway" "public_nat" {
-  depends_on = [aws_internet_gateway.public]
-  connectivity_type = "public"
-  allocation_id = aws_eip.public.id
-  subnet_id = aws_subnet.public.id
-  tags = merge(var.aws_build_tags, {Name = "golden_public"})
-}
+# resource "aws_nat_gateway" "public_nat" {
+#   depends_on = [aws_internet_gateway.public]
+#   connectivity_type = "public"
+#   allocation_id = aws_eip.public.id
+#   subnet_id = aws_subnet.public.id
+#   tags = merge(var.aws_build_tags, {Name = "golden_public"})
+# }
 
 resource "aws_route_table_association" "public_internet" {
   subnet_id = aws_subnet.public.id
@@ -66,11 +66,10 @@ resource "aws_route_table" "private" {
   )
 
   vpc_id = aws_vpc.golden.id
-  route {
-    cidr_block = "0.0.0.0/0"             
-    nat_gateway_id = aws_nat_gateway.public_nat.id
-
-  }
+  #route {
+  #  cidr_block = "0.0.0.0/0"             
+  #  nat_gateway_id = aws_nat_gateway.public_nat.id
+  #}
 }
 
 resource "aws_route_table_association" "private" {
@@ -87,9 +86,9 @@ resource "aws_route_table_association" "manage" {
 
 resource "aws_route_table" "manage" {
   vpc_id = aws_vpc.golden.id
-  route {
-    cidr_block = "0.0.0.0/0"             
-    nat_gateway_id = aws_nat_gateway.public_nat.id
-  }
+  # route {
+  #   cidr_block = "0.0.0.0/0"             
+  #   nat_gateway_id = aws_nat_gateway.public_nat.id
+  # }
   tags = merge(var.aws_build_tags, {Name = "golden_manage"})
 }
