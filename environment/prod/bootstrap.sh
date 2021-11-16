@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bastion-build() {
+bastion-init() {
   terraform init | tee tfinit.txt 2>&1
   terraform apply -no-color -auto-approve | tee tfrun.txt 2>&1
 
@@ -13,12 +13,17 @@ bastion-build() {
   ssh-keyscan -H $SUBASTION_IP >> ~/.ssh/known_hosts
 }
 
-bastion-reset() {
+bastion-destroy() {
   terraform destroy -no-color -auto-approve | tee tfrun.txt 2>&1
   docker kill vault
   docker rm vault
-  cd ../../modules/ && rm -fr openssl && git checkout openssl
-  cd -
+  rm -fr ../../docker/vault/volumes/file/*
+  rm -fr ../../docker/vault/volumes/log/*
+  rm -fr ../../modules/openssl && git checkout ../../modules/openssl
+  unset VAULT_TOKEN
+  unset VAULT_ADDR
+  unset SUBASTION_KEYFILE
+  unset SUBASTION_IP
 }
 
 bastion-ssh () {
@@ -28,7 +33,7 @@ bastion-ssh () {
   rm -f $SUBASTION_KEYFILE
 }
 
-export -f bastion-build
+export -f bastion-init
+export -f bastion-destroy
 export -f bastion-ssh
-export -f bastion-reset
 
