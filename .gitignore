@@ -1,2 +1,9 @@
 **/*.pem
+**/*.pfx
+**/terraform.tfstate*
 **/.terraform*
+**/*/serial*
+**/*/serial
+**/*/index.txt*
+**/*/index.txt
+vault.secrets*
