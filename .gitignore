@@ -7,3 +7,6 @@
 **/*/index.txt*
 **/*/index.txt
 vault.secrets*
+tf*.txt
+*.key
+*.token
