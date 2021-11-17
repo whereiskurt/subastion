@@ -3,10 +3,8 @@
 **/terraform.tfstate*
 **/.terraform*
 **/*/serial*
-**/*/serial
 **/*/index.txt*
-**/*/index.txt
 vault.secrets*
-tf*.txt
+*.log
 *.key
 *.token
