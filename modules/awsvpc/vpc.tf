@@ -92,3 +92,27 @@ resource "aws_route_table" "manage" {
   # }
   tags = merge(var.aws_build_tags, {Name = "golden_manage"})
 }
+
+resource "aws_default_network_acl" "default" {
+  tags = merge(var.aws_build_tags, {Name = "golden_default"})
+
+  default_network_acl_id = aws_vpc.golden.default_network_acl_id
+
+  ingress {
+    protocol   = -1
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = aws_vpc.golden.cidr_block
+    from_port  = 0
+    to_port    = 0
+  }
+
+  egress {
+    protocol   = -1
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+}
