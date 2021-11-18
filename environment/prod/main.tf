@@ -24,6 +24,7 @@ module "vault" {
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
+  aws_build_tags = var.aws_build_tags
   source = "../../modules/awsvpc"
   vpc_cidr = "10.50.0.0/16"
 
