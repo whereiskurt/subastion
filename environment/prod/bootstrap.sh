@@ -12,11 +12,13 @@ subastion-init() {
 
 subastion-destroy() {
   terraform destroy -no-color -auto-approve | tee subastion.tfrun.log 2>&1
+
   docker kill vault
   docker rm vault
   rm -fr ../../docker/vault/volumes/file/*
   rm -fr ../../docker/vault/volumes/log/*
   rm -fr ../../modules/openssl && git checkout ../../modules/openssl
+  
   unset VAULT_TOKEN
   unset VAULT_ADDR
   unset SUBASTION_KEYFILE
