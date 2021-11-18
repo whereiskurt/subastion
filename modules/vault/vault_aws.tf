@@ -22,7 +22,7 @@ resource "aws_iam_policy" "secret_root_policy" {
         "kms:DescribeKey"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:kms:${var.aws_config["region"]}:*:alias/${var.aws_config["kms_key_alias"]}"
+      "Resource": "arn:aws:kms:${var.aws_region}:*:alias/${var.aws_kms_key_alias}"
     }
   ]
 }
@@ -103,7 +103,7 @@ resource "null_resource" "vault_aws_write_config" {
     vault write aws/config/root \
         access_key=${aws_iam_access_key.vault_user_access_key.id} \
         secret_key=${aws_iam_access_key.vault_user_access_key.secret} \
-        region=${var.aws_config.region}
+        region=${var.aws_region}
     EOT
   }
 }

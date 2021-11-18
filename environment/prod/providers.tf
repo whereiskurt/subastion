@@ -24,9 +24,9 @@ terraform {
 }
 
 provider "aws" {
-  region     = "${var.aws_config["region"]}"
-  access_key = "${var.aws_config["access_key"]}"
-  secret_key = "${var.aws_config["secret_key"]}"
+  region     = "${var.aws_region}"
+  access_key = "${var.aws_access_key}"
+  secret_key = "${var.aws_secret_key}"
 }
 
 provider "tls" { }

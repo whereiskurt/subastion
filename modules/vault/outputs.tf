@@ -1,11 +1,11 @@
 data "template_file" "vault_conf" {
   template = "${file("../../docker/vault/vault_config.tpl")}"
   vars = {  
-    region        = "${var.aws_config["region"]}"
-    access_key    = "${var.aws_config["access_key"]}"
-    secret_key    = "${var.aws_config["secret_key"]}"
-    kms_key_id    = "${var.aws_config["kms_key_id"]}"
-    kms_key_alias = "${var.aws_config["kms_key_alias"]}"
+    region        = "${var.aws_region}"
+    access_key    = "${var.aws_access_key}"
+    secret_key    = "${var.aws_secret_key}"
+    kms_key_id    = "${var.aws_kms_key_id}"
+    kms_key_alias = "${var.aws_kms_key_alias}"
   }
 }
 
