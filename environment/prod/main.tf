@@ -1,6 +1,12 @@
 module "openssl" {
   source = "../../modules/openssl"
-  aws_config = var.aws_config
+
+  aws_region="${var.aws_region}"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  aws_kms_key_id = "${var.aws_kms_key_id}"
+  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  #aws_config = var.aws_config
   aws_build_tags = var.aws_build_tags
   openssl_env= var.openssl_env
 }
@@ -8,7 +14,12 @@ module "openssl" {
 module "vault" {
   depends_on=[module.openssl]
   source = "../../modules/vault"
-  aws_config = var.aws_config
+  aws_region="${var.aws_region}"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  aws_kms_key_id = "${var.aws_kms_key_id}"
+  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  # aws_config = var.aws_config
   aws_build_tags = var.aws_build_tags
   openssl_env= var.openssl_env
 
@@ -23,7 +34,12 @@ module "vault" {
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
   source = "../../modules/awsvpc"
-  aws_config = var.aws_config
+  aws_region="${var.aws_region}"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  aws_kms_key_id = "${var.aws_kms_key_id}"
+  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  # aws_config = var.aws_config
   aws_build_tags = var.aws_build_tags
 
   vpc_cidr = "10.50.0.0/16"
@@ -37,7 +53,12 @@ module "awsvpc" {
 module "awsbastion" {
   depends_on=[module.awsvpc, module.vault]
   source = "../../modules/awsbastion"
-  aws_config = var.aws_config
+  aws_region="${var.aws_region}"
+  aws_access_key = "${var.aws_access_key}"
+  aws_secret_key = "${var.aws_secret_key}"
+  aws_kms_key_id = "${var.aws_kms_key_id}"
+  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  #aws_config = var.aws_config
   aws_build_tags = var.aws_build_tags
 
   subastion_vpc_id = "${module.awsvpc.vpc_id}"

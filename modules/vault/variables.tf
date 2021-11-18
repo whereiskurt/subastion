@@ -1,6 +1,6 @@
-variable "aws_config" {
-  type = map
-}
+# variable "aws_config" {
+#   type = map
+# }
 
 variable "aws_build_tags" {
   type = map
