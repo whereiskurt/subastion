@@ -3,31 +3,31 @@ module "openssl" {
   openssl_env= var.openssl_env
 }
 
-module "vault" {
+module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../modules/vault"
+  source = "../../modules/awsvault"
+  aws_build_tags = var.aws_build_tags
   aws_region = "${var.aws_region}"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   aws_kms_key_id = "${var.aws_kms_key_id}"
   aws_kms_key_alias = "${var.aws_kms_key_alias}"
-  aws_build_tags = var.aws_build_tags
+
   openssl_env= var.openssl_env
 
   vault_cert_dns_1 = "vault"
   vault_cert_dns_2="vault.golden.lab"
   vault_cert_dns_3="localhost"
-  
   vault_cert_ip_1="172.16.1.102"
   vault_cert_ip_2="127.0.0.1"
 }
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
-  aws_build_tags = var.aws_build_tags
   source = "../../modules/awsvpc"
+  aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
-
+  aws_availability_zone="ca-central-1a"
   public_subnets= "10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"
   private_subnets ="10.50.32.0/20"

@@ -1,3 +1,14 @@
+variable "environment" {
+  type = string
+  description = "This will be either blue, green, prod, dev, etc."
+  default="prod"
+}
+
+variable "aws_availability_zone" {
+  type = string
+  default = "ca-central-1"
+} 
+
 variable "aws_region" {
   type = string
   default = "ca-central-1"
@@ -21,7 +32,6 @@ variable "aws_kms_key_id" {
   default = "edac385f-c393-4e9c-aab7-808e1bc3c899"
   sensitive = true
 }
-
 variable "aws_build_tags" {
   type = map
   default = {
@@ -29,7 +39,6 @@ variable "aws_build_tags" {
     "review_by" = "20221025"
   }
 }
-
 variable "openssl_env" {
   type = map
   default = {
