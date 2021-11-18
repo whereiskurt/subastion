@@ -35,7 +35,7 @@ module "awsvpc" {
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsbastion" {
-  depends_on=[module.awsvpc, module.vault]
+  depends_on=[module.awsvpc, module.awsvault]
   source = "../../modules/awsbastion"
   
   aws_build_tags = var.aws_build_tags
