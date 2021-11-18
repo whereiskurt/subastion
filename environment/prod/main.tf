@@ -6,7 +6,7 @@ module "openssl" {
 module "vault" {
   depends_on=[module.openssl]
   source = "../../modules/vault"
-  aws_region="${var.aws_region}"
+  aws_region = "${var.aws_region}"
   aws_access_key = "${var.aws_access_key}"
   aws_secret_key = "${var.aws_secret_key}"
   aws_kms_key_id = "${var.aws_kms_key_id}"
@@ -37,12 +37,6 @@ module "awsvpc" {
 module "awsbastion" {
   depends_on=[module.awsvpc, module.vault]
   source = "../../modules/awsbastion"
-
-  aws_region="${var.aws_region}"
-  aws_access_key = "${var.aws_access_key}"
-  aws_secret_key = "${var.aws_secret_key}"
-  aws_kms_key_id = "${var.aws_kms_key_id}"
-  aws_kms_key_alias = "${var.aws_kms_key_alias}"
   
   aws_build_tags = var.aws_build_tags
 
