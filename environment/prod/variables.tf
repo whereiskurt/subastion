@@ -22,20 +22,6 @@ variable "aws_kms_key_id" {
   sensitive = true
 }
 
-# variable "aws_config" {
-#   type = map
-#   sensitive = true
-#   description = "These are the minimum details required to bootstrap the environment."
-#   default= {
-#     "region" = "${var.aws_region}"
-#     "access_key" = "${var.aws_access_key}"
-#     "secret_key" = "${var.aws_secret_key}"
-#     "kms_key_alias" = "${var.aws_kms_key_alias}"
-#     "kms_key_id" ="${var.aws_kms_key_id}" 
-#   }
-# }
-
-
 variable "aws_build_tags" {
   type = map
   default = {
