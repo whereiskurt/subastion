@@ -1,4 +1,4 @@
-fresource "aws_iam_user" "vault_aws_root" {
+resource "aws_iam_user" "vault_aws_root" {
   name = "vaultroot"
   force_destroy = true
   tags = var.aws_build_tags
