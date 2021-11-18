@@ -3,6 +3,11 @@ variable aws_build_tags {
   type = map
 }
 
+variable "aws_availability_zone" {
+  type = string
+  default = "ca-central-1"
+} 
+
 variable vpc_cidr {
   description = "The CIDR block for the VPC (default: 10.50.0.0/16)"
   default = "10.50.0.0/16"
