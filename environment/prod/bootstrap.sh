@@ -5,13 +5,9 @@ subastion-init() {
   terraform apply -no-color -auto-approve | tee subastion.tfrun.log 2>&1
 
   export VAULT_ADDR=https://localhost:8200
-  export VAULT_TOKEN=$(cat admin.token)
+  export VAULT_TOKEN=$(cat vaultadmin.token)
   export SUBASTION_KEYFILE=$(pwd)/bastion.key
   export SUBASTION_IP=$(vault read -field=ip subastion/ec2host)
-
-  sleep 5 ##Waiting for ssh'd to come-up
-  ssh-keyscan -H $SUBASTION_IP >> ~/.ssh/known_hosts
-
 }
 
 subastion-destroy() {
@@ -28,6 +24,8 @@ subastion-destroy() {
 }
 
 subastion-ssh () {
+  #Looked at various ways to pipe in ssh avoiding the file
+  #but wasn't able to. Even the fifo wasn't working for me.
   vault read -field=pem subastion/ec2host|base64 -d > $SUBASTION_KEYFILE
   chmod 400 $SUBASTION_KEYFILE
   ssh -i $SUBASTION_KEYFILE ubuntu@$SUBASTION_IP

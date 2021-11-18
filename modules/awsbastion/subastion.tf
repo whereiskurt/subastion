@@ -18,7 +18,7 @@ resource "null_resource" "vault_subastion_key" {
   depends_on = [ aws_key_pair.subastion_key ]
   provisioner "local-exec" {
     command = <<-EOT
-      cat admin.token | vault login - && \
+      cat vaultadmin.token | vault login - && \
       vault secrets enable -path=subastion kv && \
       vault kv put subastion/ec2host \
         ip=${aws_eip.subastion.public_ip} \

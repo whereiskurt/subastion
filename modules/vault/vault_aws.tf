@@ -90,7 +90,7 @@ resource "null_resource" "vault_enable_aws_secret" {
     command = <<-EOT
       vault secrets enable aws &&
       vault policy write admin ../../docker/vault/admin_policy.hcl &&
-      vault token create -format=json -policy="admin" | jq -r ".auth.client_token" > admin.token
+      vault token create -format=json -policy="admin" | jq -r ".auth.client_token" > vaultadmin.token
     EOT
   }
 }
