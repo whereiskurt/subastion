@@ -1,6 +1,5 @@
 module "openssl" {
   source = "../../modules/openssl"
-  aws_build_tags = var.aws_build_tags
   openssl_env= var.openssl_env
 }
 
