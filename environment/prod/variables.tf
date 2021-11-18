@@ -1,15 +1,40 @@
+variable "aws_region" {
+  type = string
+  default = "ca-central-1"
+}
+variable "aws_access_key" {
+  type = string
+  default = "AKIAXAKHUY4U4F4A7O5N"
+  sensitive = true
+}
+variable "aws_secret_key" {
+  type = string
+  default = "4AbhYLGQRZsrlNO05aYkFw5etL/mMXpxVlhdAUgF"
+  sensitive = true
+}
+variable "aws_kms_key_alias" {
+  type = string
+  default = "orchestration"
+}
+variable "aws_kms_key_id" {
+  type = string
+  default = "edac385f-c393-4e9c-aab7-808e1bc3c899"
+  sensitive = true
+}
+
 variable "aws_config" {
   type = map
   sensitive = true
   description = "These are the minimum details required to bootstrap the environment."
   default= {
-    "region" = "ca-central-1"
-    "access_key" = "AKIAXAKHUY4U4F4A7O5N"
-    "secret_key" = "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"   
-    "kms_key_alias" = "orchestration"
-    "kms_key_id" ="edac385f-c393-4e9c-aab7-808e1bc3c899" 
+    "region" = "${var.aws_region}"
+    "access_key" = "${var.aws_access_key}"
+    "secret_key" = "${var.aws_secret_key}"
+    "kms_key_alias" = "${var.aws_kms_key_alias}"
+    "kms_key_id" ="${var.aws_kms_key_id}" 
   }
 }
+
 
 variable "aws_build_tags" {
   type = map
