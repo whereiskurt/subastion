@@ -11,11 +11,9 @@ resource "aws_internet_gateway" "public" {
 }
 
 resource "aws_subnet" "public" {
-  count = length(var.public_subnets)
-
   depends_on = [aws_internet_gateway.public]
   vpc_id =  aws_vpc.golden.id
-  cidr_block = "${var.public_subnets[count.index]}"
+  cidr_block = "${var.public_subnets}"
   availability_zone = "ca-central-1a"
   tags = merge(var.aws_build_tags, {Name = "golden_public"})
 }
@@ -30,8 +28,7 @@ resource "aws_route_table" "public_internet" {
 }
 
 resource "aws_route_table_association" "public_internet" {
-  count = length(aws_subnet.public)
-  subnet_id = aws_subnet.public[count.index].id
+  subnet_id = aws_subnet.public.id
   route_table_id = aws_route_table.public_internet.id
 }
 
