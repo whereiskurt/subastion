@@ -58,9 +58,12 @@ resource "local_file" "vault_config" {
 
 resource "null_resource" "vault_start" {
   depends_on = [local_file.vault_config]
+  
+  time_sleep = [time_sleep.wait_for_root_access_key]
+
   provisioner "local-exec" {
     command = <<-EOT
-      cd ../../docker/vault/ && sleep 30 && docker-compose up -d && sleep 3
+      cd ../../docker/vault/ && docker-compose up -d && sleep 3
     EOT
   }
 }

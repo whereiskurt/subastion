@@ -8,6 +8,11 @@ resource "aws_iam_access_key" "vault_root_access_key" {
   user = aws_iam_user.vault_aws_root.name
 }
 
+resource "time_sleep" "wait_for_root_access_key" {
+  create_duration = "30s"
+  depends_on = [aws_iam_access_key.vault_root_access_key]
+}
+
 resource "aws_iam_policy" "secret_root_policy" {
   name        = "KMSVaultKeyRoot"
   description = "Policy to encrypt/decrypt vault seal/unseal key."
