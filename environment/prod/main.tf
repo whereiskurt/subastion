@@ -1,11 +1,11 @@
 module "openssl" {
-  source = "../../modules/openssl"
+  source = "${var.module_base}/openssl"
   openssl_env= var.openssl_env
 }
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../modules/awsvault"
+  source = "${var.module_base}/aws/vault"
   aws_build_tags = var.aws_build_tags
   aws_region = "${var.aws_region}"
   aws_kms_key_id = "${var.aws_kms_key_id}"
@@ -20,9 +20,10 @@ module "awsvault" {
   vault_cert_ip_2="127.0.0.1"
 }
 
+##TODO: Breakout VPC from subnets! 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
-  source = "../../modules/awsvpc"
+  source = "${var.module_base}/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
   aws_availability_zone="ca-central-1a"
@@ -34,7 +35,7 @@ module "awsvpc" {
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsbastion" {
   depends_on=[module.awsvpc, module.awsvault]
-  source = "../../modules/awsbastion"
+  source = "${var.module_base}/aws/bastion"
   
   aws_build_tags = var.aws_build_tags
 
