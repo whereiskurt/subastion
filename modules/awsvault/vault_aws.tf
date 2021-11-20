@@ -23,8 +23,8 @@ resource "aws_iam_policy" "secret_root_policy" {
       ],
       "Effect": "Allow",
       "Resource": [
-        "arn:aws:kms:${var.aws_region}:*:alias/${var.aws_kms_key_alias}",
-        "arn:aws:kms:${var.aws_region}:*:key/${var.aws_kms_key_id}"
+        "arn:aws:kms:*:*:alias/${var.aws_kms_key_alias}",
+        "arn:aws:kms:*:*:key/${var.aws_kms_key_id}"
       ]
     }
   ]
