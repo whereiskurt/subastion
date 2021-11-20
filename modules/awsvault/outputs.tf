@@ -9,9 +9,6 @@ data "template_file" "vault_conf" {
   }
 }
 
-#access_key=${aws_iam_access_key.vault_user_access_key.id}
-#secret_key=${aws_iam_access_key.vault_user_access_key.secret}
-
 output "vault_config" {
   description = "JSON configuration file for vault"
   value       = data.template_file.vault_conf.rendered
