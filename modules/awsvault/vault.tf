@@ -59,7 +59,7 @@ resource "local_file" "vault_config" {
 resource "null_resource" "wait_for_iam" {
   depends_on = [aws_iam_access_key.vault_root_access_key]
   provisioner "local-exec" {
-    command = "sleep 5"
+    command = "sleep 10"
   }
 }
 
