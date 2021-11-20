@@ -22,7 +22,7 @@ subastion-destroy() {
   docker rm vault
   rm -fr ../../docker/vault/volumes/file/*
   rm -fr ../../docker/vault/volumes/log/*
-  rm -fr ../../modules/openssl && git checkout ../../modules/openssl
+  rm -fr ../../terraform/modules/openssl && git checkout ../../terraform/modules/openssl
   
   unset VAULT_TOKEN
   unset VAULT_ADDR
