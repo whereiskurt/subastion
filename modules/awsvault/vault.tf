@@ -60,7 +60,7 @@ resource "null_resource" "vault_start" {
   depends_on = [local_file.vault_config]
   provisioner "local-exec" {
     command = <<-EOT
-      cd ../../docker/vault/ && docker-compose up -d && sleep 3
+      cd ../../docker/vault/ && sleep 30 && docker-compose up -d && sleep 3
     EOT
   }
 }
