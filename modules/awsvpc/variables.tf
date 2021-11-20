@@ -14,7 +14,8 @@ variable vpc_cidr {
 }
 
 variable public_subnets {
-    default = "10.50.0.0/20"
+    type=list(string)
+    default = ["10.50.0.0/20"]
 } 
 variable manage_subnets {
     default = "10.50.16.0/20"

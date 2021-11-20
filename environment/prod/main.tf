@@ -26,7 +26,7 @@ module "awsvpc" {
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
   aws_availability_zone="ca-central-1a"
-  public_subnets= "10.50.0.0/20"
+  public_subnets=["10.50.0.0/20"]
   manage_subnets = "10.50.16.0/20"
   private_subnets ="10.50.32.0/20"
 }
