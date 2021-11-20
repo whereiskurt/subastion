@@ -56,11 +56,15 @@ resource "local_file" "vault_config" {
   filename = "../../docker/vault/volumes/config/vault.json"
 }
 
-resource "null_resource" "vault_start" {
-  depends_on = [local_file.vault_config]
-  
-  time_sleep = [time_sleep.wait_for_root_access_key]
+resource "null_resource" "wait_for_iam" {
+  depends_on = [aws_iam_access_key.vault_root_access_key]
+  provisioner "local-exec" {
+    command = "sleep 5"
+  }
+}
 
+resource "null_resource" "vault_start" {
+  depends_on = [local_file.vault_config, null_resource.wait_for_iam]
   provisioner "local-exec" {
     command = <<-EOT
       cd ../../docker/vault/ && docker-compose up -d && sleep 3
