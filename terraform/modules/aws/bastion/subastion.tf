@@ -92,5 +92,3 @@ resource "aws_instance" "subastion" {
     device_index         = 2
   } 
 }
-
-
