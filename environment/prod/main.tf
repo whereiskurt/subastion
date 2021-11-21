@@ -20,12 +20,18 @@ module "awsvault" {
   vault_cert_ip_2="127.0.0.1"
 }
 
-##TODO: Breakout VPC from subnets! 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
   source = "../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
+}
+
+module "awssubnet" {
+  depends_on=[module.awsvpc]
+  vpc_id="${awsvpc.vpc_id}"
+  source = "../../terraform/modules/aws/subnet"
+  aws_build_tags = var.aws_build_tags
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"
@@ -34,7 +40,7 @@ module "awsvpc" {
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsbastion" {
-  depends_on=[module.awsvpc, module.awsvault]
+  depends_on=[module.awssubnet, module.awsvault]
   source = "../../terraform/modules/aws/bastion"
   
   aws_build_tags = var.aws_build_tags
