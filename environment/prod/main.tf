@@ -43,7 +43,15 @@ module "awssubnet" {
   private_subnets ="10.50.32.0/20"
 }
 
-##TODO: Add a concept of prefix like "blue/green/prod"
+module "awsnat" {
+  depends_on=[module.awssubnet]
+  source = "../../terraform/modules/aws/natgateway"
+  name="prod_green"
+  public_subnet_id="${module.awssubnet.public_subnet_id}"
+  private_route_table_id="${module.awssubnet.private_route_table_id}"
+  manage_route_table_id="${module.awssubnet.manage_route_table_id}"
+}
+
 module "awsbastion" {
   depends_on=[module.awssubnet, module.awsvault]
   source = "../../terraform/modules/aws/bastion"
@@ -60,3 +68,4 @@ module "awsbastion" {
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
 }
+

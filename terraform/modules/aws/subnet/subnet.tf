@@ -85,29 +85,3 @@ resource "aws_default_network_acl" "default" {
     to_port    = 0
   }
 }
-
-##Allows EC2 instances to apt-update withouth having public IPs (aka NAT)
-resource "aws_eip" "public" {
- vpc   = true
- tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
-}
-
-resource "aws_nat_gateway" "public_nat" {
-  depends_on = [aws_internet_gateway.public]
-  connectivity_type = "public"
-  allocation_id = aws_eip.public.id
-  subnet_id = aws_subnet.public.id
-  tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
-}
-
-resource "aws_route" "private_to_publicnat" {
-  route_table_id=aws_route_table.private.id
-  destination_cidr_block = "0.0.0.0/0"             
-  nat_gateway_id = aws_nat_gateway.public_nat.id
-}
-
-resource "aws_route" "manage_to_publicnat" {
-  route_table_id=aws_route_table.manage.id
-  destination_cidr_block = "0.0.0.0/0"             
-  nat_gateway_id = aws_nat_gateway.public_nat.id
-}

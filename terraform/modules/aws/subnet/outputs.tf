@@ -9,3 +9,15 @@ output "private_subnet_id" {
 output "manage_subnet_id" {
   value = "${aws_subnet.manage.id}"
 }
+
+output public_route_table_id {
+  value = "${aws_route_table.public.id}"
+}
+
+output private_route_table_id {
+  value = "${aws_route_table.private.id}"
+}
+
+variable manage_route_table_id {
+  value = "${aws_route_table.manage.id}"
+}
