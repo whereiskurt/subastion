@@ -96,7 +96,7 @@ resource "null_resource" "vault_login" {
     environment = var.vault_env
     command = <<-EOT
       tail -n1 $VAULT_SECRETS_FILE | \
-        vault login -f 2>&1
+        vault login - 2>&1
     EOT
   }
 }
