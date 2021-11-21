@@ -29,7 +29,7 @@ module "awsvpc" {
 
 module "awssubnet" {
   depends_on=[module.awsvpc]
-  source = "${var.module_base}/aws/subnet"
+  source = "../../terraform/modules/aws/subnet"
   vpc_id="${module.awsvpc.vpc_id}"
   default_network_acl_id="${module.awsvpc.default_network_acl_id}"
   aws_build_tags = var.aws_build_tags
