@@ -29,9 +29,9 @@ module "awsvpc" {
 }
 
 module "awssubnet" {
-  name="green"
   depends_on=[module.awsvpc]
   source = "../../terraform/modules/aws/subnet"
+  name="prod_green"
   vpc_id="${module.awsvpc.vpc_id}"
   default_network_acl_id="${module.awsvpc.default_network_acl_id}"
   aws_build_tags = var.aws_build_tags
@@ -45,7 +45,7 @@ module "awssubnet" {
 module "awsbastion" {
   depends_on=[module.awssubnet, module.awsvault]
   source = "../../terraform/modules/aws/bastion"
-  
+  name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
 
   subastion_vpc_id = "${module.awsvpc.vpc_id}"

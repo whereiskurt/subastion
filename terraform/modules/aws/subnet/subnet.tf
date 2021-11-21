@@ -1,6 +1,6 @@
 resource "aws_internet_gateway" "public" {    
   vpc_id =  var.vpc_id               
-  tags = merge(var.aws_build_tags, {Name = "golden"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
 }
 
 resource "aws_subnet" "public" {
@@ -8,7 +8,7 @@ resource "aws_subnet" "public" {
   vpc_id =  var.vpc_id
   cidr_block = "${var.public_subnets}"
   availability_zone = "ca-central-1a"
-  tags = merge(var.aws_build_tags, {Name = "golden_public"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
 }
 
 resource "aws_route_table" "public_internet" {
@@ -17,7 +17,7 @@ resource "aws_route_table" "public_internet" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.public.id
   }
-  tags = merge(var.aws_build_tags, {Name = "golden_public"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
 }
 
 resource "aws_route_table_association" "public_internet" {
@@ -29,14 +29,14 @@ resource "aws_subnet" "manage" {
   vpc_id =  var.vpc_id
   cidr_block = "${var.manage_subnets}"
   availability_zone = "ca-central-1a"
-  tags = merge(var.aws_build_tags, {Name = "golden_manage"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_manage"})
 }
 
 resource "aws_subnet" "private" {
   vpc_id =  var.vpc_id
   cidr_block = "${var.private_subnets}"
   availability_zone = "ca-central-1a"
-  tags = merge(var.aws_build_tags, {Name = "golden_private"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_private"})
 }
 
 resource "aws_route_table" "private" {
@@ -59,11 +59,11 @@ resource "aws_route_table_association" "manage" {
 
 resource "aws_route_table" "manage" {
   vpc_id = var.vpc_id
-  tags = merge(var.aws_build_tags, {Name = "golden_manage"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_manage"})
 }
 
 resource "aws_default_network_acl" "default" {
-  tags = merge(var.aws_build_tags, {Name = "golden_default"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_default"})
 
   default_network_acl_id = var.default_network_acl_id
 
@@ -89,7 +89,7 @@ resource "aws_default_network_acl" "default" {
 ##Allows EC2 instances to apt-update withouth having public IPs (aka NAT)
 resource "aws_eip" "public" {
  vpc   = true
- tags = merge(var.aws_build_tags, {Name = "golden_public"})
+ tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
 }
 
 resource "aws_nat_gateway" "public_nat" {
@@ -97,7 +97,7 @@ resource "aws_nat_gateway" "public_nat" {
   connectivity_type = "public"
   allocation_id = aws_eip.public.id
   subnet_id = aws_subnet.public.id
-  tags = merge(var.aws_build_tags, {Name = "golden_public"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
 }
 
 resource "aws_route" "private_to_publicnat" {
