@@ -2,6 +2,12 @@ variable aws_build_tags {
   description = "A map of tags to apply to the AWS infrastructure."
   type = map
 }
+variable name {
+  description = "The name of the subnet"
+  type = string
+  default = "green"
+}
+
 
 variable "aws_availability_zone" {
   type = string
