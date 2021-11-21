@@ -12,6 +12,10 @@ variable vpc_id {
   type=string
 }
 
+variable default_network_acl_id {
+  type=string
+}
+
 variable public_subnets {
     type=string
     default = "10.50.0.0/20"
