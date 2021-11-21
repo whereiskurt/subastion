@@ -40,12 +40,11 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_route_table" "private" {
+  vpc_id = var.vpc_id
   tags = merge(var.aws_build_tags, 
     { Name = "golden_private", 
       Description ="Traffic heading to 0.0.0.0 will end up coming out of the NAT." }
   )
-
-  vpc_id = var.vpc_id
 }
 
 resource "aws_route_table_association" "private" {
@@ -87,21 +86,10 @@ resource "aws_default_network_acl" "default" {
   }
 }
 
+##Allows EC2 instances to apt-update withouth having public IPs (aka NAT)
 resource "aws_eip" "public" {
  vpc   = true
  tags = merge(var.aws_build_tags, {Name = "golden_public"})
-}
-
-resource "aws_route" "private_to_publicnat" {
-  route_table_id=aws_route_table.private
-  destination_cidr_block = "0.0.0.0/0"             
-  nat_gateway_id = aws_nat_gateway.public_nat.id
-}
-
-resource "aws_route" "manage_to_publicnat" {
-  route_table_id=aws_route_table.manage
-  destination_cidr_block = "0.0.0.0/0"             
-  nat_gateway_id = aws_nat_gateway.public_nat.id
 }
 
 resource "aws_nat_gateway" "public_nat" {
@@ -110,4 +98,16 @@ resource "aws_nat_gateway" "public_nat" {
   allocation_id = aws_eip.public.id
   subnet_id = aws_subnet.public.id
   tags = merge(var.aws_build_tags, {Name = "golden_public"})
+}
+
+resource "aws_route" "private_to_publicnat" {
+  route_table_id=aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"             
+  nat_gateway_id = aws_nat_gateway.public_nat.id
+}
+
+resource "aws_route" "manage_to_publicnat" {
+  route_table_id=aws_route_table.manage.id
+  destination_cidr_block = "0.0.0.0/0"             
+  nat_gateway_id = aws_nat_gateway.public_nat.id
 }
