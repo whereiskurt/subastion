@@ -66,7 +66,7 @@ resource "aws_route_table" "manage" {
 resource "aws_default_network_acl" "default" {
   tags = merge(var.aws_build_tags, {Name = "golden_default"})
 
-  default_network_acl_id = aws_vpc.golden.default_network_acl_id
+  default_network_acl_id = var.default_network_acl_id
 
   ingress {
     protocol   = -1

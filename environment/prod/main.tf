@@ -29,7 +29,8 @@ module "awsvpc" {
 
 module "awssubnet" {
   depends_on=[module.awsvpc]
-  vpc_id="${awsvpc.vpc_id}"
+  vpc_id="${module.awsvpc.vpc_id}"
+  default_network_acl_id="${module.awsvpc.default_network_acl_id}"
   source = "../../terraform/modules/aws/subnet"
   aws_build_tags = var.aws_build_tags
   aws_availability_zone="ca-central-1a"
