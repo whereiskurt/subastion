@@ -1,15 +1,11 @@
-locals {
-  modules = "../../terraform/modules"
-}
-
 module "openssl" {
-  source = "${locals.modules}/openssl"
+  source = "../../terraform/modules/openssl"
   openssl_env= var.openssl_env
 }
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "${locals.modules}/aws/vault"
+  source = "../../terraform/modules/aws/vault"
   aws_build_tags = var.aws_build_tags
   aws_region = "${var.aws_region}"
   aws_kms_key_id = "${var.aws_kms_key_id}"
