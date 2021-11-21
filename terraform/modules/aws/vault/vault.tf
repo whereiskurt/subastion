@@ -94,7 +94,6 @@ resource "null_resource" "vault_login" {
   depends_on = [null_resource.vault_init]
   provisioner "local-exec" {
     environment = var.vault_env
-    sensitive=true
     command = <<-EOT
       tail -n1 $VAULT_SECRETS_FILE | \
         vault login -f 2>&1
