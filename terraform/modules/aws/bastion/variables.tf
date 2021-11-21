@@ -2,6 +2,11 @@ variable "aws_build_tags" {
   type = map
 }
 
+variable name {
+  description = "The name of the subnet"
+  type = string
+}
+
 variable "public_subnet_id" {
   type = string
 }
