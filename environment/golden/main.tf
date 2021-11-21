@@ -1,11 +1,11 @@
 module "openssl" {
-  source = "../../terraform/modules/openssl"
+  source = "${var.module_base}/openssl"
   openssl_env= var.openssl_env
 }
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../terraform/modules/aws/vault"
+  source = "${var.module_base}/aws/vault"
   aws_build_tags = var.aws_build_tags
   aws_region = "${var.aws_region}"
   aws_kms_key_id = "${var.aws_kms_key_id}"
@@ -22,14 +22,14 @@ module "awsvault" {
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
-  source = "../../terraform/modules/aws/vpc"
+  source = "${var.module_base}/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
 }
 
 module "awssubnet" {
   depends_on=[module.awsvpc]
-  source = "../../terraform/modules/aws/subnet"
+  source = "${var.module_base}/aws/subnet"
   vpc_id="${module.awsvpc.vpc_id}"
   default_network_acl_id="${module.awsvpc.default_network_acl_id}"
   aws_build_tags = var.aws_build_tags
