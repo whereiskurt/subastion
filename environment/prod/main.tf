@@ -7,9 +7,9 @@ module "awsvault" {
   depends_on=[module.openssl]
   source = "../../terraform/modules/aws/vault"
   aws_build_tags = var.aws_build_tags
-  aws_region = "${var.aws_region}"
-  aws_kms_key_id = "${var.aws_kms_key_id}"
-  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  aws_region = var.aws_region
+  aws_kms_key_id = var.aws_kms_key_id
+  aws_kms_key_alias = var.aws_kms_key_alias
 
   openssl_env= var.openssl_env
 
@@ -35,7 +35,7 @@ module "awssubnet" {
   aws_build_tags = var.aws_build_tags
 
   vpc_id="${module.awsvpc.vpc_id}"
-  default_network_acl_id="${module.awsvpc.default_network_acl_id}"
+  default_network_acl_id=module.awsvpc.default_network_acl_id
   
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
@@ -46,10 +46,11 @@ module "awssubnet" {
 module "awsnat" {
   depends_on=[module.awssubnet]
   source = "../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
   name="prod_green"
-  public_subnet_id="${module.awssubnet.public_subnet_id}"
-  private_route_table_id="${module.awssubnet.private_route_table_id}"
-  manage_route_table_id="${module.awssubnet.manage_route_table_id}"
+  public_subnet_id=module.awssubnet.public_subnet_id
+  private_route_table_id=module.awssubnet.private_route_table_id
+  manage_route_table_id=module.awssubnet.manage_route_table_id
 }
 
 module "awsbastion" {
@@ -58,11 +59,11 @@ module "awsbastion" {
   name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
 
-  subastion_vpc_id = "${module.awsvpc.vpc_id}"
+  subastion_vpc_id = module.awsvpc.vpc_id
 
-  public_subnet_id = "${module.awssubnet.public_subnet_id}"
-  manage_subnet_id = "${module.awssubnet.manage_subnet_id}"
-  private_subnet_id = "${module.awssubnet.private_subnet_id}"
+  public_subnet_id = module.awssubnet.public_subnet_id
+  manage_subnet_id = module.awssubnet.manage_subnet_id
+  private_subnet_id = module.awssubnet.private_subnet_id
 
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
