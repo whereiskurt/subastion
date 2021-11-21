@@ -32,9 +32,11 @@ module "awssubnet" {
   depends_on=[module.awsvpc]
   source = "../../terraform/modules/aws/subnet"
   name="prod_green"
+  aws_build_tags = var.aws_build_tags
+
   vpc_id="${module.awsvpc.vpc_id}"
   default_network_acl_id="${module.awsvpc.default_network_acl_id}"
-  aws_build_tags = var.aws_build_tags
+  
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"

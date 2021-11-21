@@ -9,7 +9,7 @@ subastion-init() {
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat vaultadmin.token)
-  export SUBASTION_KEYFILE=$(pwd)/bastion.key
+  export SUBASTION_KEYFILE=$HOME/.ssh/bastion.key
   export SUBASTION_IP=$(vault read -field=ip subastion/ec2host)
   cd - 
 }
