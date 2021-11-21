@@ -18,6 +18,6 @@ output private_route_table_id {
   value = "${aws_route_table.private.id}"
 }
 
-variable manage_route_table_id {
+output manage_route_table_id {
   value = "${aws_route_table.manage.id}"
 }
