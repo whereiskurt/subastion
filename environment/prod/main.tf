@@ -48,9 +48,9 @@ module "awsbastion" {
 
   subastion_vpc_id = "${module.awsvpc.vpc_id}"
 
-  public_subnet_id = "${module.awsvpc.public_subnet_id}"
-  manage_subnet_id = "${module.awsvpc.manage_subnet_id}"
-  private_subnet_id = "${module.awsvpc.private_subnet_id}"
+  public_subnet_id = "${module.awssubnet.public_subnet_id}"
+  manage_subnet_id = "${module.awssubnet.manage_subnet_id}"
+  private_subnet_id = "${module.awssubnet.private_subnet_id}"
 
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
