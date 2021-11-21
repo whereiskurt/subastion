@@ -1,7 +1,7 @@
 variable "environment" {
   type = string
-  description = "This will be either blue, green, prod, dev, etc."
-  default="prod"
+  description = "This will be either blue, green, prod, dev, steve, bob etc."
+  default="green"
 }
 
 variable "aws_availability_zone" {
