@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ENVDIR=`pwd`/environment/prod
+export ENVDIR=`pwd`/environment/golden
 
 subastion-init() {
   cd $ENVDIR
