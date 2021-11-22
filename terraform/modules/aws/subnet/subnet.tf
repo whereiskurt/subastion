@@ -55,27 +55,3 @@ resource "aws_route_table" "manage" {
   vpc_id = var.vpc_id
   tags = merge(var.aws_build_tags, {Name = "${var.name}_manage"})
 }
-
-resource "aws_default_network_acl" "default" {
-  tags = merge(var.aws_build_tags, {Name = "${var.name}_default"})
-
-  default_network_acl_id = var.default_network_acl_id
-
-  ingress {
-    protocol   = -1
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
-
-  egress {
-    protocol   = -1
-    rule_no    = 100
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = 0
-    to_port    = 0
-  }
-}

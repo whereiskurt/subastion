@@ -35,7 +35,6 @@ module "subnet_green" {
   aws_build_tags = var.aws_build_tags
 
   vpc_id=module.awsvpc.vpc_id
-  default_network_acl_id=module.awsvpc.default_network_acl_id
   internet_gateway_id=module.awsvpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1a"
@@ -78,7 +77,6 @@ module "subnet_blue" {
   aws_build_tags = var.aws_build_tags
 
   vpc_id=module.awsvpc.vpc_id
-  default_network_acl_id=module.awsvpc.default_network_acl_id
   internet_gateway_id=module.awsvpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1b"
