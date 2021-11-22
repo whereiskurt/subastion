@@ -1,6 +1,6 @@
 variable "key_name" {
   type = string
-  default= "ec2root"
+  default= "${var.name}_subastion_ec2"
 }
 
 resource "tls_private_key" "subastion" {

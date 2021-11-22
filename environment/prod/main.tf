@@ -13,6 +13,7 @@ module "awsvault" {
 
   openssl_env= var.openssl_env
 
+  ##TODO: Add an actual data provider that renders the templates
   vault_cert_dns_1 = "vault"
   vault_cert_dns_2="vault.golden.lab"
   vault_cert_dns_3="localhost"
@@ -20,7 +21,6 @@ module "awsvault" {
   vault_cert_ip_2="127.0.0.1"
 }
 
-##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
   name="prod"
   source = "../../terraform/modules/aws/vpc"
@@ -37,7 +37,7 @@ module "awssubnet" {
   vpc_id="${module.awsvpc.vpc_id}"
   default_network_acl_id=module.awsvpc.default_network_acl_id
   
-  aws_availability_zone="ca-central-1a"
+  aws_availability_zone=var.aws_availability_zone
   public_subnets="10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"
   private_subnets ="10.50.32.0/20"
