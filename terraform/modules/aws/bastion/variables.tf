@@ -3,7 +3,14 @@ variable "aws_build_tags" {
 }
 
 variable name {
-  description = "The name of the subnet"
+  description = "The name of the bastion host"
+  type = string
+}
+
+variable "key_name" {
+  type = string
+}
+variable "key_filename" {
   type = string
 }
 

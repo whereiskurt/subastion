@@ -8,10 +8,10 @@ subastion-init() {
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
 
-  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/subastion.green.key
+  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
   export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2)
   
-  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/subastion.blue.key
+  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
@@ -33,17 +33,11 @@ subastion-destroy() {
 }
 
 subastion-green-ssh () { 
-  vault read -field=pem subastion/prod_green_subastion_ec2 | base64 -d > $SUBASTION_GREEN_KEYFILE
-  chmod 400 $SUBASTION_GREEN_KEYFILE
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
-  rm -f $SUBASTION_GREEN_KEYFILE
 }
 
 subastion-blue-ssh () { 
-  vault read -field=pem subastion/prod_blue_subastion_ec2 | base64 -d > $SUBASTION_BLUE_KEYFILE
-  chmod 400 $SUBASTION_BLUE_KEYFILE
   ssh -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP
-  rm -f $SUBASTION_BLUE_KEYFILE
 }
 
 

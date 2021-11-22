@@ -1,7 +1,3 @@
-variable "key_name" {
-  type = string
-}
-
 resource "tls_private_key" "subastion" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -29,7 +25,7 @@ resource "local_file" "bastion_key_pem" {
   depends_on = [aws_key_pair.subastion_key]
   file_permission = 0400
   content  = "${tls_private_key.subastion.private_key_pem}"
-  filename = "bastion.pem"
+  filename = var.key_filename
 }
 
 data "aws_ami" "ubuntu" {

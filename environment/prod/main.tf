@@ -58,15 +58,15 @@ module "ec2_bastion_green" {
   source = "../../terraform/modules/aws/bastion"
   name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
-  key_name="prod_green_subastion_ec2"
-  subastion_vpc_id = module.awsvpc.vpc_id
   
+  key_name="prod_green_subastion_ec2"
+  key_filename="/root/.ssh/prod_green_subastion_ec2"
+  
+  subastion_vpc_id = module.awsvpc.vpc_id
   security_groups=[module.awsvpc.subastion_security_group]
-
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
   private_subnet_id = module.subnet_green.private_subnet_id
-
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
@@ -92,15 +92,15 @@ module "ec2_bastion_blue" {
   source = "../../terraform/modules/aws/bastion"
   name="prod_blue_subastion"
   aws_build_tags = var.aws_build_tags
+  
   key_name="prod_blue_subastion_ec2"
+  key_filename="/root/.ssh/prod_blue_subastion_ec2"
+
   subastion_vpc_id = module.awsvpc.vpc_id
-
   security_groups=[module.awsvpc.subastion_security_group]
-
   public_subnet_id = module.subnet_blue.public_subnet_id
   manage_subnet_id = module.subnet_blue.manage_subnet_id
   private_subnet_id = module.subnet_blue.private_subnet_id
-
   subastion_public_ip = "10.50.64.50"
   subastion_manage_ip = "10.50.80.50"
   subastion_private_ip = "10.50.96.50"
