@@ -19,7 +19,7 @@ resource "null_resource" "vault_subastion_key" {
     command = <<-EOT
       cat vaultadmin.token | vault login - && \
       vault secrets enable -path=subastion kv && \
-      vault kv put subastion/ec2host \
+      vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \
         pem=${base64encode(tls_private_key.subastion.private_key_pem)} 
     EOT

@@ -9,7 +9,7 @@ subastion-init() {
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
   export SUBASTION_KEYFILE=$HOME/.ssh/bastion.key
-  export SUBASTION_IP=$(vault read -field=ip subastion/ec2host)
+  export SUBASTION_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2)
 }
 
 subastion-destroy() {
@@ -30,7 +30,7 @@ subastion-destroy() {
 subastion-ssh () { 
   #Looked at various ways to pipe in ssh avoiding the file
   #but wasn't able to. Even the fifo wasn't working for me.
-  vault read -field=pem subastion/ec2host|base64 -d > $SUBASTION_KEYFILE
+  vault read -field=pem subastion/prod_green_subastion_ec2 | base64 -d > $SUBASTION_KEYFILE
   chmod 400 $SUBASTION_KEYFILE
   ssh -i $SUBASTION_KEYFILE ubuntu@$SUBASTION_IP
   rm -f $SUBASTION_KEYFILE

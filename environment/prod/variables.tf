@@ -4,11 +4,6 @@ variable "environment" {
   default="green"
 }
 
-variable "aws_availability_zone" {
-  type = string
-  default = "ca-central-1a"
-} 
-
 variable "aws_region" {
   type = string
   default = "ca-central-1"
