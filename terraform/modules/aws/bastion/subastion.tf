@@ -50,7 +50,7 @@ resource "aws_network_interface" "subastion_public" {
   subnet_id   = var.public_subnet_id
   private_ips = [var.subastion_public_ip]
   tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
-  security_groups = [aws_security_group.subastion_public.id]
+  security_groups = var.security_groups
 }
 
 resource "aws_network_interface" "subastion_private" {

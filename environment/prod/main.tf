@@ -60,6 +60,8 @@ module "ec2_bastion_green" {
   aws_build_tags = var.aws_build_tags
   key_name="prod_green_subastion_ec2"
   subastion_vpc_id = module.awsvpc.vpc_id
+  
+  security_groups=[module.awsvpc.subastion_security_group]
 
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
@@ -92,6 +94,8 @@ module "ec2_bastion_blue" {
   aws_build_tags = var.aws_build_tags
   key_name="prod_blue_subastion_ec2"
   subastion_vpc_id = module.awsvpc.vpc_id
+
+  security_groups=[module.awsvpc.subastion_security_group]
 
   public_subnet_id = module.subnet_blue.public_subnet_id
   manage_subnet_id = module.subnet_blue.manage_subnet_id
