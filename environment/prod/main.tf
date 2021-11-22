@@ -101,7 +101,7 @@ module "ec2_bastion_blue" {
   manage_subnet_id = module.subnet_blue.manage_subnet_id
   private_subnet_id = module.subnet_blue.private_subnet_id
 
-  subastion_public_ip = "10.50.0.50"
-  subastion_manage_ip = "10.50.16.50"
-  subastion_private_ip = "10.50.32.50"
+  subastion_public_ip = "10.50.64.50"
+  subastion_manage_ip = "10.50.80.50"
+  subastion_private_ip = "10.50.96.50"
 }
