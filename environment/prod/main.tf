@@ -58,7 +58,7 @@ module "awsbastion" {
   source = "../../terraform/modules/aws/bastion"
   name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
-
+  key_name="prod_green_subastion"
   subastion_vpc_id = module.awsvpc.vpc_id
 
   public_subnet_id = module.awssubnet.public_subnet_id
