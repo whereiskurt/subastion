@@ -42,7 +42,7 @@ resource "aws_subnet" "private" {
 resource "aws_route_table" "private" {
   vpc_id = var.vpc_id
   tags = merge(var.aws_build_tags, 
-    { Name = "golden_private", 
+    { Name = "${var.name}_private", 
       Description ="Traffic heading to 0.0.0.0 will end up coming out of the NAT." }
   )
 }

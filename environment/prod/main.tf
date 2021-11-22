@@ -69,4 +69,3 @@ module "awsbastion" {
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
 }
-
