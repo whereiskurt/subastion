@@ -13,12 +13,11 @@ resource "aws_key_pair" "subastion_key" {
   tags = var.aws_build_tags
 }
 
+###TODO: Move login and secrets enable to vault
 resource "null_resource" "vault_subastion_key" {
   depends_on = [ aws_key_pair.subastion_key ]
   provisioner "local-exec" {
     command = <<-EOT
-      cat vaultadmin.token | vault login - && \
-      vault secrets enable -path=subastion kv && \
       vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \
         pem=${base64encode(tls_private_key.subastion.private_key_pem)} 
