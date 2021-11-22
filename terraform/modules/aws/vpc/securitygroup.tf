@@ -1,7 +1,7 @@
 resource "aws_security_group" "subastion_public" {
   name = "subastion_public"
   description = "Allow TLS inbound traffic"
-  vpc_id      = var.subastion_vpc_id
+  vpc_id      = aws_vpc.golden.id
   ingress = [
     {
       description      = "HTTPS port to VPC"
