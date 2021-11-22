@@ -84,3 +84,20 @@ module "subnet_blue" {
   manage_subnets = "10.50.80.0/20"
   private_subnets ="10.50.96.0/20"
 }
+
+module "ec2_bastion_blue" {
+  depends_on=[module.subnet_blue, module.awsvault]
+  source = "../../terraform/modules/aws/bastion"
+  name="prod_blue_subastion"
+  aws_build_tags = var.aws_build_tags
+  key_name="prod_blue_subastion_ec2"
+  subastion_vpc_id = module.awsvpc.vpc_id
+
+  public_subnet_id = module.subnet_blue.public_subnet_id
+  manage_subnet_id = module.subnet_blue.manage_subnet_id
+  private_subnet_id = module.subnet_blue.private_subnet_id
+
+  subastion_public_ip = "10.50.0.50"
+  subastion_manage_ip = "10.50.16.50"
+  subastion_private_ip = "10.50.32.50"
+}
