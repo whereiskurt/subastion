@@ -3,26 +3,16 @@ variable aws_build_tags {
   type = map
 }
 
-variable "aws_availability_zone" {
+variable name {
+  description = "The name of the VPC"
   type = string
-  default = "ca-central-1"
-} 
+  default = "prod"
+}
 
 variable vpc_cidr {
   description = "The CIDR block for the VPC (default: 10.50.0.0/16)"
   default = "10.50.0.0/16"
 }
-
-variable public_subnets {
-    type=string
-    default = "10.50.0.0/20"
-} 
-variable manage_subnets {
-    default = "10.50.16.0/20"
-}
-variable private_subnets {
-    default ="10.50.32.0/20"
-} 
 
 #############################################
 ##Address space layout:

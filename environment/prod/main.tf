@@ -1,15 +1,15 @@
 module "openssl" {
-  source = "../../modules/openssl"
+  source = "../../terraform/modules/openssl"
   openssl_env= var.openssl_env
 }
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../modules/awsvault"
+  source = "../../terraform/modules/aws/vault"
   aws_build_tags = var.aws_build_tags
-  aws_region = "${var.aws_region}"
-  aws_kms_key_id = "${var.aws_kms_key_id}"
-  aws_kms_key_alias = "${var.aws_kms_key_alias}"
+  aws_region = var.aws_region
+  aws_kms_key_id = var.aws_kms_key_id
+  aws_kms_key_alias = var.aws_kms_key_alias
 
   openssl_env= var.openssl_env
 
@@ -22,27 +22,48 @@ module "awsvault" {
 
 ##TODO: Add a concept of prefix like "blue/green/prod"
 module "awsvpc" {
-  source = "../../modules/awsvpc"
+  name="prod"
+  source = "../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
+}
+
+module "awssubnet" {
+  depends_on=[module.awsvpc]
+  source = "../../terraform/modules/aws/subnet"
+  name="prod_green"
+  aws_build_tags = var.aws_build_tags
+
+  vpc_id="${module.awsvpc.vpc_id}"
+  default_network_acl_id=module.awsvpc.default_network_acl_id
+  
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"
   private_subnets ="10.50.32.0/20"
 }
 
-##TODO: Add a concept of prefix like "blue/green/prod"
+module "awsnat" {
+  depends_on=[module.awssubnet]
+  source = "../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
+  name="prod_green"
+  public_subnet_id=module.awssubnet.public_subnet_id
+  private_route_table_id=module.awssubnet.private_route_table_id
+  manage_route_table_id=module.awssubnet.manage_route_table_id
+}
+
 module "awsbastion" {
-  depends_on=[module.awsvpc, module.awsvault]
-  source = "../../modules/awsbastion"
-  
+  depends_on=[module.awssubnet, module.awsvault]
+  source = "../../terraform/modules/aws/bastion"
+  name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
 
-  subastion_vpc_id = "${module.awsvpc.vpc_id}"
+  subastion_vpc_id = module.awsvpc.vpc_id
 
-  public_subnet_id = "${module.awsvpc.public_subnet_id}"
-  manage_subnet_id = "${module.awsvpc.manage_subnet_id}"
-  private_subnet_id = "${module.awsvpc.private_subnet_id}"
+  public_subnet_id = module.awssubnet.public_subnet_id
+  manage_subnet_id = module.awssubnet.manage_subnet_id
+  private_subnet_id = module.awssubnet.private_subnet_id
 
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"

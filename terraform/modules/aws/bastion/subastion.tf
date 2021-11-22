@@ -50,26 +50,26 @@ data "aws_ami" "ubuntu" {
 resource "aws_network_interface" "subastion_public" {
   subnet_id   = var.public_subnet_id
   private_ips = [var.subastion_public_ip]
-  tags = merge(var.aws_build_tags, {Name = "subastion_public"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
   security_groups = [aws_security_group.subastion_public.id]
 }
 
 resource "aws_network_interface" "subastion_private" {
   subnet_id   = var.private_subnet_id
   private_ips = [var.subastion_private_ip]
-  tags = merge(var.aws_build_tags, {Name = "subastion_private"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_private"})
 }
 
 resource "aws_network_interface" "subastion_manage" {
   subnet_id   = var.manage_subnet_id
   private_ips = [var.subastion_manage_ip]
-  tags = merge(var.aws_build_tags, {Name = "subastion_manage"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_manage"})
 }
 resource "aws_eip" "subastion" {
   vpc                       = true
   network_interface         = aws_network_interface.subastion_public.id
   associate_with_private_ip = var.subastion_public_ip
-  tags = merge(var.aws_build_tags, {Name = "subastion"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
 }
 
 resource "aws_instance" "subastion" {
@@ -77,7 +77,7 @@ resource "aws_instance" "subastion" {
   instance_type = "t2.small"
   key_name      = aws_key_pair.subastion_key.key_name
  
-  tags = merge(var.aws_build_tags, {Name = "subastion"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
 
   network_interface {
     network_interface_id = aws_network_interface.subastion_public.id
@@ -92,5 +92,3 @@ resource "aws_instance" "subastion" {
     device_index         = 2
   } 
 }
-
-

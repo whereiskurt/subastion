@@ -2,8 +2,6 @@
 **/*.pfx
 **/terraform.tfstate*
 **/.terraform*
-**/*/serial*
-**/*/index.txt*
 vault.secrets*
 *.log
 *.key

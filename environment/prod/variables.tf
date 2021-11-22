@@ -1,7 +1,7 @@
 variable "environment" {
   type = string
-  description = "This will be either blue, green, prod, dev, etc."
-  default="prod"
+  description = "This will be either blue, green, prod, dev, steve, bob etc."
+  default="green"
 }
 
 variable "aws_availability_zone" {
@@ -42,22 +42,27 @@ variable "aws_build_tags" {
 variable "openssl_env" {
   type = map
   default = {
-    CA_CONF = "../../modules/openssl/ca/ca.openssl.conf"
-    ICA_CONF = "../../modules/openssl/ica/ica.openssl.conf"
-    VAULT_CONF = "../../modules/openssl/vault/vault.openssl.conf"
+    CA_CONF = "../../terraform/modules/openssl/ca/ca.openssl.conf"
+    ICA_CONF = "../../terraform/modules/openssl/ica/ica.openssl.conf"
+    VAULT_CONF = "../../terraform/modules/openssl/vault/vault.openssl.conf"
 
-    CA_KEY_FILE = "../../modules/openssl/ca/ca.key.pem"    
-    CA_CERT_FILE = "../../modules/openssl/ca/ca.cert.pem"
+    CA_KEY_FILE = "../../terraform/modules/openssl/ca/ca.key.pem"    
+    CA_CERT_FILE = "../../terraform/modules/openssl/ca/ca.cert.pem"
 
-    ICA_KEY_FILE = "../../modules/openssl/ica/ica.key.pem"
-    ICA_CSR_FILE = "../../modules/openssl/ica/ica.csr.pem"
-    ICA_CERT_FILE = "../../modules/openssl/ica/ica.cert.pem"
+    ICA_KEY_FILE = "../../terraform/modules/openssl/ica/ica.key.pem"
+    ICA_CSR_FILE = "../../terraform/modules/openssl/ica/ica.csr.pem"
+    ICA_CERT_FILE = "../../terraform/modules/openssl/ica/ica.cert.pem"
     
-    VAULT_KEY_FILE = "../../modules/openssl/vault/vault.key.pem"
-    VAULT_CSR_FILE = "../../modules/openssl/vault/vault.csr.pem"
-    VAULT_CERT_FILE = "../../modules/openssl/vault/vault.cert.pem"
+    VAULT_KEY_FILE = "../../terraform/modules/openssl/vault/vault.key.pem"
+    VAULT_CSR_FILE = "../../terraform/modules/openssl/vault/vault.csr.pem"
+    VAULT_CERT_FILE = "../../terraform/modules/openssl/vault/vault.cert.pem"
 
-    CHAIN_PFX_FILE = "../../modules/openssl/ca.ica.pfx"
+    CHAIN_PFX_FILE = "../../terraform/modules/openssl/ca.ica.pfx"
     CHAIN_CERT_FILE = "/etc/ssl/certs/golden.ca.ica.pem"
   }
+}
+
+variable "module_base" {
+  type=string
+  default="../../terraform/modules/"
 }
