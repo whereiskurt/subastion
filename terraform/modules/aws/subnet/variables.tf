@@ -9,6 +9,11 @@ variable name {
 }
 
 
+
+variable internet_gateway_id {
+  type = string
+}
+
 variable "aws_availability_zone" {
   type = string
   default = "ca-central-1"

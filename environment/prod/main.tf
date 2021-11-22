@@ -36,6 +36,7 @@ module "subnet_green" {
 
   vpc_id=module.awsvpc.vpc_id
   default_network_acl_id=module.awsvpc.default_network_acl_id
+  internet_gateway_id=module.awsvpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
@@ -78,6 +79,7 @@ module "subnet_blue" {
 
   vpc_id=module.awsvpc.vpc_id
   default_network_acl_id=module.awsvpc.default_network_acl_id
+  internet_gateway_id=module.awsvpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1b"
   public_subnets="10.50.64.0/20"

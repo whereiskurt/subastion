@@ -1,10 +1,4 @@
-resource "aws_internet_gateway" "public" {    
-  vpc_id =  var.vpc_id               
-  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
-}
-
 resource "aws_subnet" "public" {
-  depends_on = [aws_internet_gateway.public]
   vpc_id =  var.vpc_id
   cidr_block = "${var.public_subnets}"
   availability_zone = "ca-central-1a"
@@ -15,7 +9,7 @@ resource "aws_route_table" "public_internet" {
   vpc_id =  var.vpc_id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.public.id
+    gateway_id = var.internet_gateway_id
   }
   tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
 }

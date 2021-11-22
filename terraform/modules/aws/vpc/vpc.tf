@@ -4,3 +4,8 @@ resource "aws_vpc" "golden" {
   enable_dns_hostnames = true
   tags = merge(var.aws_build_tags, {Name = "${var.name}"})
 }
+
+resource "aws_internet_gateway" "public" {    
+  vpc_id =  var.vpc_id               
+  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
+}
