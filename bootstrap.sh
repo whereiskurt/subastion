@@ -1,5 +1,5 @@
 #!/bin/bash
-export ENVDIR=`pwd`/environment/prod
+export ENVDIR=`pwd`/environment/awsprod
 
 subastion-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1

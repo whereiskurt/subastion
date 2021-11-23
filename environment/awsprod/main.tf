@@ -21,7 +21,7 @@ module "awsvault" {
   vault_cert_ip_2="127.0.0.1"
 }
 
-module "awsvpc" {
+module "vpc" {
   name="prod"
   source = "../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
@@ -29,13 +29,13 @@ module "awsvpc" {
 }
 
 module "subnet_green" {
-  depends_on=[module.awsvpc]
+  depends_on=[module.vpc]
   source = "../../terraform/modules/aws/subnet"
   name="prod_green"
   aws_build_tags = var.aws_build_tags
 
-  vpc_id=module.awsvpc.vpc_id
-  internet_gateway_id=module.awsvpc.internet_gateway_id
+  vpc_id=module.vpc.vpc_id
+  internet_gateway_id=module.vpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1a"
   public_subnets="10.50.0.0/20"
@@ -62,8 +62,8 @@ module "ec2_bastion_green" {
   key_name="prod_green_subastion_ec2"
   key_filename="/root/.ssh/prod_green_subastion_ec2"
   
-  subastion_vpc_id = module.awsvpc.vpc_id
-  security_groups=[module.awsvpc.subastion_security_group]
+  subastion_vpc_id = module.vpc.vpc_id
+  security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
   private_subnet_id = module.subnet_green.private_subnet_id
@@ -73,13 +73,13 @@ module "ec2_bastion_green" {
 }
 
 module "subnet_blue" {
-  depends_on=[module.awsvpc]
+  depends_on=[module.vpc]
   source = "../../terraform/modules/aws/subnet"
   name="prod_blue"
   aws_build_tags = var.aws_build_tags
 
-  vpc_id=module.awsvpc.vpc_id
-  internet_gateway_id=module.awsvpc.internet_gateway_id
+  vpc_id=module.vpc.vpc_id
+  internet_gateway_id=module.vpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1b"
   public_subnets="10.50.64.0/20"
@@ -92,12 +92,12 @@ module "ec2_bastion_blue" {
   source = "../../terraform/modules/aws/bastion"
   name="prod_blue_subastion"
   aws_build_tags = var.aws_build_tags
-  
+
   key_name="prod_blue_subastion_ec2"
   key_filename="/root/.ssh/prod_blue_subastion_ec2"
 
-  subastion_vpc_id = module.awsvpc.vpc_id
-  security_groups=[module.awsvpc.subastion_security_group]
+  subastion_vpc_id = module.vpc.vpc_id
+  security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_blue.public_subnet_id
   manage_subnet_id = module.subnet_blue.manage_subnet_id
   private_subnet_id = module.subnet_blue.private_subnet_id
