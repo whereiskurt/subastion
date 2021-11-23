@@ -1,6 +1,5 @@
 #!/bin/bash
-
-export ENVDIR=`pwd`/environment/prod
+export ENVDIR=`pwd`/environment/awsprod
 
 subastion-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
@@ -8,8 +7,12 @@ subastion-init() {
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
-  export SUBASTION_KEYFILE=$HOME/.ssh/bastion.key
-  export SUBASTION_IP=$(vault read -field=ip subastion/ec2host)
+
+  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
+  export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2)
+  
+  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
+  export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
 subastion-destroy() {
@@ -23,19 +26,22 @@ subastion-destroy() {
   
   unset VAULT_TOKEN
   unset VAULT_ADDR
-  unset SUBASTION_KEYFILE
-  unset SUBASTION_IP
+  unset SUBASTION_GREEN_KEYFILE
+  unset SUBASTION_GREEN_IP
+  unset SUBASTION_BLUE_KEYFILE
+  unset SUBASTION_BLUE_IP
 }
 
-subastion-ssh () { 
-  #Looked at various ways to pipe in ssh avoiding the file
-  #but wasn't able to. Even the fifo wasn't working for me.
-  vault read -field=pem subastion/ec2host|base64 -d > $SUBASTION_KEYFILE
-  chmod 400 $SUBASTION_KEYFILE
-  ssh -i $SUBASTION_KEYFILE ubuntu@$SUBASTION_IP
-  rm -f $SUBASTION_KEYFILE
+subastion-green-ssh () { 
+  ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
 }
+
+subastion-blue-ssh () { 
+  ssh -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP
+}
+
 
 export -f subastion-init
+export -f subastion-green-ssh
+export -f subastion-blue-ssh
 export -f subastion-destroy
-export -f subastion-ssh

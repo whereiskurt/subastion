@@ -1,8 +1,3 @@
-variable "key_name" {
-  type = string
-  default= "ec2root"
-}
-
 resource "tls_private_key" "subastion" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -14,13 +9,12 @@ resource "aws_key_pair" "subastion_key" {
   tags = var.aws_build_tags
 }
 
+###TODO: Move login and secrets enable to vault
 resource "null_resource" "vault_subastion_key" {
   depends_on = [ aws_key_pair.subastion_key ]
   provisioner "local-exec" {
     command = <<-EOT
-      cat vaultadmin.token | vault login - && \
-      vault secrets enable -path=subastion kv && \
-      vault kv put subastion/ec2host \
+      vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \
         pem=${base64encode(tls_private_key.subastion.private_key_pem)} 
     EOT
@@ -31,7 +25,7 @@ resource "local_file" "bastion_key_pem" {
   depends_on = [aws_key_pair.subastion_key]
   file_permission = 0400
   content  = "${tls_private_key.subastion.private_key_pem}"
-  filename = "bastion.pem"
+  filename = var.key_filename
 }
 
 data "aws_ami" "ubuntu" {
@@ -51,7 +45,7 @@ resource "aws_network_interface" "subastion_public" {
   subnet_id   = var.public_subnet_id
   private_ips = [var.subastion_public_ip]
   tags = merge(var.aws_build_tags, {Name = "${var.name}_public"})
-  security_groups = [aws_security_group.subastion_public.id]
+  security_groups = var.security_groups
 }
 
 resource "aws_network_interface" "subastion_private" {

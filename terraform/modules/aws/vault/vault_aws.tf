@@ -140,3 +140,14 @@ resource "null_resource" "vault_aws_ec2_admin_policy" {
     EOT
   }
 }
+
+resource "null_resource" "vault_login_as_admin" {
+  depends_on = [null_resource.vault_aws_write_config,  null_resource.vault_aws_ec2_admin_policy]
+  provisioner "local-exec" {
+    environment = var.vault_env
+    command = <<-EOT
+     cat vaultadmin.token | vault login - > /dev/null 2>&1 && \
+      vault secrets enable -path=subastion kv 
+    EOT
+  }
+}
