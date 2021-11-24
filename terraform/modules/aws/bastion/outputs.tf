@@ -7,6 +7,6 @@ data "template_file" "bastion_boot" {
   template = "${file("../../terraform/modules/aws/bastion/bastion_boot.sh")}"
 
   vars = {
-    region_name              = "${var.region}"
+    region_name              = "${var.aws_region}"
   }
 }
