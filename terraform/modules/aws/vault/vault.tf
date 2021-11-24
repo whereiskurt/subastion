@@ -1,4 +1,11 @@
+resource "local_file" "openssl_vault_conf" {
+  file_permission = 0400
+  content  = data.template_file.openssl_vault_conf.rendered
+  filename = var.openssl_env.VAULT_CONF
+}
+
 resource "null_resource" "makecert_vault" {
+  depends_on = [local_file.openssl_vault_conf]
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT

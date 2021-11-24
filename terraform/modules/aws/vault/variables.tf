@@ -18,6 +18,7 @@ variable "openssl_env" {
     CA_CONF = "../../terraform/modules/openssl/ca/ca.openssl.conf"
     ICA_CONF = "../../terraform/modules/openssl/ica/ica.openssl.conf"
     VAULT_CONF = "../../terraform/modules/openssl/vault/vault.openssl.conf"
+    VAULT_TPL = "../../terraform/modules/openssl/vault/vault.openssl.tpl"
 
     CA_KEY_FILE = "../../terraform/modules/openssl/ca/ca.key.pem"    
     CA_CERT_FILE = "../../terraform/modules/openssl/ca/ca.cert.pem"

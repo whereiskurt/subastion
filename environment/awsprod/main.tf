@@ -13,7 +13,6 @@ module "awsvault" {
 
   openssl_env= var.openssl_env
 
-  ##TODO: Add an actual data provider that renders the templates
   vault_cert_dns_1 = "vault"
   vault_cert_dns_2="vault.golden.lab"
   vault_cert_dns_3="localhost"
@@ -26,6 +25,16 @@ module "vpc" {
   source = "../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
+}
+
+module "nat_green" {
+  depends_on=[module.subnet_green]
+  source = "../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
+  name="prod_green"
+  public_subnet_id=module.subnet_green.public_subnet_id
+  private_route_table_id=module.subnet_green.private_route_table_id
+  manage_route_table_id=module.subnet_green.manage_route_table_id
 }
 
 module "subnet_green" {
@@ -41,16 +50,6 @@ module "subnet_green" {
   public_subnets="10.50.0.0/20"
   manage_subnets = "10.50.16.0/20"
   private_subnets ="10.50.32.0/20"
-}
-
-module "nat_green" {
-  depends_on=[module.subnet_green]
-  source = "../../terraform/modules/aws/natgateway"
-  aws_build_tags = var.aws_build_tags
-  name="prod_green"
-  public_subnet_id=module.subnet_green.public_subnet_id
-  private_route_table_id=module.subnet_green.private_route_table_id
-  manage_route_table_id=module.subnet_green.manage_route_table_id
 }
 
 module "ec2_bastion_green" {

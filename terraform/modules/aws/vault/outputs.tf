@@ -9,8 +9,13 @@ data "template_file" "vault_conf" {
   }
 }
 
-output "vault_config" {
-  description = "JSON configuration file for vault"
-  value       = data.template_file.vault_conf.rendered
-  sensitive = true
+data "template_file" "openssl_vault_conf" {
+  template = "${file(var.openssl_env.VAULT_TPL)}"
+  vars = {  
+    vault_cert_dns_1=var.vault_cert_dns_1
+    vault_cert_dns_2=var.vault_cert_dns_2
+    vault_cert_dns_3=var.vault_cert_dns_3
+    vault_cert_ip_1=var.vault_cert_ip_1
+    vault_cert_ip_2=var.vault_cert_ip_2
+  }
 }
