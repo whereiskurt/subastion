@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "DUDE!!!" > /tmp/dude.file.txt
+echo "DUDE!!! ${var.name}" > /tmp/dude.file.txt
