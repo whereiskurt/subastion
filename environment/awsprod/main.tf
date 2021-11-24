@@ -97,7 +97,8 @@ module "ec2_bastion_blue" {
 
   key_name="prod_blue_subastion_ec2"
   key_filename="/root/.ssh/prod_blue_subastion_ec2"
-
+  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  
   subastion_vpc_id = module.vpc.vpc_id
   security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_blue.public_subnet_id
