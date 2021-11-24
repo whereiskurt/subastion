@@ -36,6 +36,11 @@ variable "openssl_env" {
   }
 }
 
+variable boot_template {
+  type = string
+  default="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+}
+
 
 variable vault_cert_dns_1 {
   type = string

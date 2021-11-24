@@ -60,12 +60,15 @@ module "ec2_bastion_green" {
   
   key_name="prod_green_subastion_ec2"
   key_filename="/root/.ssh/prod_green_subastion_ec2"
+  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  
+  security_groups=[module.vpc.subastion_security_group]
   
   subastion_vpc_id = module.vpc.vpc_id
-  security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
   private_subnet_id = module.subnet_green.private_subnet_id
+  
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"

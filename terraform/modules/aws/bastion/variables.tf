@@ -7,6 +7,10 @@ variable name {
   type = string
 }
 
+variable boot_template {
+  type=string
+}
+
 variable "key_name" {
   type = string
 }
