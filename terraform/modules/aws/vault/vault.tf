@@ -1,6 +1,5 @@
 resource "local_file" "openssl_vault_conf" {
   file_permission = 0400
-  #content  = data.template_file.openssl_vault_conf.rendered
 
   content = templatefile("${var.openssl_env.VAULT_TPL}", {
     vault_ica_folder=var.openssl_env.ICA_DIR
