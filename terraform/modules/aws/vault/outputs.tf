@@ -17,5 +17,10 @@ data "template_file" "openssl_vault_conf" {
     vault_cert_dns_3=var.vault_cert_dns_3
     vault_cert_ip_1=var.vault_cert_ip_1
     vault_cert_ip_2=var.vault_cert_ip_2
+    vault_cert_country = var.vault_cert_country
+    vault_cert_state = var.vault_cert_state 
+    vault_cert_location = var.vault_cert_location 
+    vault_cert_oganization = var.vault_cert_oganization 
+    vault_cert_nscomment =  var.vault_cert_nscomment 
   }
 }

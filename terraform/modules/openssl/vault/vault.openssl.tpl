@@ -35,7 +35,7 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 [ server_cert ]
 basicConstraints = CA:FALSE
 nsCertType = server
-nsComment = "Private Company - Vault Certificate"
+nsComment = ${vault_cert_nscomment}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
 keyUsage = critical, digitalSignature, keyEncipherment
@@ -52,10 +52,10 @@ commonName              = optional
 emailAddress            = optional
 
 [ req_distinguished_name ] 
-C = CA 
-ST = ON
-L = Toronto
-O = Private Company
+C = ${vault_cert_country}
+ST = ${vault_cert_state}
+L = ${vault_cert_location}
+O = ${vault_cert_organization}
 
 [ alt_names ]
 DNS.1 = ${vault_cert_dns_1}

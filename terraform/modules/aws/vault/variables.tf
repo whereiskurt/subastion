@@ -63,6 +63,22 @@ variable vault_cert_ip_2 {
   default = "127.0.0.1"
 }
 
+variable vault_cert_country {
+  type=string
+}
+variable vault_cert_state {
+  type=string
+}
+variable vault_cert_location {
+  type =string
+}
+variable vault_cert_oganization {
+  type=string
+}
+variable vault_cert_nscomment {
+  type=string
+} 
+
 variable "vault_env" {
   type = map
   default = {
