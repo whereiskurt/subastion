@@ -3,7 +3,7 @@ default_ca = CA_default
 
 ##We sign infrastructure with ICA certs
 [ CA_default ]
-dir               = ./../../terraform/modules/openssl/ica
+dir               = ./${ica_folder}
 default_md        = sha256
 default_days      = 365
 preserve          = no
