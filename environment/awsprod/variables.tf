@@ -50,8 +50,3 @@ variable "openssl_env" {
     CHAIN_CERT_FILE = "/etc/ssl/certs/golden.ca.ica.pem"
   }
 }
-
-variable "module_base" {
-  type=string
-  default="../../terraform/modules/"
-}
