@@ -8,9 +8,3 @@ data "template_file" "vault_conf" {
     kms_key_alias = "${var.aws_kms_key_alias}"
   }
 }
-
-output "vault_config" {
-  description = "JSON configuration file for vault"
-  value       = data.template_file.vault_conf.rendered
-  sensitive = true
-}

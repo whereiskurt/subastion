@@ -1,6 +1,12 @@
 module "openssl" {
   source = "../../terraform/modules/openssl"
   openssl_env= var.openssl_env
+
+  ica_cert_country="CA"
+  ica_cert_state="ON"
+  ica_cert_location="Toronto"
+  ica_cert_organization="Private Company"
+  ica_cert_commonname="Private Company (ICA)"
 }
 
 module "awsvault" {
@@ -11,14 +17,16 @@ module "awsvault" {
   aws_kms_key_id = var.aws_kms_key_id
   aws_kms_key_alias = var.aws_kms_key_alias
 
-  openssl_env= var.openssl_env
+  openssl_env=var.openssl_env
 
-  ##TODO: Add an actual data provider that renders the templates
-  vault_cert_dns_1 = "vault"
-  vault_cert_dns_2="vault.golden.lab"
-  vault_cert_dns_3="localhost"
-  vault_cert_ip_1="172.16.1.102"
-  vault_cert_ip_2="127.0.0.1"
+  vault_cert_country = "CA"
+  vault_cert_state = "ON"
+  vault_cert_location = "Toronto"
+  vault_cert_organization = "Private Company"
+  vault_cert_nscomment = "Private Company - Vault Certificate"
+
+  vault_cert_dns = ["vault","vault.golden.lab","localhost"]
+  vault_cert_ip = ["127.0.0.1", "172.16.1.102"]
 }
 
 module "vpc" {
@@ -26,6 +34,16 @@ module "vpc" {
   source = "../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
+}
+
+module "nat_green" {
+  depends_on=[module.subnet_green]
+  source = "../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
+  name="prod_green"
+  public_subnet_id=module.subnet_green.public_subnet_id
+  private_route_table_id=module.subnet_green.private_route_table_id
+  manage_route_table_id=module.subnet_green.manage_route_table_id
 }
 
 module "subnet_green" {
@@ -43,16 +61,6 @@ module "subnet_green" {
   private_subnets ="10.50.32.0/20"
 }
 
-module "nat_green" {
-  depends_on=[module.subnet_green]
-  source = "../../terraform/modules/aws/natgateway"
-  aws_build_tags = var.aws_build_tags
-  name="prod_green"
-  public_subnet_id=module.subnet_green.public_subnet_id
-  private_route_table_id=module.subnet_green.private_route_table_id
-  manage_route_table_id=module.subnet_green.manage_route_table_id
-}
-
 module "ec2_bastion_green" {
   depends_on=[module.subnet_green, module.awsvault]
   source = "../../terraform/modules/aws/bastion"
@@ -61,12 +69,15 @@ module "ec2_bastion_green" {
   
   key_name="prod_green_subastion_ec2"
   key_filename="/root/.ssh/prod_green_subastion_ec2"
+  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  
+  security_groups=[module.vpc.subastion_security_group]
   
   subastion_vpc_id = module.vpc.vpc_id
-  security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
   private_subnet_id = module.subnet_green.private_subnet_id
+  
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
@@ -95,6 +106,7 @@ module "ec2_bastion_blue" {
 
   key_name="prod_blue_subastion_ec2"
   key_filename="/root/.ssh/prod_blue_subastion_ec2"
+  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
   subastion_vpc_id = module.vpc.vpc_id
   security_groups=[module.vpc.subastion_security_group]

@@ -18,6 +18,7 @@ variable "openssl_env" {
     CA_CONF = "../../terraform/modules/openssl/ca/ca.openssl.conf"
     ICA_CONF = "../../terraform/modules/openssl/ica/ica.openssl.conf"
     VAULT_CONF = "../../terraform/modules/openssl/vault/vault.openssl.conf"
+    VAULT_TPL = "../../terraform/modules/openssl/vault/vault.openssl.tpl"
 
     CA_KEY_FILE = "../../terraform/modules/openssl/ca/ca.key.pem"    
     CA_CERT_FILE = "../../terraform/modules/openssl/ca/ca.cert.pem"
@@ -35,27 +36,34 @@ variable "openssl_env" {
   }
 }
 
-
-variable vault_cert_dns_1 {
+variable boot_template {
   type = string
-  default="vault"
-}
-variable vault_cert_dns_2 {
-  type = string
-  default="vault.golden.lab"
-}
-variable vault_cert_dns_3 {
-  type = string
-  default="localhost"
+  default="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 }
 
-variable vault_cert_ip_1 {
-  type = string
+variable vault_cert_dns {
+  type = list(string)
 }
-variable vault_cert_ip_2 {
-  type = string
-  default = "127.0.0.1"
+
+variable vault_cert_ip {
+  type = list(string)
 }
+
+variable vault_cert_country {
+  type=string
+}
+variable vault_cert_state {
+  type=string
+}
+variable vault_cert_location {
+  type =string
+}
+variable vault_cert_organization {
+  type=string
+}
+variable vault_cert_nscomment {
+  type=string
+} 
 
 variable "vault_env" {
   type = map

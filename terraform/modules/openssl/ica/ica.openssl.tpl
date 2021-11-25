@@ -2,7 +2,7 @@
 default_ca = CA_default
 
 [ CA_default ]
-dir               = ./../../terraform/modules/openssl/ica/
+dir               = ./${ica_folder}
 certs             = $dir
 crl_dir           = $dir
 new_certs_dir     = $dir
@@ -47,8 +47,8 @@ commonName              = optional
 emailAddress            = optional
 
 [ req_distinguished_name ] 
-C = CA 
-ST = ON
-L = Toronto
-O = Private Company
-CN = Private Company (ICA)
+C = ${ica_cert_country}
+ST = ${ica_cert_state}
+L = ${ica_cert_location}
+O = ${ica_cert_organization}
+CN = ${ica_cert_commonname}

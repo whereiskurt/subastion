@@ -1,4 +1,22 @@
+resource "local_file" "openssl_vault_conf" {
+  file_permission = 0400
+
+  content = templatefile("${var.openssl_env.VAULT_TPL}", {
+    vault_ica_folder=var.openssl_env.ICA_DIR
+    vault_cert_dns=var.vault_cert_dns
+    vault_cert_ip=var.vault_cert_ip
+    vault_cert_country = var.vault_cert_country
+    vault_cert_state = var.vault_cert_state 
+    vault_cert_location = var.vault_cert_location 
+    vault_cert_organization = var.vault_cert_organization 
+    vault_cert_nscomment =  var.vault_cert_nscomment 
+  })
+
+  filename = var.openssl_env.VAULT_CONF
+}
+
 resource "null_resource" "makecert_vault" {
+  depends_on = [local_file.openssl_vault_conf]
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT

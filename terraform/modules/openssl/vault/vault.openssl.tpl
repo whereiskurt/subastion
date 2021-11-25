@@ -3,7 +3,7 @@ default_ca = CA_default
 
 ##We sign infrastructure with ICA certs
 [ CA_default ]
-dir               = ./../../terraform/modules/openssl/ica
+dir               = ./${vault_ica_folder}
 default_md        = sha256
 default_days      = 365
 preserve          = no
@@ -35,7 +35,7 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 [ server_cert ]
 basicConstraints = CA:FALSE
 nsCertType = server
-nsComment = "Private Company - Vault Certificate"
+nsComment = ${vault_cert_nscomment}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
 keyUsage = critical, digitalSignature, keyEncipherment
@@ -52,14 +52,15 @@ commonName              = optional
 emailAddress            = optional
 
 [ req_distinguished_name ] 
-C = CA 
-ST = ON
-L = Toronto
-O = Private Company
+C = ${vault_cert_country}
+ST = ${vault_cert_state}
+L = ${vault_cert_location}
+O = ${vault_cert_organization}
 
 [ alt_names ]
-DNS.1 = ${vault_cert_dns_1}
-DNS.2 = ${vault_cert_dns_2}
-DNS.3 = ${vault_cert_dns_3}
-IP.1 = ${vault_cert_ip_1}
-IP.2 = ${vault_cert_ip_2}
+%{ for i, v in vault_cert_dns ~}
+DNS.${i+1} = ${v}
+%{endfor ~}
+%{for i, v in vault_cert_ip ~}
+IP.${i+1} = ${v}
+%{ endfor ~}

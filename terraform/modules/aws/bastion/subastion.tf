@@ -73,6 +73,8 @@ resource "aws_instance" "subastion" {
  
   tags = merge(var.aws_build_tags, {Name = "${var.name}"})
 
+  user_data = data.template_file.bastion_boot.rendered
+
   network_interface {
     network_interface_id = aws_network_interface.subastion_public.id
     device_index         = 0

@@ -30,8 +30,23 @@ resource "null_resource" "makecert_ca" {
   }
 }
 
+resource "local_file" "openssl_ica_conf" {
+  file_permission = 0400
+
+  content = templatefile("${var.openssl_env.ICA_TPL}", {
+    ica_folder=var.openssl_env.ICA_DIR
+    ica_cert_country = var.ica_cert_country
+    ica_cert_state = var.ica_cert_state 
+    ica_cert_location = var.ica_cert_location 
+    ica_cert_organization = var.ica_cert_organization
+    ica_cert_commonname =  var.ica_cert_commonname
+  })
+
+  filename = var.openssl_env.ICA_CONF
+}
+
 resource "null_resource" "makecert_ica" {
-  depends_on = [null_resource.makecert_ca]
+  depends_on = [null_resource.makecert_ca, local_file.openssl_ica_conf]
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT
