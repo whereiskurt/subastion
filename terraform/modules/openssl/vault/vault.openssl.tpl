@@ -58,6 +58,6 @@ L = ${vault_cert_location}
 O = ${vault_cert_organization}
 
 [ alt_names ]
-%{ for v in vault_cert_dns ~}
-DNS.${v}=${v}
+%{ for i, v in vault_cert_dns ~}
+DNS.${i}=${v}
 %{ endfor ~}
