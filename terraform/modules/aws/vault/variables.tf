@@ -41,26 +41,12 @@ variable boot_template {
   default="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 }
 
-
-variable vault_cert_dns_1 {
-  type = string
-  default="vault"
-}
-variable vault_cert_dns_2 {
-  type = string
-  default="vault.golden.lab"
-}
-variable vault_cert_dns_3 {
-  type = string
-  default="localhost"
+variable vault_cert_dns {
+  type = list(string)
 }
 
-variable vault_cert_ip_1 {
-  type = string
-}
-variable vault_cert_ip_2 {
-  type = string
-  default = "127.0.0.1"
+variable vault_cert_ip {
+  type = list(string)
 }
 
 variable vault_cert_country {

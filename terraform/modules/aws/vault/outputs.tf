@@ -12,15 +12,9 @@ data "template_file" "vault_conf" {
 data "template_file" "openssl_vault_conf" {
   template = "${file(var.openssl_env.VAULT_TPL)}"
   vars = {  
-    ica_folder=var.openssl_env.ICA_CONF
-    
-    vault_cert_dns_1=var.vault_cert_dns_1
-    vault_cert_dns_2=var.vault_cert_dns_2
-    vault_cert_dns_3=var.vault_cert_dns_3
-    
-    vault_cert_ip_1=var.vault_cert_ip_1
-    vault_cert_ip_2=var.vault_cert_ip_2
-
+    vault_ica_folder=var.openssl_env.ICA_CONF
+    vault_cert_dns=var.vault_cert_dns
+    vault_cert_ip=var.vault_cert_ip
     vault_cert_country = var.vault_cert_country
     vault_cert_state = var.vault_cert_state 
     vault_cert_location = var.vault_cert_location 

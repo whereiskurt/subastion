@@ -19,11 +19,8 @@ module "awsvault" {
   vault_cert_organization = "Private Company"
   vault_cert_nscomment = "Private Company - Vault Certificate"
 
-  vault_cert_dns_1 = "vault"
-  vault_cert_dns_2="vault.golden.lab"
-  vault_cert_dns_3="localhost"
-  vault_cert_ip_1="172.16.1.102"
-  vault_cert_ip_2="127.0.0.1"
+  vault_cert_dns = ["vault","vault.golden.lab","localhost"]
+  vault_cert_ip = ["127.0.0.1", "172.16.1.102"]
 }
 
 module "vpc" {
