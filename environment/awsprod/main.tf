@@ -16,7 +16,7 @@ module "awsvault" {
   vault_cert_country = "CA"
   vault_cert_state = "ON"
   vault_cert_location = "Toronto"
-  vault_cert_oganization = "Private Company"
+  vault_cert_organization = "Private Company"
   vault_cert_nscomment = "Private Company - Vault Certificate"
 
   vault_cert_dns_1 = "vault"

@@ -72,7 +72,7 @@ variable vault_cert_state {
 variable vault_cert_location {
   type =string
 }
-variable vault_cert_oganization {
+variable vault_cert_organization {
   type=string
 }
 variable vault_cert_nscomment {

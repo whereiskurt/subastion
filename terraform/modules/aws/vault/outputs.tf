@@ -20,7 +20,7 @@ data "template_file" "openssl_vault_conf" {
     vault_cert_country = var.vault_cert_country
     vault_cert_state = var.vault_cert_state 
     vault_cert_location = var.vault_cert_location 
-    vault_cert_oganization = var.vault_cert_oganization 
+    vault_cert_organization = var.vault_cert_organization 
     vault_cert_nscomment =  var.vault_cert_nscomment 
   }
 }
