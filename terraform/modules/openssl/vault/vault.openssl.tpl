@@ -58,5 +58,5 @@ L = ${vault_cert_location}
 O = ${vault_cert_organization}
 
 [ alt_names ]
-[for v in vault_cert_dns : "DNS.1=${v}\n"]
-[for v in vault_cert_ip : "IP.1=${v}\n"]
+%{for i, v in vault_cert_dns : "DNS.${i}=${v}\n"}
+%{for i, v in vault_cert_ip : "IP.${i}=${v}\n"}
