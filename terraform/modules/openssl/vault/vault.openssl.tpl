@@ -61,3 +61,6 @@ O = ${vault_cert_organization}
 %{ for i, v in vault_cert_dns ~}
 DNS.${i}=${v}
 %{ endfor ~}
+%{ for i, v in vault_cert_ip ~}
+IP.${i}=${v}
+%{ endfor ~}
