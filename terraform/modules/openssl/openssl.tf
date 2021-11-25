@@ -33,7 +33,7 @@ resource "null_resource" "makecert_ca" {
 resource "local_file" "openssl_ica_conf" {
   file_permission = 0400
 
-  content = templatefile("${var.openssl_env.VAULT_TPL}", {
+  content = templatefile("${var.openssl_env.ICA_TPL}", {
     ica_folder=var.openssl_env.ICA_DIR
     ica_cert_country = var.ica_cert_country
     ica_cert_state = var.ica_cert_state 
