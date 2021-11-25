@@ -59,8 +59,8 @@ O = ${vault_cert_organization}
 
 [ alt_names ]
 %{ for i, v in vault_cert_dns ~}
-DNS.${i+1}=${v}
+DNS.${i+1} = ${v}
 %{endfor ~}
 %{for i, v in vault_cert_ip ~}
-IP.${i+1}=${v}
+IP.${i+1} = ${v}
 %{ endfor ~}
