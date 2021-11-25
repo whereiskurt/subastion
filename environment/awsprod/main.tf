@@ -11,7 +11,13 @@ module "awsvault" {
   aws_kms_key_id = var.aws_kms_key_id
   aws_kms_key_alias = var.aws_kms_key_alias
 
-  openssl_env= var.openssl_env
+  openssl_env=var.openssl_env
+
+  vault_cert_country = "CA"
+  vault_cert_state = "ON"
+  vault_cert_location = "Toronto"
+  vault_cert_oganization = "Private Company"
+  vault_cert_nscomment = "Private Company - Vault Certificate"
 
   vault_cert_dns_1 = "vault"
   vault_cert_dns_2="vault.golden.lab"
@@ -98,7 +104,7 @@ module "ec2_bastion_blue" {
   key_name="prod_blue_subastion_ec2"
   key_filename="/root/.ssh/prod_blue_subastion_ec2"
   boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
-  
+
   subastion_vpc_id = module.vpc.vpc_id
   security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_blue.public_subnet_id
