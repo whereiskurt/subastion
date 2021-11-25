@@ -1,6 +1,12 @@
 module "openssl" {
   source = "../../terraform/modules/openssl"
   openssl_env= var.openssl_env
+
+  ica_cert_country="CA"
+  ica_cert_state="ON"
+  ica_cert_location="Toronto"
+  ica_cert_organization="Private Company"
+  ica_cert_commonname="Private Company (ICA)"
 }
 
 module "awsvault" {

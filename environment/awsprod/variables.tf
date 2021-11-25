@@ -31,8 +31,11 @@ variable "openssl_env" {
   type = map
   default = {
     CA_CONF = "../../terraform/modules/openssl/ca/ca.openssl.conf"
+    CA_TPL = "../../terraform/modules/openssl/ca/ca.openssl.tpl"
     CA_DIR = "../../terraform/modules/openssl/ca/"
+    
     ICA_CONF = "../../terraform/modules/openssl/ica/ica.openssl.conf"
+    ICA_TPL = "../../terraform/modules/openssl/ica/ica.openssl.tpl"
     ICA_DIR= "../../terraform/modules/openssl/ica/"
     
     VAULT_CONF = "../../terraform/modules/openssl/vault/vault.openssl.conf"
