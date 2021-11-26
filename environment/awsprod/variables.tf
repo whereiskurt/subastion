@@ -1,9 +1,3 @@
-variable "environment" {
-  type = string
-  description = "This will be either blue, green, prod, dev, steve, bob etc."
-  default="green"
-}
-
 variable "aws_region" {
   type = string
   default = "ca-central-1"
@@ -27,6 +21,7 @@ variable "aws_build_tags" {
     "review_by" = "20221025"
   }
 }
+
 variable "openssl_env" {
   type = map
   default = {

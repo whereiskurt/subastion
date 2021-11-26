@@ -36,3 +36,20 @@ variable ica_cert_organization {
 variable ica_cert_commonname {
   type=string
 }
+
+
+variable ca_cert_country {
+  type=string
+}
+variable ca_cert_state {
+  type=string
+}
+variable ca_cert_location {
+  type=string
+}
+variable ca_cert_organization {
+  type=string
+}
+variable ca_cert_commonname {
+  type=string
+}

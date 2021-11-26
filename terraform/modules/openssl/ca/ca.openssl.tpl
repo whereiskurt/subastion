@@ -2,7 +2,7 @@
 default_ca = CA_default
 
 [ CA_default ]
-dir               = ./../../terraform/modules/openssl/ca
+dir               = ./${ca_folder}
 default_md        = sha256
 default_days      = 7300
 preserve          = no
@@ -46,8 +46,15 @@ commonName              = optional
 emailAddress            = optional
 
 [ req_distinguished_name ] 
-C = CA 
-ST = ON
-L = Toronto
-O = Private Company
-CN = Private Company (CA)
+C = ${ca_cert_country}
+ST = ${ca_cert_state}
+L = ${ca_cert_location}
+O = ${ca_cert_organization}
+CN = ${ca_cert_commonname}
+
+# C = CA 
+# ST = ON
+# L = Toronto
+# O = Private Company
+# CN = Private Company (CA)
+#../../terraform/modules/openssl/ca

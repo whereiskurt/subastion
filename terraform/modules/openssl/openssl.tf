@@ -1,4 +1,3 @@
-#Testing a change.
 resource "null_resource" "makepfx_chain" {
   depends_on = [null_resource.makecert_ca, null_resource.makecert_ica]
   provisioner "local-exec" {
@@ -11,7 +10,23 @@ resource "null_resource" "makepfx_chain" {
   }
 }
 
+resource "local_file" "openssl_ca_conf" {
+  file_permission = 0400
+
+  content = templatefile("${var.openssl_env.CA_TPL}", {
+    ca_folder=var.openssl_env.CA_DIR
+    ca_cert_country = var.ca_cert_country
+    ca_cert_state = var.ca_cert_state 
+    ca_cert_location = var.ca_cert_location 
+    ca_cert_organization = var.ca_cert_organization
+    ca_cert_commonname =  var.ca_cert_commonname
+  })
+
+  filename = var.openssl_env.CA_CONF
+}
+
 resource "null_resource" "makecert_ca" {
+  depends_on = [local_file.openssl_ca_conf]
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT
