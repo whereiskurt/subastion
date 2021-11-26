@@ -92,6 +92,16 @@ module "ec2_bastion_green" {
   subastion_private_ip = "10.50.32.50"
 }
 
+module "nat_blue" {
+  depends_on=[module.subnet_blue]
+  source = "../../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
+  name="prod_blue"
+  public_subnet_id=module.subnet_blue.public_subnet_id
+  private_route_table_id=module.subnet_blue.private_route_table_id
+  manage_route_table_id=module.subnet_blue.manage_route_table_id
+}
+
 module "subnet_blue" {
   depends_on=[module.vpc]
   source = "../../../terraform/modules/aws/subnet"
