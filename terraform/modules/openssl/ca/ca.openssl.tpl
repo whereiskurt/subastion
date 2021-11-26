@@ -51,10 +51,3 @@ ST = ${ca_cert_state}
 L = ${ca_cert_location}
 O = ${ca_cert_organization}
 CN = ${ca_cert_commonname}
-
-# C = CA 
-# ST = ON
-# L = Toronto
-# O = Private Company
-# CN = Private Company (CA)
-#../../terraform/modules/openssl/ca
