@@ -1,22 +1,38 @@
 variable "aws_region" {
   type = string
+  default = "ca-central-1"
 }
+
 variable "aws_kms_key_alias" {
   type = string
+  default = "orchestration"
 }
+
 variable "aws_kms_key_id" {
   type = string
-  sensitive=true
+  default = "edac385f-c393-4e9c-aab7-808e1bc3c899"
+  sensitive = true
 }
+
 variable "aws_build_tags" {
   type = map
+  default = {
+    "owner" = "KPH"
+    "review_by" = "20221025"
+  }
 }
 
 variable "openssl_env" {
   type = map
   default = {
     CA_CONF = "../../../terraform/modules/openssl/ca/ca.openssl.conf"
+    CA_TPL = "../../../terraform/modules/openssl/ca/ca.openssl.tpl"
+    CA_DIR = "../../../terraform/modules/openssl/ca/"
+    
     ICA_CONF = "../../../terraform/modules/openssl/ica/ica.openssl.conf"
+    ICA_TPL = "../../../terraform/modules/openssl/ica/ica.openssl.tpl"
+    ICA_DIR= "../../../terraform/modules/openssl/ica/"
+    
     VAULT_CONF = "../../../terraform/modules/openssl/vault/vault.openssl.conf"
     VAULT_TPL = "../../../terraform/modules/openssl/vault/vault.openssl.tpl"
 
@@ -33,42 +49,5 @@ variable "openssl_env" {
 
     CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
     CHAIN_CERT_FILE = "/etc/ssl/certs/golden.ca.ica.pem"
-  }
-}
-
-variable boot_template {
-  type = string
-  default="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
-}
-
-variable vault_cert_dns {
-  type = list(string)
-}
-
-variable vault_cert_ip {
-  type = list(string)
-}
-
-variable vault_cert_country {
-  type=string
-}
-variable vault_cert_state {
-  type=string
-}
-variable vault_cert_location {
-  type =string
-}
-variable vault_cert_organization {
-  type=string
-}
-variable vault_cert_nscomment {
-  type=string
-} 
-
-variable "vault_env" {
-  type = map
-  default = {
-    VAULT_ADDR = "https://127.0.0.1:8200"
-    VAULT_SECRETS_FILE = "../../../docker/vault/vault.secrets.stripped"
   }
 }

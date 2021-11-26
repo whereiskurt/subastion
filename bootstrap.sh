@@ -1,5 +1,5 @@
 #!/bin/bash
-export ENVDIR=`pwd`/environment/awsprod
+export ENVDIR=`pwd`/environment/awsprod/bluegreen
 
 subastion-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
@@ -20,9 +20,9 @@ subastion-destroy() {
 
   docker kill vault
   docker rm vault
-  rm -fr $ENVDIR/../../docker/vault/volumes/file/*
-  rm -fr $ENVDIR/../../docker/vault/volumes/log/*
-  rm -fr $ENVDIR/../../terraform/modules/openssl && git checkout $ENVDIR/../../terraform/modules/openssl
+  rm -fr $ENVDIR/../../../docker/vault/volumes/file/*
+  rm -fr $ENVDIR/../../../docker/vault/volumes/log/*
+  rm -fr $ENVDIR/../../../terraform/modules/openssl && git checkout $ENVDIR/../../../terraform/modules/openssl
   
   unset VAULT_TOKEN
   unset VAULT_ADDR

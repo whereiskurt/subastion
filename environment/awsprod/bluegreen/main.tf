@@ -1,5 +1,5 @@
 module "openssl" {
-  source = "../../terraform/modules/openssl"
+  source = "../../../terraform/modules/openssl"
   openssl_env= var.openssl_env
 
   ##Self-signed Certificate Authority 
@@ -19,7 +19,7 @@ module "openssl" {
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../terraform/modules/aws/vault"
+  source = "../../../terraform/modules/aws/vault"
   aws_build_tags = var.aws_build_tags
   aws_region = var.aws_region
   aws_kms_key_id = var.aws_kms_key_id
@@ -40,14 +40,14 @@ module "awsvault" {
 
 module "vpc" {
   name="prod"
-  source = "../../terraform/modules/aws/vpc"
+  source = "../../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
 }
 
 module "nat_green" {
   depends_on=[module.subnet_green]
-  source = "../../terraform/modules/aws/natgateway"
+  source = "../../../terraform/modules/aws/natgateway"
   aws_build_tags = var.aws_build_tags
   name="prod_green"
   public_subnet_id=module.subnet_green.public_subnet_id
@@ -57,7 +57,7 @@ module "nat_green" {
 
 module "subnet_green" {
   depends_on=[module.vpc]
-  source = "../../terraform/modules/aws/subnet"
+  source = "../../../terraform/modules/aws/subnet"
   name="prod_green"
   aws_build_tags = var.aws_build_tags
 
@@ -72,13 +72,13 @@ module "subnet_green" {
 
 module "ec2_bastion_green" {
   depends_on=[module.subnet_green, module.awsvault]
-  source = "../../terraform/modules/aws/bastion"
+  source = "../../../terraform/modules/aws/bastion"
   name="prod_green_subastion"
   aws_build_tags = var.aws_build_tags
   
   key_name="prod_green_subastion_ec2"
   key_filename="/root/.ssh/prod_green_subastion_ec2"
-  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
   
   security_groups=[module.vpc.subastion_security_group]
   
@@ -94,7 +94,7 @@ module "ec2_bastion_green" {
 
 module "subnet_blue" {
   depends_on=[module.vpc]
-  source = "../../terraform/modules/aws/subnet"
+  source = "../../../terraform/modules/aws/subnet"
   name="prod_blue"
   aws_build_tags = var.aws_build_tags
 
@@ -109,13 +109,13 @@ module "subnet_blue" {
 
 module "ec2_bastion_blue" {
   depends_on=[module.subnet_blue, module.awsvault]
-  source = "../../terraform/modules/aws/bastion"
+  source = "../../../terraform/modules/aws/bastion"
   name="prod_blue_subastion"
   aws_build_tags = var.aws_build_tags
 
   key_name="prod_blue_subastion_ec2"
   key_filename="/root/.ssh/prod_blue_subastion_ec2"
-  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
   subastion_vpc_id = module.vpc.vpc_id
   security_groups=[module.vpc.subastion_security_group]

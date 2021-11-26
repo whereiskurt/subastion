@@ -57,21 +57,21 @@ resource "local_file" "vault_key_file" {
   depends_on = [null_resource.makecert_vault]
   file_permission = 0400
   source  = var.openssl_env.VAULT_KEY_FILE
-  filename = "../../docker/vault/volumes/config/vault.key.pem"
+  filename = "../../../docker/vault/volumes/config/vault.key.pem"
 }
 
 resource "local_file" "vault_cert_file" {
   depends_on = [null_resource.makecert_vault]
   file_permission = 0444
   source  = var.openssl_env.VAULT_CERT_FILE
-  filename = "../../docker/vault/volumes/config/vault.cert.pem"
+  filename = "../../../docker/vault/volumes/config/vault.cert.pem"
 }
 
 resource "local_file" "vault_config" {
   depends_on = [local_file.vault_cert_file, local_file.vault_key_file]
   file_permission = 0400
   content  = data.template_file.vault_conf.rendered
-  filename = "../../docker/vault/volumes/config/vault.json"
+  filename = "../../../docker/vault/volumes/config/vault.json"
 }
 
 resource "null_resource" "wait_for_iam" {
@@ -85,7 +85,7 @@ resource "null_resource" "vault_start" {
   depends_on = [local_file.vault_config, null_resource.wait_for_iam]
   provisioner "local-exec" {
     command = <<-EOT
-      cd ../../docker/vault/ && docker-compose up -d
+      cd ../../../docker/vault/ && docker-compose up -d
     EOT
   }
 }
