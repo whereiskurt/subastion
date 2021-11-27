@@ -3,7 +3,7 @@ output "id" {
 }
 
 output "name" {
-  value = aws_vpc.golden.name
+  value = aws_vpc.tags.Name
 }
 
 output "internet_gateway_id" {
