@@ -1,7 +1,7 @@
 #!/bin/bash
 export ENVDIR=`pwd`/environment/aws/bluegreen
 
-subastion-init() {
+bluegreen-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee subastion.tfrun.log 2>&1
 
@@ -15,7 +15,7 @@ subastion-init() {
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
-subastion-destroy() {
+bluegreen-destroy() {
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee subastion.tfrun.log 2>&1
 
   docker kill vault
@@ -32,16 +32,15 @@ subastion-destroy() {
   unset SUBASTION_BLUE_IP
 }
 
-subastion-green-ssh () { 
+ssh-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
 }
 
-subastion-blue-ssh () { 
+ssh-blue-subastion () { 
   ssh -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP
 }
 
-
-export -f subastion-init
-export -f subastion-green-ssh
-export -f subastion-blue-ssh
-export -f subastion-destroy
+export -f bluegreen-init
+export -f bluegreen-destroy
+export -f ssh-green-subastion
+export -f ssh-blue-subastion
