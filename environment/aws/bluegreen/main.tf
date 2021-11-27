@@ -1,5 +1,5 @@
 module "openssl" {
-  source = "../../terraform/modules/openssl"
+  source = "../../../terraform/modules/openssl"
   openssl_env= var.openssl_env
 
   ##Self-signed Certificate Authority 
@@ -19,7 +19,7 @@ module "openssl" {
 
 module "awsvault" {
   depends_on=[module.openssl]
-  source = "../../terraform/modules/aws/vault"
+  source = "../../../terraform/modules/aws/vault"
   aws_build_tags = var.aws_build_tags
   aws_region = var.aws_region
   aws_kms_key_id = var.aws_kms_key_id
@@ -40,16 +40,16 @@ module "awsvault" {
 
 module "vpc" {
   name="prod"
-  source = "../../terraform/modules/aws/vpc"
+  source = "../../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
 }
 
 module "nat_green" {
   depends_on=[module.subnet_green]
-  source = "../../terraform/modules/aws/natgateway"
+  source = "../../../terraform/modules/aws/natgateway"
   aws_build_tags = var.aws_build_tags
-  name="prod_green"
+  name="${module.vpc.name}_green"
   public_subnet_id=module.subnet_green.public_subnet_id
   private_route_table_id=module.subnet_green.private_route_table_id
   manage_route_table_id=module.subnet_green.manage_route_table_id
@@ -57,11 +57,11 @@ module "nat_green" {
 
 module "subnet_green" {
   depends_on=[module.vpc]
-  source = "../../terraform/modules/aws/subnet"
-  name="prod_green"
+  source = "../../../terraform/modules/aws/subnet"
+  name="${module.vpc.name}_green"
   aws_build_tags = var.aws_build_tags
 
-  vpc_id=module.vpc.vpc_id
+  vpc_id=module.vpc.id
   internet_gateway_id=module.vpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1a"
@@ -70,19 +70,19 @@ module "subnet_green" {
   private_subnets ="10.50.32.0/20"
 }
 
-module "ec2_bastion_green" {
+module "ec2_subastion_green" {
   depends_on=[module.subnet_green, module.awsvault]
-  source = "../../terraform/modules/aws/bastion"
-  name="prod_green_subastion"
+  source = "../../../terraform/modules/aws/bastion"
+  name="${module.vpc.name}_green_subastion"
   aws_build_tags = var.aws_build_tags
   
-  key_name="prod_green_subastion_ec2"
-  key_filename="/root/.ssh/prod_green_subastion_ec2"
-  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  key_name="${module.vpc.name}_green_subastion_ec2"
+  key_filename="/root/.ssh/${module.vpc.name}_green_subastion_ec2"
+  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
   
   security_groups=[module.vpc.subastion_security_group]
   
-  subastion_vpc_id = module.vpc.vpc_id
+  subastion_vpc_id = module.vpc.id
   public_subnet_id = module.subnet_green.public_subnet_id
   manage_subnet_id = module.subnet_green.manage_subnet_id
   private_subnet_id = module.subnet_green.private_subnet_id
@@ -92,13 +92,23 @@ module "ec2_bastion_green" {
   subastion_private_ip = "10.50.32.50"
 }
 
+module "nat_blue" {
+  depends_on=[module.subnet_blue]
+  source = "../../../terraform/modules/aws/natgateway"
+  aws_build_tags = var.aws_build_tags
+  name="${module.vpc.name}_blue"
+  public_subnet_id=module.subnet_blue.public_subnet_id
+  private_route_table_id=module.subnet_blue.private_route_table_id
+  manage_route_table_id=module.subnet_blue.manage_route_table_id
+}
+
 module "subnet_blue" {
   depends_on=[module.vpc]
-  source = "../../terraform/modules/aws/subnet"
-  name="prod_blue"
+  source = "../../../terraform/modules/aws/subnet"
+  name="${module.vpc.name}_blue"
   aws_build_tags = var.aws_build_tags
 
-  vpc_id=module.vpc.vpc_id
+  vpc_id=module.vpc.id
   internet_gateway_id=module.vpc.internet_gateway_id
   
   aws_availability_zone="ca-central-1b"
@@ -107,17 +117,17 @@ module "subnet_blue" {
   private_subnets ="10.50.96.0/20"
 }
 
-module "ec2_bastion_blue" {
+module "ec2_subastion_blue" {
   depends_on=[module.subnet_blue, module.awsvault]
-  source = "../../terraform/modules/aws/bastion"
-  name="prod_blue_subastion"
+  source = "../../../terraform/modules/aws/bastion"
+  name="${module.vpc.name}_blue_subastion"
   aws_build_tags = var.aws_build_tags
 
-  key_name="prod_blue_subastion_ec2"
-  key_filename="/root/.ssh/prod_blue_subastion_ec2"
-  boot_template="../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  key_name="${module.vpc.name}_blue_subastion_ec2"
+  key_filename="/root/.ssh/${module.vpc.name}_blue_subastion_ec2"
+  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
-  subastion_vpc_id = module.vpc.vpc_id
+  subastion_vpc_id = module.vpc.id
   security_groups=[module.vpc.subastion_security_group]
   public_subnet_id = module.subnet_blue.public_subnet_id
   manage_subnet_id = module.subnet_blue.manage_subnet_id

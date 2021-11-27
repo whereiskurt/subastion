@@ -1,6 +1,11 @@
-output "vpc_id" {
+output "id" {
   value = aws_vpc.golden.id
 }
+
+output "name" {
+  value = aws_vpc.golden.tags.Name
+}
+
 output "internet_gateway_id" {
   value = aws_internet_gateway.public.id
 }

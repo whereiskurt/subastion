@@ -1,5 +1,5 @@
 data "template_file" "vault_conf" {
-  template = "${file("../../docker/vault/vault_config.tpl")}"
+  template = "${file("../../../docker/vault/vault_config.tpl")}"
   vars = {  
     region        = "${var.aws_region}"
     access_key    = "${aws_iam_access_key.vault_root_access_key.id}"
