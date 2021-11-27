@@ -33,7 +33,7 @@ module "awsvault" {
   vault_cert_location = "Toronto"
   vault_cert_state = "ON"
   vault_cert_country = "CA"
-
+  vault_cert_commonname = "Private Company (CommonName)"
   vault_cert_dns = ["localhost","vault","vault.golden.lab"]
   vault_cert_ip = ["127.0.0.1", "172.16.1.102"]
 }

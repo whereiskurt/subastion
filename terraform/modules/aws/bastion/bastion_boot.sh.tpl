@@ -32,4 +32,14 @@ tls-server
 tls-auth /etc/openvpn/keys/pfs.key.pem
 EOT
 
-chmod 600 /etc/openvpn/server.conf
+chmod 600 /etc/openvpn/server.conf 
+
+# find . -name "*.txt" -print0 | while read -d $'\0' file
+# do
+# done
+
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/vault/vault.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/vault/vault.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
+# scp -i $SUBASTION_GREEN_KEYFILE /etc/ssl/certs/aws_bluegreen.ca.ica.pem ubuntu@$SUBASTION_GREEN_IP:~/ca.cert.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/dh.2048.pem ubuntu@$SUBASTION_GREEN_IP:~/dh2048.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./pfs.key.pem ubuntu@$SUBASTION_GREEN_IP:~/pfs.key.pem

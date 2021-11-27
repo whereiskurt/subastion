@@ -56,6 +56,7 @@ C = ${vault_cert_country}
 ST = ${vault_cert_state}
 L = ${vault_cert_location}
 O = ${vault_cert_organization}
+CN = ${vault_cert_commonname}
 
 [ alt_names ]
 %{ for i, v in vault_cert_dns ~}
