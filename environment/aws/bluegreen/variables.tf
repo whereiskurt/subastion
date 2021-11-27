@@ -14,14 +14,6 @@ variable "aws_kms_key_id" {
   sensitive = true
 }
 
-variable "aws_build_tags" {
-  type = map
-  default = {
-    "builder" = "subastion-built"
-    "auto_remove_by" = "20220601"
-  }
-}
-
 variable "vault_env" {
   type = map
   default = {
@@ -31,6 +23,15 @@ variable "vault_env" {
     DOCKER_CONTAINER_PORT=18200
   }
 }
+
+variable "aws_build_tags" {
+  type = map
+  default = {
+    "builder" = "subastion-built"
+    "auto_remove_by" = "20220601"
+  }
+}
+
 
 variable "openssl_env" {
   type = map
