@@ -69,7 +69,7 @@ variable "vault_env" {
   type = map
   default = {
     VAULT_ADDR = "https://127.0.0.1:8200"
-    VAULT_SECRETS_FILE = "../../../docker/vault/vault.secrets.stripped"
+    VAULT_SECRETS_FILE = "../../../docker/vault/root.secret"
     DOCKER_HOST_PORT=8200
     DOCKER_CONTAINER_PORT=8200
   }
