@@ -17,14 +17,26 @@ variable "aws_kms_key_id" {
 variable "aws_build_tags" {
   type = map
   default = {
-    "owner" = "KPH"
-    "review_by" = "20221025"
+    "builder" = "subastion-built"
+    "auto_remove_by" = "20220601"
+  }
+}
+
+variable "vault_env" {
+  type = map
+  default = {
+    VAULT_ADDR = "https://127.0.0.1:8200"
+    VAULT_SECRETS_FILE = "../../../docker/vault/vault.secrets.stripped"
+    DOCKER_HOST_PORT=8200
+    DOCKER_CONTAINER_PORT=8200
   }
 }
 
 variable "openssl_env" {
   type = map
   default = {
+    DH_ENTROPY_FILE="../../../terraform/modules/openssl/dh.2048.pem"
+
     CA_CONF = "../../../terraform/modules/openssl/ca/ca.openssl.conf"
     CA_TPL = "../../../terraform/modules/openssl/ca/ca.openssl.tpl"
     CA_DIR = "../../../terraform/modules/openssl/ca/"
@@ -48,6 +60,6 @@ variable "openssl_env" {
     VAULT_CERT_FILE = "../../../terraform/modules/openssl/vault/vault.cert.pem"
 
     CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
-    CHAIN_CERT_FILE = "/etc/ssl/certs/golden.ca.ica.pem"
+    CHAIN_CERT_FILE = "/etc/ssl/certs/aws_bluegreen.ca.ica.pem"
   }
 }

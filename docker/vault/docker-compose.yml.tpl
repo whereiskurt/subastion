@@ -4,12 +4,12 @@ services:
     image: vault
     container_name: vault
     ports:
-      - "8200:8200"
+      - "${docker_container_port}:${docker_host_port}"
     restart: always
     volumes:
       - ./volumes/logs:/vault/logs
       - ./volumes/file:/vault/file
-      - ./volumes/config:/vault/config
+      - ./volumes/config/vault/config
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/vault.json

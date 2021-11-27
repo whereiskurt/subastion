@@ -45,6 +45,15 @@ resource "null_resource" "makecert_ca" {
   }
 }
 
+resource "null_resource" "make_dh2048" {
+  provider "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      openssl dhparam -out $DH_ENTROPY_FILE 2048
+    EOT
+  }
+}
+
 resource "local_file" "openssl_ica_conf" {
   file_permission = 0400
 

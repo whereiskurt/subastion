@@ -81,8 +81,15 @@ resource "null_resource" "wait_for_iam" {
   }
 }
 
+resource "local_file" "docker_compose_config" {
+  file_permission = 0400
+  content  = data.template_file.docker_compose_conf.rendered
+  filename = "../../../docker/vault/docker-compose.yml"
+}
+
+
 resource "null_resource" "vault_start" {
-  depends_on = [local_file.vault_config, null_resource.wait_for_iam]
+  depends_on = [local_file.vault_config, null_resource.wait_for_iam, local_file.docker_compose_config]
   provisioner "local-exec" {
     command = <<-EOT
       cd ../../../docker/vault/ && docker-compose up -d

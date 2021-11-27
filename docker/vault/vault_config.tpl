@@ -14,7 +14,7 @@
     },
     "listener": {
         "tcp": {
-            "address": "0.0.0.0:8200",
+            "address": "0.0.0.0:${docker_container_port}",
             "tls_disable": 0,
             "tls_cert_file": "/vault/config/vault.cert.pem",
             "tls_key_file": "/vault/config/vault.key.pem"
