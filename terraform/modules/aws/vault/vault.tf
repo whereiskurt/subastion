@@ -9,6 +9,7 @@ resource "local_file" "openssl_vault_conf" {
     vault_cert_state = var.vault_cert_state 
     vault_cert_location = var.vault_cert_location 
     vault_cert_organization = var.vault_cert_organization 
+    vault_cert_commonname = var.vault_cert_commonname
     vault_cert_nscomment =  var.vault_cert_nscomment 
   })
 
