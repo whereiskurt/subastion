@@ -1,9 +1,9 @@
 #!/bin/bash
 export ENVDIR=`pwd`/environment/aws/bluegreen
 
-bluegreen-init() {
+aws-bluegreen-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
-  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee subastion.tfrun.log 2>&1
+  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
@@ -15,8 +15,8 @@ bluegreen-init() {
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
-bluegreen-destroy() {
-  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee subastion.tfrun.log 2>&1
+aws-bluegreen-destroy() {
+  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
 
   docker kill vault
   docker rm vault
@@ -32,15 +32,15 @@ bluegreen-destroy() {
   unset SUBASTION_BLUE_IP
 }
 
-ssh-green-subastion () { 
+ssh-aws-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
 }
 
-ssh-blue-subastion () { 
+ssh-aws-blue-subastion () { 
   ssh -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP
 }
 
-export -f bluegreen-init
-export -f bluegreen-destroy
-export -f ssh-green-subastion
-export -f ssh-blue-subastion
+export -f aws-bluegreen-init
+export -f aws-bluegreen-destroy
+export -f ssh-aws-green-subastion
+export -f ssh-aws-blue-subastion
