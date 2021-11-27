@@ -46,7 +46,7 @@ resource "null_resource" "makecert_ca" {
 }
 
 resource "null_resource" "make_dh2048" {
-  provider "local-exec" {
+  provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT
       openssl dhparam -out $DH_ENTROPY_FILE 2048
