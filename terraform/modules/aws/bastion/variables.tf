@@ -7,6 +7,13 @@ variable name {
   type = string
 }
 
+variable openvpn_network {
+  type=string
+}
+variable openvpn_netmask {
+  type=string
+}
+
 variable boot_template {
   type=string
 }

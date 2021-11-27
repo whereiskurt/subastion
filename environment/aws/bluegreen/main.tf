@@ -90,6 +90,10 @@ module "ec2_subastion_green" {
   subastion_public_ip = "10.50.0.50"
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
+
+  openvpn_network = "10.50.48.0"
+  openvpn_netmask = "255.255.255.240"
+
 }
 
 module "nat_blue" {
@@ -135,4 +139,7 @@ module "ec2_subastion_blue" {
   subastion_public_ip = "10.50.64.50"
   subastion_manage_ip = "10.50.80.50"
   subastion_private_ip = "10.50.96.50"
+
+  openvpn_network = "10.50.112.0"
+  openvpn_netmask = "255.255.255.240"
 }

@@ -6,6 +6,8 @@ output "subastion_public_ip" {
 data "template_file" "bastion_boot" {
   template = "${file(var.boot_template)}"
   vars = {
-    name = "${var.name}"
+    name = var.name
+    openvpn_network = var.openvpn_network
+    openvpn_netmask = var.openvpn_netmask
   }
 }
