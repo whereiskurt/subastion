@@ -38,8 +38,8 @@ chmod 600 /etc/openvpn/server.conf
 # do
 # done
 
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
 # scp -i $SUBASTION_GREEN_KEYFILE /etc/ssl/certs/aws_bluegreen.ca.ica.pem ubuntu@$SUBASTION_GREEN_IP:~/ca.cert.pem
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/dh.2048.pem ubuntu@$SUBASTION_GREEN_IP:~/dh2048.pem
 # scp -i $SUBASTION_GREEN_KEYFILE ./pfs.key.pem ubuntu@$SUBASTION_GREEN_IP:~/pfs.key.pem
