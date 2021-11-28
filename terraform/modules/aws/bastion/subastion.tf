@@ -128,7 +128,7 @@ resource "null_resource" "makecert_openvpn" {
     environment = var.openssl_env
     command = <<-EOT
       openssl ca -config $OPENVPN_CONF \
-        -extensions server_cert \
+        -extensions client_cert \
         -batch -notext \
         -in $OPENVPN_CSR_FILE \
         -out $OPENVPN_CERT_FILE
