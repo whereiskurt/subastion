@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### echo "DUDE!!! ${name}" > /tmp/dude.file.txt
-sudo apt install -y openvpn
+sudo apt install -y openvpn easy-rsa
 
 mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
@@ -34,9 +34,15 @@ EOT
 
 chmod 600 /etc/openvpn/server.conf 
 
-# find . -name "*.txt" -print0 | while read -d $'\0' file
-# do
-# done
+make-cadir /etc/openvpn/easy_ca/
+cd /etc/openvpn/easy_ca/ 
+./easy-rsa init-pki
+./easy-rsa build-ca nopass
+./easy-rsa gen-dh
+./easy-rsa build-server-full openvpn-server nopass
+./easy-rsa build-client-full openvpn-client nopass
+./easy-rsa gen-req openvpn-server nopass
+
 
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
