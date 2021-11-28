@@ -24,7 +24,18 @@ resource "aws_security_group" "subastion_public" {
       self=true
       prefix_list_ids=[]
       security_groups=[]
-    }    
+    },
+    {
+      description      = "OpenVPN port to VPC "
+      from_port        = 11194
+      to_port          = 11194
+      protocol         = "udp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      self=true
+      prefix_list_ids=[]
+      security_groups=[]
+    }        
   ]
   egress = [
     {

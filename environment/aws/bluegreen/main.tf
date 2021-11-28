@@ -93,6 +93,14 @@ module "ec2_subastion_green" {
 
   openvpn_network = "10.50.48.0"
   openvpn_netmask = "255.255.255.240"
+  openvpn_cert_nscomment = "Private Company - VPN Certificate"
+  openvpn_cert_organization = "Private Company"
+  openvpn_cert_location = "Toronto"
+  openvpn_cert_state = "ON"
+  openvpn_cert_country = "CA"
+  openvpn_cert_commonname = "Private Company (CommonName)"
+  openvpn_cert_dns = ["localhost","openvpn","openvpn.golden.lab"]
+  openvpn_cert_ip = ["127.0.0.1", "172.16.1.102"]
 
 }
 

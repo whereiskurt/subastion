@@ -17,8 +17,6 @@ variable "openssl_env" {
   default = {
     CA_CONF = "../../../terraform/modules/openssl/ca/ca.openssl.conf"
     ICA_CONF = "../../../terraform/modules/openssl/ica/ica.openssl.conf"
-    VAULT_CONF = "../../../terraform/modules/openssl/vault/vault.openssl.conf"
-    VAULT_TPL = "../../../terraform/modules/aws/vault/vault.openssl.tpl"
 
     CA_KEY_FILE = "../../../terraform/modules/openssl/ca/ca.key.pem"    
     CA_CERT_FILE = "../../../terraform/modules/openssl/ca/ca.cert.pem"
@@ -27,9 +25,11 @@ variable "openssl_env" {
     ICA_CSR_FILE = "../../../terraform/modules/openssl/ica/ica.csr.pem"
     ICA_CERT_FILE = "../../../terraform/modules/openssl/ica/ica.cert.pem"
     
-    VAULT_KEY_FILE = "../../../terraform/modules/openssl/vault/vault.key.pem"
-    VAULT_CSR_FILE = "../../../terraform/modules/openssl/vault/vault.csr.pem"
-    VAULT_CERT_FILE = "../../../terraform/modules/openssl/vault/vault.cert.pem"
+    VAULT_TPL = "../../../terraform/modules/aws/vault/vault.openssl.conf.tpl"
+    VAULT_CONF = "../../../terraform/modules/aws/vault/vault.openssl.conf"
+    VAULT_KEY_FILE = "../../../terraform/modules/aws/vault/vault.key.pem"
+    VAULT_CSR_FILE = "../../../terraform/modules/aws/vault/vault.csr.pem"
+    VAULT_CERT_FILE = "../../../terraform/modules/aws/vault/vault.cert.pem"
 
     CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
     CHAIN_CERT_FILE = "/etc/ssl/certs/golden.ca.ica.pem"

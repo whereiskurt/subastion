@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo "DUDE!!! ${name}" > /tmp/dude.file.txt
+### echo "DUDE!!! ${name}" > /tmp/dude.file.txt
 sudo apt install -y openvpn
 
 mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
 
 cat > /etc/openvpn/server/server.conf <<EOT
-port 1194
+port 11194
 proto udp
 dev tun
 ca /etc/openvpn/keys/ca.cert.pem

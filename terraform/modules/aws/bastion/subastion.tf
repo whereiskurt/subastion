@@ -88,3 +88,50 @@ resource "aws_instance" "subastion" {
     device_index         = 2
   } 
 }
+
+
+resource "local_file" "openssl_openvpn_conf" {
+  file_permission = 0400
+
+  content = templatefile("${var.openssl_env.OPENVPN_TPL}", {
+    openvpn_ica_folder=var.openssl_env.ICA_DIR
+    openvpn_cert_dns=var.openvpn_cert_dns
+    openvpn_cert_ip=var.openvpn_cert_ip
+    openvpn_cert_country = var.openvpn_cert_country
+    openvpn_cert_state = var.openvpn_cert_state 
+    openvpn_cert_location = var.openvpn_cert_location 
+    openvpn_cert_organization = var.openvpn_cert_organization 
+    openvpn_cert_commonname = var.openvpn_cert_commonname
+    openvpn_cert_nscomment =  var.openvpn_cert_nscomment 
+  })
+
+  filename = var.openssl_env.VAULT_CONF
+}
+
+resource "null_resource" "makecert_openvpn" {
+  depends_on = [local_file.openssl_openvpn_conf]
+  provisioner "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      openssl genrsa -out $OPENVPN_KEY_FILE 2048 
+    EOT
+  }
+  provisioner "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      openssl req -new -config $OPENVPN_CONF \
+        -key $OPENVPN_KEY_FILE \
+        -out $OPENVPN_CSR_FILE
+    EOT
+  }
+  provisioner "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      openssl ca -config $OPENVPN_CONF \
+        -extensions server_cert \
+        -batch -notext \
+        -in $OPENVPN_CSR_FILE \
+        -out $OPENVPN_CERT_FILE
+    EOT
+  }
+}
