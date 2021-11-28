@@ -41,7 +41,6 @@ cd /etc/openvpn/easy_ca/
 ./easy-rsa gen-dh
 ./easy-rsa build-server-full openvpn-server nopass
 ./easy-rsa build-client-full openvpn-client nopass
-./easy-rsa gen-req openvpn-server nopass
 
 
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
