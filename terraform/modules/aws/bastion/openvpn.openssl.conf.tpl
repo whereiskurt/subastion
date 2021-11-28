@@ -35,7 +35,7 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 [ server_cert ]
 basicConstraints = CA:FALSE
 nsCertType = server
-nsComment = ${openvpn_cert_nscomment}
+nsComment = ${openvpn_clientcert_nscomment}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
 keyUsage = critical, digitalSignature, keyEncipherment
@@ -52,11 +52,11 @@ commonName              = optional
 emailAddress            = optional
 
 [ req_distinguished_name ] 
-C = ${openvpn_cert_country}
-ST = ${openvpn_cert_state}
-L = ${openvpn_cert_location}
-O = ${openvpn_cert_organization}
-CN = ${openvpn_cert_commonname}
+C = ${openvpn_clientcert_country}
+ST = ${openvpn_clientcert_state}
+L = ${openvpn_clientcert_location}
+O = ${openvpn_clientcert_organization}
+CN = ${openvpn_clientcert_commonname}
 
 [ alt_names ]
 %{ for i, v in vault_cert_dns ~}

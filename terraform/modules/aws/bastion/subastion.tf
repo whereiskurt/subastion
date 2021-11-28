@@ -95,14 +95,14 @@ resource "local_file" "openssl_openvpn_conf" {
 
   content = templatefile("${var.openssl_env.OPENVPN_TPL}", {
     openvpn_ica_folder=var.openssl_env.ICA_DIR
-    openvpn_cert_dns=var.openvpn_cert_dns
-    openvpn_cert_ip=var.openvpn_cert_ip
-    openvpn_cert_country = var.openvpn_cert_country
-    openvpn_cert_state = var.openvpn_cert_state 
-    openvpn_cert_location = var.openvpn_cert_location 
-    openvpn_cert_organization = var.openvpn_cert_organization 
-    openvpn_cert_commonname = var.openvpn_cert_commonname
-    openvpn_cert_nscomment =  var.openvpn_cert_nscomment 
+    openvpn_clientcert_dns=var.openvpn_clientcert_dns
+    openvpn_clientcert_ip=var.openvpn_clientcert_ip
+    openvpn_clientcert_country = var.openvpn_clientcert_country
+    openvpn_clientcert_state = var.openvpn_clientcert_state 
+    openvpn_clientcert_location = var.openvpn_clientcert_location 
+    openvpn_clientcert_organization = var.openvpn_clientcert_organization 
+    openvpn_clientcert_commonname = var.openvpn_clientcert_commonname
+    openvpn_clientcert_nscomment =  var.openvpn_clientcert_nscomment 
   })
 
   filename = var.openssl_env.VAULT_CONF
