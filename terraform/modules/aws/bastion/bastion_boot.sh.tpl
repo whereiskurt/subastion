@@ -3,7 +3,7 @@
 sudo apt update
 sudo apt install -y openvpn easy-rsa
 
-[[ -f /etc/openvpn/keys/ ] || mkdir /etc/openvpn/keys/
+[[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
 
 cat > /etc/openvpn/server/server.conf <<EOT
@@ -80,7 +80,7 @@ cp /etc/openvpn/keys/pfs.key.pem \
    /etc/openvpn/client/client.conf \
    /home/ubuntu/openvpn/
 
-chown ubuntu:ubuntu {/home/ubuntu/openvpn/{openvpn-client*, pfs.key.pem, client.conf}}
+chown -R ubuntu:ubuntu /home/ubuntu/openvpn/*
 
 
 
