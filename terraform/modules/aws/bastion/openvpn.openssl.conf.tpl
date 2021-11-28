@@ -59,9 +59,9 @@ O = ${openvpn_clientcert_organization}
 CN = ${openvpn_clientcert_commonname}
 
 [ alt_names ]
-%{ for i, v in vault_cert_dns ~}
+%{ for i, v in openvpn_clientcert_dns ~}
 DNS.${i+1} = ${v}
 %{endfor ~}
-%{for i, v in vault_cert_ip ~}
+%{for i, v in openvpn_clientcert_ip ~}
 IP.${i+1} = ${v}
 %{ endfor ~}
