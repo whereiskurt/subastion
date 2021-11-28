@@ -16,7 +16,7 @@ new_certs_dir     = $dir
 database          = $dir/index.txt
 serial            = $dir/serial
 RANDFILE          = $dir/.rand
-copy_extension = copy
+copy_extension    = copy
 
 [ req ]
 default_bits        = 4096
@@ -24,7 +24,7 @@ distinguished_name  = req_distinguished_name
 string_mask         = utf8only
 default_md          = sha256
 x509_extensions     = v3_ca
-req_extensions = v3_ca    
+req_extensions      = v3_ca    
 prompt = no   
 
 [ v3_ca ]
@@ -38,9 +38,8 @@ nsCertType = client
 nsComment = ${openvpn_clientcert_nscomment}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
-keyUsage = digitalSignature
 extendedKeyUsage = clientAuth
-subjectAltName = @alt_names
+keyUsage = digitalSignature
 
 [ policy_loose ]
 countryName             = optional
@@ -57,11 +56,3 @@ ST = ${openvpn_clientcert_state}
 L = ${openvpn_clientcert_location}
 O = ${openvpn_clientcert_organization}
 CN = ${openvpn_clientcert_commonname}
-
-[ alt_names ]
-%{ for i, v in openvpn_clientcert_dns ~}
-DNS.${i+1} = ${v}
-%{endfor ~}
-%{for i, v in openvpn_clientcert_ip ~}
-IP.${i+1} = ${v}
-%{ endfor ~}
