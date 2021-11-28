@@ -38,6 +38,30 @@ variable openvpn_network {
 variable openvpn_netmask {
   type=string
 }
+variable openvpn_cert_nscomment {
+  type=string
+}
+variable openvpn_cert_organization {
+  type=string
+}
+variable openvpn_cert_location {
+  type=string
+}
+variable openvpn_cert_state {
+  type=string
+}
+variable openvpn_cert_country {
+  type=string
+}
+variable openvpn_cert_commonname {
+  type=string
+}
+variable openvpn_cert_dns {
+  type=string
+}
+variable openvpn_cert_ip {
+  type=string
+}
 
 variable boot_template {
   type=string
