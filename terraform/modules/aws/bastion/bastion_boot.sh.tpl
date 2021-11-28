@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### echo "DUDE!!! ${name}" > /tmp/dude.file.txt
+sudp apt update
 sudo apt install -y openvpn easy-rsa
 
 mkdir /etc/openvpn/keys/
@@ -10,10 +10,10 @@ cat > /etc/openvpn/server/server.conf <<EOT
 port 11194
 proto udp
 dev tun
-ca /etc/openvpn/keys/ca.cert.pem
-cert /etc/openvpn/keys/server.cert.pem
-key /etc/openvpn/keys/server.key.pem
-dh /etc/openvpn/keys/dh2048.pem
+ca /etc/openvpn/easyca/pki/ca.crt
+cert /etc/openvpn/easyca/pki/issued/openvpn-server.crt
+key /etc/openvpn/easyca/pki/private/openvpn-server.key
+dh /etc/openvpn/easyca/pki/dh.pem
 cipher AES-256-CBC
 auth SHA512
 server ${openvpn_network} ${openvpn_netmask}
@@ -36,11 +36,18 @@ chmod 600 /etc/openvpn/server.conf
 
 make-cadir /etc/openvpn/easy_ca/
 cd /etc/openvpn/easy_ca/ 
-./easy-rsa init-pki
-./easy-rsa build-ca nopass
-./easy-rsa gen-dh
-./easy-rsa build-server-full openvpn-server nopass
-./easy-rsa build-client-full openvpn-client nopass
+./easyrsa init-pki
+EASYRSA_BATCH=1 ./easyrsa build-ca nopass
+EASYRSA_BATCH=1 ./easyrsa gen-dh
+EASYRSA_BATCH=1 ./easyrsa build-server-full openvpn-server nopass
+EASYRSA_BATCH=1 ./easyrsa build-client-full openvpn-client nopass
+
+openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
+cp /etc/openvpn/keys/pfs.key.pem /home/ubuntu
+chown ubuntu:ubuntu /home/ubuntu/pfs.key.pem
+
+cp /etc/openvpn/easyca/pki/issued/openvpn-server.crt /etc/openvpn/easyca/pki/private/openvpn-server.key /home/ubuntu
+chown ubuntu:ubuntu /home/ubuntu/openvpn-server*
 
 
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
