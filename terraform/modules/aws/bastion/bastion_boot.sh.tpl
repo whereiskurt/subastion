@@ -34,20 +34,54 @@ EOT
 
 chmod 600 /etc/openvpn/server/server.conf 
 
+export EASYRSA_BATCH=1
 make-cadir /etc/openvpn/easy_ca/
 cd /etc/openvpn/easy_ca/ 
 ./easyrsa init-pki
-EASYRSA_BATCH=1 ./easyrsa build-ca nopass
-EASYRSA_BATCH=1 ./easyrsa gen-dh
-EASYRSA_BATCH=1 ./easyrsa build-server-full openvpn-server nopass
-EASYRSA_BATCH=1 ./easyrsa build-client-full openvpn-client nopass
+./easyrsa build-ca nopass
+./easyrsa gen-dh
+./easyrsa build-server-full openvpn-server nopass
+./easyrsa build-client-full openvpn-client nopass
+
+cat > /etc/openvpn/client/client.conf <<EOT
+client
+dev tun
+proto udp
+remote ${openvpn_server_name} ${openvpn_server_port}
+ca ca.crt
+cert openvpn-client.crt
+key openvpn-client.key
+tls-version-min 1.2
+tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256
+cipher AES-256-CBC
+auth SHA512
+resolv-retry infinite
+auth-retry none
+nobind
+persist-key
+persist-tun
+ns-cert-type server
+comp-lzo
+verb 6
+tls-client
+tls-auth pfs.key.pem
+EOT
 
 openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
-cp /etc/openvpn/keys/pfs.key.pem /home/ubuntu
-chown ubuntu:ubuntu /home/ubuntu/pfs.key.pem
 
-cp /etc/openvpn/easy_ca/pki/ca.crt /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt /etc/openvpn/easy_ca/pki/private/openvpn-client.key /home/ubuntu
-chown ubuntu:ubuntu /home/ubuntu/openvpn-client*
+mkdir /home/ubuntu/openvpn/
+chown ubuntu:ubuntu /home/ubuntu/openvpn/
+chmod 700 /home/ubuntu/openvpn/
+
+cp /etc/openvpn/keys/pfs.key.pem \
+   /etc/openvpn/easy_ca/pki/ca.crt \
+   /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt \
+   /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
+   /etc/openvpn/client/client.conf \
+   /home/ubuntu/openvpn/
+
+chown ubuntu:ubuntu {/home/ubuntu/openvpn/{openvpn-client*, pfs.key.pem, client.conf}}
+
 
 
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem

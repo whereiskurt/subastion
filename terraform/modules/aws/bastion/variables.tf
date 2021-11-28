@@ -40,6 +40,10 @@ variable openvpn_network {
 variable openvpn_netmask {
   type=string
 }
+
+variable openvpn_hostport {
+  type=string
+}
 variable openvpn_clientcert_nscomment {
   type=string
 }
