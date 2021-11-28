@@ -3,7 +3,7 @@
 sudo apt update
 sudo apt install -y openvpn easy-rsa
 
-mkdir /etc/openvpn/keys/
+[[ -f /etc/openvpn/keys/ ] || mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
 
 cat > /etc/openvpn/server/server.conf <<EOT
@@ -46,7 +46,7 @@ openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
 cp /etc/openvpn/keys/pfs.key.pem /home/ubuntu
 chown ubuntu:ubuntu /home/ubuntu/pfs.key.pem
 
-cp /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt /etc/openvpn/easy_ca/pki/private/openvpn-client.key /home/ubuntu
+cp /etc/openvpn/easy_ca/pki/ca.crt /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt /etc/openvpn/easy_ca/pki/private/openvpn-client.key /home/ubuntu
 chown ubuntu:ubuntu /home/ubuntu/openvpn-client*
 
 
