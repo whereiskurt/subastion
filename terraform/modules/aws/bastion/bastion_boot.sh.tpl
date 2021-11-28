@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudp apt update
+sudo apt update
 sudo apt install -y openvpn easy-rsa
 
 mkdir /etc/openvpn/keys/
@@ -10,10 +10,10 @@ cat > /etc/openvpn/server/server.conf <<EOT
 port 11194
 proto udp
 dev tun
-ca /etc/openvpn/easyca/pki/ca.crt
-cert /etc/openvpn/easyca/pki/issued/openvpn-server.crt
-key /etc/openvpn/easyca/pki/private/openvpn-server.key
-dh /etc/openvpn/easyca/pki/dh.pem
+ca /etc/openvpn/easy_ca/pki/ca.crt
+cert /etc/openvpn/easy_ca/pki/issued/openvpn-server.crt
+key /etc/openvpn/easy_ca/pki/private/openvpn-server.key
+dh /etc/openvpn/easy_ca/pki/dh.pem
 cipher AES-256-CBC
 auth SHA512
 server ${openvpn_network} ${openvpn_netmask}
@@ -32,7 +32,7 @@ tls-server
 tls-auth /etc/openvpn/keys/pfs.key.pem
 EOT
 
-chmod 600 /etc/openvpn/server.conf 
+chmod 600 /etc/openvpn/server/server.conf 
 
 make-cadir /etc/openvpn/easy_ca/
 cd /etc/openvpn/easy_ca/ 
@@ -46,8 +46,8 @@ openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
 cp /etc/openvpn/keys/pfs.key.pem /home/ubuntu
 chown ubuntu:ubuntu /home/ubuntu/pfs.key.pem
 
-cp /etc/openvpn/easyca/pki/issued/openvpn-server.crt /etc/openvpn/easyca/pki/private/openvpn-server.key /home/ubuntu
-chown ubuntu:ubuntu /home/ubuntu/openvpn-server*
+cp /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt /etc/openvpn/easy_ca/pki/private/openvpn-client.key /home/ubuntu
+chown ubuntu:ubuntu /home/ubuntu/openvpn-client*
 
 
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
