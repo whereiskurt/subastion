@@ -24,7 +24,6 @@ distinguished_name  = req_distinguished_name
 string_mask         = utf8only
 default_md          = sha256
 x509_extensions     = v3_ca
-req_extensions      = v3_ca    
 prompt = no   
 
 [ v3_ca ]
