@@ -94,7 +94,7 @@ resource "local_file" "openssl_openvpn_conf" {
   file_permission = 0400
 
   content = templatefile("${var.openssl_env.OPENVPN_TPL}", {
-    openvpn_ica_folder=var.openssl_env.ICA_DIR
+    openvpn_ica_folder=var.openssl_env.OPENVPN_ICA_DIR
     openvpn_clientcert_dns=var.openvpn_clientcert_dns
     openvpn_clientcert_ip=var.openvpn_clientcert_ip
     openvpn_clientcert_country = var.openvpn_clientcert_country

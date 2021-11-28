@@ -52,6 +52,8 @@ variable "openssl_env" {
     ICA_KEY_FILE = "../../../terraform/modules/openssl/ica/ica.key.pem"
     ICA_CSR_FILE = "../../../terraform/modules/openssl/ica/ica.csr.pem"
     ICA_CERT_FILE = "../../../terraform/modules/openssl/ica/ica.cert.pem"
+    CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
+    CHAIN_CERT_FILE = "/etc/ssl/certs/aws_bluegreen.ca.ica.pem"
     
     VAULT_TPL = "../../../terraform/modules/aws/vault/vault.openssl.conf.tpl"
     VAULT_CONF = "../../../terraform/modules/aws/vault/vault.openssl.conf"
@@ -59,14 +61,12 @@ variable "openssl_env" {
     VAULT_CSR_FILE = "../../../terraform/modules/aws/vault/vault.csr.pem"
     VAULT_CERT_FILE = "../../../terraform/modules/aws/vault/vault.cert.pem"
 
-    OPENVPN_DIR = "../../../terraform/modules/aws/bastion/"
-    OPENVPN_TPL = "../../../terraform/modules/aws/bastion/openvpn.openssl.conf.tpl"
-    OPENVPN_CONF = "../../../terraform/modules/aws/bastion/openvpn.openssl.conf"
-    OPENVPN_KEY_FILE = "../../../terraform/modules/aws/bastion/openvpn.key.pem"
-    OPENVPN_CSR_FILE = "../../../terraform/modules/aws/bastion/openvpn.csr.pem"
-    OPENVPN_CERT_FILE = "../../../terraform/modules/aws/bastion/openvpn.cert.pem"
+    OPENVPN_DIR = "../../../../terraform/modules/aws/bastion/"
+    OPENVPN_TPL = "../../../../terraform/modules/aws/bastion/openvpn.openssl.conf.tpl"
+    OPENVPN_CONF = "../../../../terraform/modules/aws/bastion/openvpn.openssl.conf"
+    OPENVPN_KEY_FILE = "../../../../terraform/modules/aws/bastion/openvpn.key.pem"
+    OPENVPN_CSR_FILE = "../../../../terraform/modules/aws/bastion/openvpn.csr.pem"
+    OPENVPN_CERT_FILE = "../../../../terraform/modules/aws/bastion/openvpn.cert.pem"
 
-    CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
-    CHAIN_CERT_FILE = "/etc/ssl/certs/aws_bluegreen.ca.ica.pem"
   }
 }
