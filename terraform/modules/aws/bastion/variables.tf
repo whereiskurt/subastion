@@ -57,10 +57,10 @@ variable openvpn_clientcert_commonname {
   type=string
 }
 variable openvpn_clientcert_dns {
-  type=string
+  type=list(string)
 }
 variable openvpn_clientcert_ip {
-  type=string
+  type=list(string)
 }
 
 variable boot_template {
