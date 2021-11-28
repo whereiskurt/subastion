@@ -95,13 +95,13 @@ module "ec2_subastion_green" {
 
   openvpn_network = "10.50.48.0"
   openvpn_netmask = "255.255.255.240"
-  openvpn_clientcert_nscomment = "Private Company - VPN Certificate"
+  openvpn_clientcert_nscomment = "Private Company - VPN Certificate (green_subastion)"
   openvpn_clientcert_organization = "Private Company"
   openvpn_clientcert_location = "Toronto"
   openvpn_clientcert_state = "ON"
   openvpn_clientcert_country = "CA"
-  openvpn_clientcert_commonname = "Private Company (CommonName)"
-  openvpn_clientcert_dns = ["localhost","openvpn","openvpn.golden.lab"]
+  openvpn_clientcert_commonname = "Private Company (green_subastion)"
+  openvpn_clientcert_dns = ["localhost","green.openvpn","green.openvpn.golden.lab"]
   openvpn_clientcert_ip = ["127.0.0.1", "172.16.1.102"]
 
 }
@@ -154,12 +154,12 @@ module "ec2_subastion_blue" {
 
   openvpn_network = "10.50.112.0"
   openvpn_netmask = "255.255.255.240"
-  openvpn_clientcert_nscomment = "Private Company - VPN Certificate"
+  openvpn_clientcert_nscomment = "Private Company - VPN Certificate (blue_subastion)"
   openvpn_clientcert_organization = "Private Company"
   openvpn_clientcert_location = "Toronto"
   openvpn_clientcert_state = "ON"
   openvpn_clientcert_country = "CA"
-  openvpn_clientcert_commonname = "Private Company (CommonName)"
-  openvpn_clientcert_dns = ["localhost","openvpn","openvpn.golden.lab"]
+  openvpn_clientcert_commonname = "Private Company (blue_subastion)"
+  openvpn_clientcert_dns = ["localhost","blue.openvpn","blue.openvpn.golden.lab"]
   openvpn_clientcert_ip = ["127.0.0.1", "172.16.1.102"]
 }
