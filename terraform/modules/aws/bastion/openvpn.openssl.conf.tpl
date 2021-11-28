@@ -34,12 +34,12 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 
 [ server_cert ]
 basicConstraints = CA:FALSE
-nsCertType = server
+nsCertType = client
 nsComment = ${openvpn_clientcert_nscomment}
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
-keyUsage = critical, digitalSignature, keyEncipherment
-extendedKeyUsage = serverAuth
+keyUsage = digitalSignature, keyAgreement, critical, keyEncipherment
+extendedKeyUsage = clientAuth
 subjectAltName = @alt_names
 
 [ policy_loose ]

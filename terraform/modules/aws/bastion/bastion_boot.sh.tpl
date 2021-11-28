@@ -38,8 +38,11 @@ chmod 600 /etc/openvpn/server.conf
 # do
 # done
 
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/vault/vault.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/vault/vault.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
+# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
 # scp -i $SUBASTION_GREEN_KEYFILE /etc/ssl/certs/aws_bluegreen.ca.ica.pem ubuntu@$SUBASTION_GREEN_IP:~/ca.cert.pem
 # scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/dh.2048.pem ubuntu@$SUBASTION_GREEN_IP:~/dh2048.pem
 # scp -i $SUBASTION_GREEN_KEYFILE ./pfs.key.pem ubuntu@$SUBASTION_GREEN_IP:~/pfs.key.pem
+
+#sudo iptables -t nat -A POSTROUTING -s 10.50.48.0/20 -o eth0 -j MASQUERADE
+#sudo echo 1 > /proc/sys/net/ipv4/ip_forward
