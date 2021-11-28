@@ -23,6 +23,7 @@ aws-bluegreen-destroy() {
   rm -fr $ENVDIR/../../../docker/vault/volumes/file/*
   rm -fr $ENVDIR/../../../docker/vault/volumes/log/*
   rm -fr $ENVDIR/../../../terraform/modules/openssl && git checkout $ENVDIR/../../../terraform/modules/openssl
+  rm -fr $ENVDIR/../../../terraform/modules/aws && git checkout $ENVDIR/../../../terraform/modules/aws
   
   unset VAULT_TOKEN
   unset VAULT_ADDR
