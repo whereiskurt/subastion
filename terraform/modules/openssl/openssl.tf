@@ -49,7 +49,7 @@ resource "null_resource" "make_dh2048" {
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT
-      openssl dhparam -out $DH_ENTROPY_FILE 2048
+      [[ -f $DH_ENTROPY_FILE ]] || openssl dhparam -out $DH_ENTROPY_FILE 2048
     EOT
   }
 }
