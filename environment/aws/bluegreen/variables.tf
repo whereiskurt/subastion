@@ -46,7 +46,6 @@ variable "openssl_env" {
     ICA_TPL = "../../../terraform/modules/openssl/ica/ica.openssl.tpl"
     ICA_DIR= "../../../terraform/modules/openssl/ica/"
     
-
     CA_KEY_FILE = "../../../terraform/modules/openssl/ca/ca.key.pem"    
     CA_CERT_FILE = "../../../terraform/modules/openssl/ca/ca.cert.pem"
 
