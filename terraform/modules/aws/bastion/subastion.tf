@@ -105,7 +105,7 @@ resource "local_file" "openssl_openvpn_conf" {
     openvpn_clientcert_nscomment =  var.openvpn_clientcert_nscomment 
   })
 
-  filename = var.openssl_env.VAULT_CONF
+  filename = var.openssl_env.OPENVPN_CONF
 }
 
 resource "null_resource" "makecert_openvpn" {
