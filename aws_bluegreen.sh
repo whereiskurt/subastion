@@ -1,7 +1,7 @@
 #!/bin/bash
 export ENVDIR=`pwd`/environment/aws/bluegreen
 
-aws-bluegreen-init() {
+prod-bluegreen-init() {
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
 
@@ -15,7 +15,7 @@ aws-bluegreen-init() {
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
-aws-bluegreen-destroy() {
+prod-bluegreen-destroy() {
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
 
   docker kill vault
@@ -31,17 +31,38 @@ aws-bluegreen-destroy() {
   unset SUBASTION_GREEN_IP
   unset SUBASTION_BLUE_KEYFILE
   unset SUBASTION_BLUE_IP
+
+  unset ssh-prod-green-subastion
+  unset openvpn-prod-green-subastion
+  unset ssh-prod-blue-subastion
+  unset openvpn-prod-blue-subastion
 }
 
-ssh-aws-green-subastion () { 
+ssh-prod-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
 }
 
-ssh-aws-blue-subastion () { 
+openvpn-prod-green-subastion () { 
+  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/
+  chmod 600 ~/.ssh/prod_green_subastion.ovpn
+  nohup openvpn ~/.ssh/prod_green_subastion.ovpn &
+}
+
+ssh-prod-blue-subastion () { 
   ssh -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP
 }
 
-export -f aws-bluegreen-init
-export -f aws-bluegreen-destroy
-export -f ssh-aws-green-subastion
-export -f ssh-aws-blue-subastion
+openvpn-prod-blue-subastion () { 
+  scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/
+  chmod 600 ~/.ssh/prod_blue_subastion.ovpn
+  nohup openvpn ~/.ssh/prod_blue_subastion.ovpn &
+}
+
+export -f prod-bluegreen-init
+export -f prod-bluegreen-destroy
+
+export -f ssh-prod-green-subastion
+export -f openvpn-prod-green-subastion
+
+export -f ssh-prod-blue-subastion
+export -f openvpn-prod-blue-subastion
