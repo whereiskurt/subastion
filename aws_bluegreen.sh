@@ -8,10 +8,10 @@ aws-bluegreen-init() {
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
 
-  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
+  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/aws_green_subastion_ec2
   export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2)
   
-  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
+  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/aws_blue_subastion_ec2
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
