@@ -87,7 +87,7 @@ cat /etc/openvpn/client/client.conf \
     <(echo -e '</cert>\n<key>') \
     /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
     <(echo -e '</key>\n<tls-crypt>') \
-    /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
+    /etc/openvpn/keys/pfs.key.pem \
     <(echo -e '</tls-crypt>') \
     > /home/ubuntu/openvpn/${name}.ovpn
 
