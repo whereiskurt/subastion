@@ -13,6 +13,10 @@ variable vpc_cidr {
   default = "10.50.0.0/16"
 }
 
+variable openvpn_port {
+  type=string
+}
+
 #############################################
 ##Address space layout:
 ##

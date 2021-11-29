@@ -43,6 +43,7 @@ module "vpc" {
   source = "../../../terraform/modules/aws/vpc"
   aws_build_tags = var.aws_build_tags
   vpc_cidr = "10.50.0.0/16"
+  openvpn_port = "11194"
 }
 
 module "nat_green" {

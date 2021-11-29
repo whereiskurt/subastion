@@ -27,8 +27,8 @@ resource "aws_security_group" "subastion_public" {
     },
     {
       description      = "OpenVPN port to VPC "
-      from_port        = 11194
-      to_port          = 11194
+      from_port        = var.openvpn_port
+      to_port          = var.openvpn_port
       protocol         = "udp"
       cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = []
@@ -50,5 +50,5 @@ resource "aws_security_group" "subastion_public" {
       security_groups=[]
     }
   ]
-  tags = merge(var.aws_build_tags, {Name = "subastion_public"})
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_subastion_public"})
 }
