@@ -58,28 +58,5 @@ variable "openssl_env" {
     VAULT_KEY_FILE = "../../../terraform/modules/aws/vault/vault.key.pem"
     VAULT_CSR_FILE = "../../../terraform/modules/aws/vault/vault.csr.pem"
     VAULT_CERT_FILE = "../../../terraform/modules/aws/vault/vault.cert.pem"
-
-    OPENVPN_DIR = "../../../terraform/modules/aws/bastion/"
-    OPENVPN_TPL = "../../../terraform/modules/aws/bastion/openvpn.openssl.conf.tpl"
-  }
-}
-
-variable "openssl_green_env" {
-  type = map
-  default = {
-    OPENVPN_CONF = "../../../terraform/modules/aws/bastion/openvpn.green.openssl.conf"
-    OPENVPN_KEY_FILE = "../../../terraform/modules/aws/bastion/openvpn.green.key.pem"
-    OPENVPN_CSR_FILE = "../../../terraform/modules/aws/bastion/openvpn.green.csr.pem"
-    OPENVPN_CERT_FILE = "../../../terraform/modules/aws/bastion/openvpn.green.cert.pem"
-  }
-}
-
-variable "openssl_blue_env" {
-  type = map
-  default = {
-    OPENVPN_CONF = "../../../terraform/modules/aws/bastion/openvpn.blue.openssl.conf"
-    OPENVPN_KEY_FILE = "../../../terraform/modules/aws/bastion/openvpn.blue.key.pem"
-    OPENVPN_CSR_FILE = "../../../terraform/modules/aws/bastion/openvpn.blue.csr.pem"
-    OPENVPN_CERT_FILE = "../../../terraform/modules/aws/bastion/openvpn.blue.cert.pem"
   }
 }

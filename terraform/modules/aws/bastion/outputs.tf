@@ -11,5 +11,8 @@ data "template_file" "bastion_boot" {
     openvpn_netmask = var.openvpn_netmask
     openvpn_server_name = aws_eip.subastion.public_ip
     openvpn_server_port= var.openvpn_hostport
+    openvpn_cidr= var.openvpn_cidr
+    
   }
+
 }

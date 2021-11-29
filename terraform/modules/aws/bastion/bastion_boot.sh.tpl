@@ -1,7 +1,7 @@
 #!/bin/bash
 
-sudo apt update
-sudo apt install -y openvpn easy-rsa
+apt update
+apt install -y openvpn easy-rsa
 
 [[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
@@ -84,5 +84,5 @@ chown -R ubuntu:ubuntu /home/ubuntu/openvpn/
 
 tar zcf /home/ubuntu/openvpn-client.tgz /home/ubuntu/openvpn/*
 
-#sudo iptables -t nat -A POSTROUTING -s 10.50.48.0/20 -o eth0 -j MASQUERADE
-#sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -s ${openvpn_cidr} -o eth0 -j MASQUERADE
+echo 1 > /proc/sys/net/ipv4/ip_forward
