@@ -3,6 +3,19 @@
 sudo apt update
 sudo apt install -y openvpn easy-rsa
 
+openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
+chmod 600 /etc/openvpn/keys/pfs.key.pem
+
+export EASYRSA_BATCH=1
+make-cadir /etc/openvpn/easy_ca/
+cd /etc/openvpn/easy_ca/ 
+./easyrsa init-pki
+./easyrsa build-ca nopass
+./easyrsa gen-dh
+./easyrsa build-server-full openvpn-server nopass
+./easyrsa build-client-full openvpn-client nopass
+
+
 [[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
 
@@ -31,17 +44,7 @@ verb 6
 tls-server
 tls-auth /etc/openvpn/keys/pfs.key.pem
 EOT
-
 chmod 600 /etc/openvpn/server/server.conf 
-
-export EASYRSA_BATCH=1
-make-cadir /etc/openvpn/easy_ca/
-cd /etc/openvpn/easy_ca/ 
-./easyrsa init-pki
-./easyrsa build-ca nopass
-./easyrsa gen-dh
-./easyrsa build-server-full openvpn-server nopass
-./easyrsa build-client-full openvpn-client nopass
 
 cat > /etc/openvpn/client/client.conf <<EOT
 client
@@ -66,8 +69,7 @@ verb 6
 tls-client
 tls-auth pfs.key.pem
 EOT
-
-openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
+chmod 600 /etc/openvpn/client/client.conf 
 
 mkdir /home/ubuntu/openvpn/
 chown ubuntu:ubuntu /home/ubuntu/openvpn/
@@ -80,15 +82,9 @@ cp /etc/openvpn/keys/pfs.key.pem \
    /etc/openvpn/client/client.conf \
    /home/ubuntu/openvpn/
 
-chown -R ubuntu:ubuntu /home/ubuntu/openvpn/*
+chown -R ubuntu:ubuntu /home/ubuntu/openvpn/
 
-
-
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.cert.pem ubuntu@$SUBASTION_GREEN_IP:~/server.cert.pem
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/aws/bastion/openvpn.green.key.pem ubuntu@$SUBASTION_GREEN_IP:~/server.key.pem
-# scp -i $SUBASTION_GREEN_KEYFILE /etc/ssl/certs/aws_bluegreen.ca.ica.pem ubuntu@$SUBASTION_GREEN_IP:~/ca.cert.pem
-# scp -i $SUBASTION_GREEN_KEYFILE ./terraform/modules/openssl/dh.2048.pem ubuntu@$SUBASTION_GREEN_IP:~/dh2048.pem
-# scp -i $SUBASTION_GREEN_KEYFILE ./pfs.key.pem ubuntu@$SUBASTION_GREEN_IP:~/pfs.key.pem
+tar zcf /home/ubuntu/openvpn-client.tgz /home/ubuntu/openvpn/*
 
 #sudo iptables -t nat -A POSTROUTING -s 10.50.48.0/20 -o eth0 -j MASQUERADE
 #sudo echo 1 > /proc/sys/net/ipv4/ip_forward
