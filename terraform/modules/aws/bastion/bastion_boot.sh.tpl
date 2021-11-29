@@ -80,9 +80,14 @@ cp /etc/openvpn/keys/pfs.key.pem \
    /etc/openvpn/client/client.conf \
    /home/ubuntu/openvpn/
 
-chown -R ubuntu:ubuntu /home/ubuntu/openvpn/
 
-tar zcf /home/ubuntu/openvpn-client.tgz /home/ubuntu/openvpn/*
+tar zcf /home/ubuntu/openvpn-client.tgz -C /home/ubuntu/openvpn/ .
+
+chown -R ubuntu:ubuntu /home/ubuntu/openvpn/
+chown -R ubuntu:ubuntu /home/ubuntu/openvpn-client.tgz
 
 iptables -t nat -A POSTROUTING -s ${openvpn_cidr} -o eth0 -j MASQUERADE
 echo 1 > /proc/sys/net/ipv4/ip_forward
+
+echo net.ipv4.ip_forward = 1 >> /etc/sysctl.d/99-sysctl.conf
+iptables-save > /etc/iptables.rules
