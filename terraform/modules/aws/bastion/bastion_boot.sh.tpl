@@ -38,7 +38,7 @@ persist-key
 persist-tun
 status openvpn-status.log
 log-append  openvpn.log
-verb 6
+verb 2
 tls-server
 tls-auth /etc/openvpn/keys/pfs.key.pem
 EOT
@@ -63,14 +63,13 @@ persist-key
 persist-tun
 ns-cert-type server
 comp-lzo
-verb 6
+verb 2
 tls-client
 tls-auth pfs.key.pem
 EOT
 chmod 600 /etc/openvpn/client/client.conf 
 
 mkdir /home/ubuntu/openvpn/
-chown ubuntu:ubuntu /home/ubuntu/openvpn/
 chmod 700 /home/ubuntu/openvpn/
 
 cp /etc/openvpn/keys/pfs.key.pem \
@@ -80,6 +79,17 @@ cp /etc/openvpn/keys/pfs.key.pem \
    /etc/openvpn/client/client.conf \
    /home/ubuntu/openvpn/
 
+cat /etc/openvpn/client/client.conf \
+    <(echo -e '<ca>') \
+    /etc/openvpn/easy_ca/pki/ca.crt \
+    <(echo -e '</ca>\n<cert>') \
+    /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt \
+    <(echo -e '</cert>\n<key>') \
+    /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
+    <(echo -e '</key>\n<tls-crypt>') \
+    /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
+    <(echo -e '</tls-crypt>') \
+    > /home/ubuntu/openvpn/${name}.ovpn
 
 tar zcf /home/ubuntu/openvpn-client.tgz -C /home/ubuntu/openvpn/ .
 
