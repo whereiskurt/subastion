@@ -3,6 +3,8 @@
 sudo apt update
 sudo apt install -y openvpn easy-rsa
 
+[[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
+chmod 700 /etc/openvpn/keys/         
 openvpn --genkey --secret /etc/openvpn/keys/pfs.key.pem
 chmod 600 /etc/openvpn/keys/pfs.key.pem
 
@@ -14,10 +16,6 @@ cd /etc/openvpn/easy_ca/
 ./easyrsa gen-dh
 ./easyrsa build-server-full openvpn-server nopass
 ./easyrsa build-client-full openvpn-client nopass
-
-
-[[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
-chmod 700 /etc/openvpn/keys/         
 
 cat > /etc/openvpn/server/server.conf <<EOT
 port 11194
