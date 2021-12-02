@@ -2,7 +2,7 @@
 export ENVDIR=`pwd`/environment/aws/bluegreen
 
 build-prod-bluegreen() {
-  mkdir log > /dev/null 2&1>
+  mkdir log > /dev/null 2>&1
 
   terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1 
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tf.log 2>&1
@@ -18,7 +18,7 @@ build-prod-bluegreen() {
 }
 
 destroy-prod-bluegreen() {
-  mkdir log > /dev/null 2&1>
+  mkdir log > /dev/null 2>&1
   
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tf.log 2>&1
 
