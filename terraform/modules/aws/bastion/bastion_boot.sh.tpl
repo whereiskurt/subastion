@@ -101,3 +101,5 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 echo net.ipv4.ip_forward = 1 >> /etc/sysctl.d/99-sysctl.conf
 iptables-save > /etc/iptables.rules
+
+nohup openvpn /etc/openvpn/server/server.conf > ~/nohup.${name}.out &
