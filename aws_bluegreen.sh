@@ -1,9 +1,11 @@
 #!/bin/bash
 export ENVDIR=`pwd`/environment/aws/bluegreen
 
-prod-bluegreen-init() {
-  terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1
-  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
+build-prod-bluegreen() {
+  mkdir log > /dev/null 2&1>
+
+  terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1 
+  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tf.log 2>&1
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
@@ -15,8 +17,10 @@ prod-bluegreen-init() {
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 }
 
-prod-bluegreen-destroy() {
-  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee aws_bluegreen.tf.log 2>&1
+destroy-prod-bluegreen() {
+  mkdir log > /dev/null 2&1>
+  
+  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tf.log 2>&1
 
   docker kill vault
   docker rm vault
@@ -61,8 +65,8 @@ openvpn-prod-blue-subastion () {
   nohup openvpn ~/.ssh/prod_blue_subastion.ovpn &
 }
 
-export -f prod-bluegreen-init
-export -f prod-bluegreen-destroy
+export -f build-prod-bluegreen
+export -f destroy-prod-bluegreen
 
 export -f ssh-prod-green-subastion
 export -f openvpn-prod-green-subastion
