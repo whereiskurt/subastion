@@ -4,7 +4,7 @@ export ENVDIR=`pwd`/environment/aws/bluegreen
 build-prod-bluegreen() {
   mkdir log > /dev/null 2>&1
 
-  terraform -chdir=$ENVDIR init  | tee subastion.tfinit.log 2>&1 
+  terraform -chdir=$ENVDIR init  | tee log/subastion.tfinit.log 2>&1 
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tf.log 2>&1
 
   export VAULT_ADDR=https://localhost:8200

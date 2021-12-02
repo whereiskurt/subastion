@@ -86,9 +86,9 @@ cat /etc/openvpn/client/client.conf \
     /etc/openvpn/easy_ca/pki/issued/openvpn-client.crt \
     <(echo -e '</cert>\n<key>') \
     /etc/openvpn/easy_ca/pki/private/openvpn-client.key \
-    <(echo -e '</key>\n<tls-crypt>') \
+    <(echo -e '</key>\n<tls-auth>') \
     /etc/openvpn/keys/pfs.key.pem \
-    <(echo -e '</tls-crypt>') \
+    <(echo -e '</tls-auth>') \
     > /home/ubuntu/openvpn/${name}.ovpn
 
 tar zcf /home/ubuntu/openvpn-client.tgz -C /home/ubuntu/openvpn/ .
