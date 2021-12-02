@@ -47,12 +47,9 @@ ssh-prod-green-subastion () {
 }
 
 openvpn-prod-green-subastion () { 
-  #scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn .
-  #scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/pfs.key.pem .
-  scp -r -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/ .
-  
-  #chmod 600 ~/.ssh/prod_green_subastion.ovpn
-  #nohup openvpn ~/.ssh/prod_green_subastion.ovpn &
+  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/.
+  chmod 600 ~/.ssh/prod_green_subastion.ovpn
+  nohup openvpn ~/.ssh/prod_green_subastion.ovpn &
 }
 
 ssh-prod-blue-subastion () { 

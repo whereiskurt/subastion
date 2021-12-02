@@ -63,7 +63,7 @@ persist-key
 persist-tun
 ns-cert-type server
 comp-lzo
-verb 2
+verb 0
 tls-client
 tls-auth pfs.key.pem
 EOT
