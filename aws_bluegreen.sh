@@ -49,7 +49,7 @@ ssh-prod-green-subastion () {
 openvpn-prod-green-subastion () { 
   scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/.
   chmod 600 ~/.ssh/prod_green_subastion.ovpn
-  nohup openvpn ~/.ssh/prod_green_subastion.ovpn &
+  nohup openvpn ~/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out &
 }
 
 ssh-prod-blue-subastion () { 
@@ -59,7 +59,7 @@ ssh-prod-blue-subastion () {
 openvpn-prod-blue-subastion () { 
   scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/
   chmod 600 ~/.ssh/prod_blue_subastion.ovpn
-  nohup openvpn ~/.ssh/prod_blue_subastion.ovpn &
+  nohup openvpn ~/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out &
 }
 
 export -f build-prod-bluegreen
