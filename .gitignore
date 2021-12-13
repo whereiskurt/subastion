@@ -1,0 +1,10 @@
+**/*.pem
+**/*.pfx
+**/terraform.tfstate*
+**/.terraform*
+vault.secrets*
+*.log
+*.key
+*.token
+*.secret
+*.env
