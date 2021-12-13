@@ -3,7 +3,7 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
-Calling `build-aws-bluegreen` will 1) securely configures a local HashiCorp `vault` instance inside of a local Docker container unsealed by AWS KMS and 2) creates AWS an VPC including network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
+Calling `build-aws-bluegreen` (shown above) will being to 1) securely configures a local HashiCorp `vault` instance inside of a local Docker container unsealed by AWS KMS and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
 
 ![ssh-prod-green-subastion demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.gif)
 
@@ -62,7 +62,7 @@ This project currently does not create/delete the AWS KMS key. Create an AWS KMS
 
 **TODO**: INSERT GIF of key creation
 
-The default configuration uses an `aws_profile` named 'bootstrap' from the `$HOME/.aws/credentials` (this could be changed to word 'default' instead). This is what a `$HOME/.aws/credentials` file looks like with 'bootstrap' profile added:
+The default configuration uses an `aws_profile` named 'default' from the `$HOME/.aws/credentials` (this could be changed to word 'bootstrap' instead). This is what a `$HOME/.aws/credentials` file looks like with 'bootstrap' profile added:
 
 ```shell
 [default]

@@ -10,7 +10,7 @@ variable "aws_zones" {
 
 variable "aws_profile" {
   type = string
-  default = "bootstrap"
+  default = "default"
 }
 
 variable "aws_kms_key_alias" {
