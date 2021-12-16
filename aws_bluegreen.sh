@@ -9,7 +9,7 @@ openvpn-prod-green-subastion () {
   scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/.
   chmod 600 ~/.ssh/prod_green_subastion.ovpn
   OVPN=$HOME
-  sudo sh -c "nohup openvpn $HOME/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
+  sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $HOME/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
 }
 
 ssh-prod-blue-subastion () { 
@@ -20,7 +20,7 @@ openvpn-prod-blue-subastion () {
   scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/
   chmod 600 ~/.ssh/prod_blue_subastion.ovpn
   OVPN=$HOME
-  sudo sh -c "nohup openvpn $OVPN/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out 2>&1 &"
+  sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out 2>&1 &"
 }
 
 destroy-prod-bluegreen() {
