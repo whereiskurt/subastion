@@ -63,15 +63,23 @@ build-prod-bluegreen() {
   terraform -chdir=$ENVDIR init  | tee log/aws_bluegreen.tfinit.log 2>&1 
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tfapply.log 2>&1
 
+  export VAULT_ADDR=https://localhost:8200
+  export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
+  export VAULT_CACERT=$(pwd)/docker/vault/volumes/config/vault.cert.pem
+  export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
+  export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2) 
+  export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
+  export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
+
   cat << EOF > bluegreen.env
 #!/bin/bash
-export VAULT_ADDR=https://localhost:8200
-export VAULT_TOKEN=$(cat $ENVDIR/vaultadmin.token)
-export VAULT_CACERT=$(pwd)/docker/vault/volumes/config/vault.cert.pem
-export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
-export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2) 
-export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
-export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
+export VAULT_ADDR=$VAULT_ADDR
+export VAULT_TOKEN=$VALUT_TOKEN
+export VAULT_CACERT=$VALUT_CACERT
+export SUBASTION_GREEN_KEYFILE=$SUBASTION_GREEN_KEYFILE
+export SUBASTION_GREEN_IP=$SUBASTION_GREEN_IP
+export SUBASTION_BLUE_KEYFILE=$SUBASTION_BLUE_KEYFILE
+export SUBASTION_BLUE_IP=$SUBASTION_BLUE_IP
 EOF
   source bluegreen.env
 }
