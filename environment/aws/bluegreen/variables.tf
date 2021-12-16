@@ -27,7 +27,7 @@ variable "aws_kms_key_id" {
 ##Leaving this false prevents private/manage networks for getting out the Internet via outbound NAT.
 variable build_nat_gateway {
   type = bool
-  default = false
+  default = true
 }
 
 variable "vault_env" {

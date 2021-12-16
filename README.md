@@ -3,11 +3,11 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
-Calling `build-aws-bluegreen` (shown above) will being to 1) securely configures a local HashiCorp `vault` instance inside of a local Docker container unsealed by AWS KMS and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
+Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance inside of a local Docker container unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
 
 ![ssh-prod-green-subastion demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.gif)
 
-After `build-aws-bluegreen` you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
+After `build-aws-bluegreen` completes you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
 
 Destroying the environment is as easy as running `destroy-prod-bluegreen` (this does not delete the KMS key):
 ![destroy-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/destroy.gif)

@@ -54,7 +54,7 @@ resource "aws_default_network_acl" "default" {
     rule_no    = 133
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 32768
+    from_port  = 1024
     to_port    = 60999
   }
 
@@ -81,7 +81,7 @@ resource "aws_default_network_acl" "default" {
     rule_no    = 223
     action     = "allow"
     cidr_block = "0.0.0.0/0"
-    from_port  = 32768
+    from_port  = 1024
     to_port    = 60999
   }
 
