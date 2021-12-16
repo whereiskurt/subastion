@@ -49,9 +49,9 @@ client
 dev tun
 proto udp
 remote ${openvpn_server_name} ${openvpn_server_port}
-ca ca.crt
-cert openvpn-client.crt
-key openvpn-client.key
+;ca ca.crt
+;cert openvpn-client.crt
+;key openvpn-client.key
 tls-version-min 1.2
 tls-cipher TLS-ECDHE-RSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-ECDSA-WITH-AES-128-GCM-SHA256:TLS-ECDHE-RSA-WITH-AES-256-GCM-SHA384:TLS-DHE-RSA-WITH-AES-256-CBC-SHA256
 cipher AES-256-CBC
@@ -65,7 +65,7 @@ ns-cert-type server
 comp-lzo
 verb 0
 tls-client
-tls-auth pfs.key.pem
+;tls-auth pfs.key.pem
 EOT
 chmod 600 /etc/openvpn/client/client.conf 
 
