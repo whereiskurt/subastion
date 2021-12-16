@@ -96,6 +96,7 @@ tar zcf /home/ubuntu/openvpn-client.tgz -C /home/ubuntu/openvpn/ .
 chown -R ubuntu:ubuntu /home/ubuntu/openvpn/
 chown -R ubuntu:ubuntu /home/ubuntu/openvpn-client.tgz
 
+iptables -I FORWARD -j ACCEPT
 iptables -t nat -A POSTROUTING -s ${openvpn_cidr} -o eth0 -j MASQUERADE
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
