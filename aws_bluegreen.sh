@@ -71,6 +71,7 @@ build-prod-bluegreen() {
   export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2
   export SUBASTION_BLUE_IP=$(vault read -field=ip subastion/prod_blue_subastion_ec2)
 
+  ##This file can be sourced later reset the environment variables from ssh-prod* openvpn-prod*
   cat << EOF > bluegreen.env
 #!/bin/bash
 export VAULT_ADDR=$VAULT_ADDR
