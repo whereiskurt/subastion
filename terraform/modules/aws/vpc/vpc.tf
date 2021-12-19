@@ -102,14 +102,14 @@ resource "aws_default_network_acl" "default" {
     to_port    = var.openvpn_port
   } 
 
-  ##TODO: Figure out why this outbound rule is needed to support openvpn
+  ##These are the ephemeral ports for openvpn
   egress {
     protocol   = "udp"
     rule_no    = 246
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 0
-    to_port    = 0
+    to_port    = 65535
   } 
 
 }
