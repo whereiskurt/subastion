@@ -95,19 +95,11 @@ resource "aws_default_network_acl" "default" {
     from_port  = 53
     to_port    = 53
   }
-  egress {
-    protocol   = "udp"
-    rule_no    = 245
-    action     = "allow"
-    cidr_block = "0.0.0.0/0"
-    from_port  = var.openvpn_port
-    to_port    = var.openvpn_port
-  } 
 
   ##These are the ephemeral ports for openvpn
   egress {
     protocol   = "udp"
-    rule_no    = 246
+    rule_no    = 346
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 0
