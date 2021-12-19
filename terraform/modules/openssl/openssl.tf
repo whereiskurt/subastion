@@ -13,7 +13,7 @@ resource "null_resource" "makepfx_chain" {
 resource "local_file" "openssl_ca_conf" {
   file_permission = 0400
 
-  content = templatefile("${var.openssl_env.CA_TPL}", {
+  content = templatefile(var.openssl_env.CA_TPL, {
     ca_folder=var.openssl_env.CA_DIR
     ca_cert_country = var.ca_cert_country
     ca_cert_state = var.ca_cert_state 
