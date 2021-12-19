@@ -55,7 +55,7 @@ resource "aws_default_network_acl" "default" {
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 1024
-    to_port    = 60999
+    to_port    = 65535
   }
 
   egress {
@@ -76,13 +76,15 @@ resource "aws_default_network_acl" "default" {
   }
 
   ##These ephemereal ports allow EC2 instances have successful INGRES TCP connections
+  ##When a service on port 443/80 is connected to (src_port) the connection includes
+  ##dest_port in the emphereal range (16k-64k depending os etc. etc.)
   egress {
     protocol   = "tcp"
     rule_no    = 223
     action     = "allow"
     cidr_block = "0.0.0.0/0"
     from_port  = 1024
-    to_port    = 60999
+    to_port    = 65535
   }
 
   egress {
