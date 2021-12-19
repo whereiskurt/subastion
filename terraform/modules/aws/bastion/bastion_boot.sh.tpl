@@ -14,7 +14,21 @@ make-cadir /etc/openvpn/easy_ca/
 cd /etc/openvpn/easy_ca/ 
 ./easyrsa init-pki
 ./easyrsa build-ca nopass
-./easyrsa gen-dh
+
+##Reuse a DH param (not a secret)
+cat > /etc/openvpn/easy_ca/pki/dh.pem << EOT
+-----BEGIN DH PARAMETERS-----
+MIIBCAKCAQEAkGX+eZTOrPyPZmw0tCCXdQPSgSdaV0M6EwHS5A/LAxqL4/tw0tjL
+aLjst4Jte4JpOJzquWVOrgduoDAMXsMoETHS5dr9xwcUJN1stjboMDmGltcdCDar
+952WBc9sIzyxXdqzubS3lHuXVlDy3DApzHo67ksnIKualZtN6FBg4FUTtLAYFLgg
+I9wVG3q60mwZiCO9hc46RIv+7OgKEPVjEA0btmTz5n3GgqK+44CRfrAVa8pIIQHz
+bJhq+g0WyJHWVaep+UIYCgwAkINmxd9Vlpu1UvPX6RuKJJyiF40gDcMMBqJYZTh6
+tZ9ebF21DAW316HmjxJZeTs0t2/Rx+8OqwIBAg==
+-----END DH PARAMETERS-----
+EOT
+## Not a secret above - but added security uncomment the below.
+##./easyrsa gen-dh
+
 ./easyrsa build-server-full openvpn-server nopass
 ./easyrsa build-client-full openvpn-client nopass
 
