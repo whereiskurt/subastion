@@ -111,7 +111,7 @@ resource "null_resource" "vault_init" {
     environment = var.vault_env
     command = <<-EOT
       vault operator init | \
-        cut -d " " -f 4 | awk 'NF' | head --line -3  > $VAULT_SECRETS_FILE
+        cut -d " " -f 4 | awk 'NF' | head -n -3  > $VAULT_SECRETS_FILE
     EOT
   }
 }
