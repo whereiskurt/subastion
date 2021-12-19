@@ -1,4 +1,5 @@
 #!/bin/bash
+hostnamectl set-hostname ${name}
 
 apt update
 apt install -y openvpn easy-rsa
