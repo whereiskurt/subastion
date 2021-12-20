@@ -3,7 +3,7 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
-Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance inside of a local Docker container unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
+Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
 
 ![ssh-prod-green-subastion demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.gif)
 
@@ -18,12 +18,12 @@ Destroying the environment is as easy as running `destroy-prod-bluegreen` (this 
 # Requirements
 ## Packages
 The following packages are required to use this project:
-1) Linux :) and potentially `sudo` access if you want to create openvpn connections and/or clean-up secret files created by `vault` docker image
+1) Linux :) and potentially `sudo` access if you want to create openvpn connections
 1) HashiCorp `terraform` to build `vault`, `openssl` and AWS environment
-2) HashiCorp `vault` client to get secrets from `vault` docker container
-3) `docker` with `docker-compose` to run the local `vault` instance containerized
-4) `openssl` to create .x509 certs
+2) HashiCorp `vault` client+server to put/get secrets from the `vault` 
 5) `jq` to manipulate JSON outpus from `terraform`
+4) `openssl` to create .x509 certs
+3) `docker` if you want to run project in a container
 
 **NOTE**: TODO: Make this a Dockerfile!
 
@@ -140,8 +140,7 @@ module "ec2_subastion_blue" {
   ...
 }
 ```
-
-Using terraform modules
+### Description
 1. Create a new Virtual Private Cloud (VPC) called `prod` in the AWS Region `ca-central-1`.  This VPC will be referenced by other modules - for example the 
 2. Re-using the AWS subnet module:
     1. Create subnets `green-public`, `green-manage` and `green-private`, residing in an Availability Zone `ca-central-1a` (as per subnets)
