@@ -6,9 +6,9 @@ ssh-prod-green-subastion () {
 }
 
 openvpn-prod-green-subastion () { 
-  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/.
-  chmod 600 ~/.ssh/prod_green_subastion.ovpn
-  OVPN=$HOME
+  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/ && \
+  chmod 600 ~/.ssh/prod_green_subastion.ovpn && \
+  OVPN=$HOME && \
   sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
 }
 
