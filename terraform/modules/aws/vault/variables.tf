@@ -72,7 +72,7 @@ variable "vault_env" {
   type = map
   default = {
     VAULT_ADDR = "https://localhost:18200"
-    VAULT_SECRETS_FILE = "../../../docker/vault/root.secret"
+    VAULT_SECRETS_FILE = "../../../terraform/modules/aws/vault/root.secret"
     DOCKER_HOST_PORT=8200
     DOCKER_CONTAINER_PORT=18200
   }

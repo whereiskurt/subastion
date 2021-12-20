@@ -6,9 +6,9 @@ ssh-prod-green-subastion () {
 }
 
 openvpn-prod-green-subastion () { 
-  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/.
-  chmod 600 ~/.ssh/prod_green_subastion.ovpn
-  OVPN=$HOME
+  scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/ && \
+  chmod 600 ~/.ssh/prod_green_subastion.ovpn && \
+  OVPN=$HOME && \
   sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
 }
 
@@ -17,9 +17,9 @@ ssh-prod-blue-subastion () {
 }
 
 openvpn-prod-blue-subastion () { 
-  scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/
-  chmod 600 ~/.ssh/prod_blue_subastion.ovpn
-  OVPN=$HOME
+  scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/ && \
+  chmod 600 ~/.ssh/prod_blue_subastion.ovpn && \
+  OVPN=$HOME && \
   sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out 2>&1 &"
 }
 
@@ -29,14 +29,12 @@ destroy-prod-bluegreen() {
   
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tfdestroy.log 2>&1
 
-  docker kill vault > /dev/null 2>&1
-  docker rm vault > /dev/null 2>&1
-  
+  pkill -f 'vault server -config=vault.json'
+    
   ##NOTE: vault docker container runs as root and outputs files as root.
-  echo "Removing files created by docker container..."
-  sudo rm -fr $ENVDIR/../../../docker/vault/volumes/file/*
-  sudo rm -fr $ENVDIR/../../../docker/vault/volumes/log/*
-
+  echo "Removing secrets created by docker container..."
+  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/secrets/*
+  
   ##Destroy the CA and issued certs
   echo "Resetting the CA and ICA..."
   rm -fr $ENVDIR/../../../terraform/modules/openssl/ica/index*
@@ -65,7 +63,7 @@ build-prod-bluegreen() {
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=`cat $ENVDIR/vaultadmin.token`
-  export VAULT_CACERT=`pwd`/docker/vault/volumes/config/vault.cert.pem
+  export VAULT_CACERT=`pwd`/terraform/modules/aws/vault/vault.cert.pem
   export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
   export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2) 
   export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2

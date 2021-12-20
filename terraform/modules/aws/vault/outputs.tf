@@ -1,5 +1,5 @@
 data "template_file" "vault_conf" {
-  template = "${file("../../../docker/vault/vault_config.tpl")}"
+  template = file("${path.module}/vault_config.tpl")
   vars = {  
     region        = var.aws_region
     access_key    = aws_iam_access_key.vault_root_access_key.id
@@ -10,10 +10,9 @@ data "template_file" "vault_conf" {
   }
 }
 
-data "template_file" "docker_compose_conf" {
-  template = "${file("../../../docker/vault/docker-compose.yml.tpl")}"
+data "template_file" "vault_systemd" {
+  template = file("${path.module}/vault.subastion.service.tpl")
   vars = {  
-    docker_container_port = var.vault_env.DOCKER_CONTAINER_PORT
-    docker_host_port = var.vault_env.DOCKER_HOST_PORT
+    working_dir   = abspath(path.module)
   }
 }
