@@ -29,12 +29,19 @@ destroy-prod-bluegreen() {
   
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tfdestroy.log 2>&1
 
+  rm -fr $ENVDIR/terraform.tfstate*
+  rm -fr $ENVDIR/.terraform.lock.hcl
+
   pkill -f 'vault server -config=vault.json'
     
   ##NOTE: vault docker container runs as root and outputs files as root.
   echo "Removing secrets created by docker container..."
   rm -fr $ENVDIR/../../../terraform/modules/aws/vault/secrets/*
-  
+  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/vault.*.pem
+  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/root.secret
+  rm -fr $ENVDIR/vaultadmin.token
+  rm -fr bluegreen.env
+
   ##Destroy the CA and issued certs
   echo "Resetting the CA and ICA..."
   rm -fr $ENVDIR/../../../terraform/modules/openssl/ica/index*

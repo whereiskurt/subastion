@@ -6,17 +6,13 @@
 #      --tag subastion:v1 \
 #      .
 
-# docker run \
-#      --privileged \
-#      --volume /var/run/docker.sock:/var/run/docker.sock \
-#      --tty --interactive --rm \
-#      subastion:v1
+# docker run --tty --interactive --rm subastion:v1
 
 # docker rmi subastion:v1
 
-FROM alpine:3.14
+FROM archlinux:base-20211212.0.41353
 
-RUN apk add --no-cache docker docker-compose jq openssl vault terraform git bash aws-cli sudo
+RUN pacman --noconfirm -Sy jq openssl vault terraform git bash aws-cli sudo
 
 ARG aws_access_key=changewithbuildarg
 ARG aws_secret_key=changewithbuildarg
@@ -36,7 +32,11 @@ ENV TF_VAR_aws_kms_key_alias=$aws_kms_alias
 ENV TF_VAR_aws_kms_key_id=$aws_kms_key_id
 ENV TF_VAR_build_nat_gateway=$aws_build_nat
 
+
+RUN useradd -m subastion
+USER subastion
+
+WORKDIR /home/subastion/
 RUN git clone https://github.com/whereiskurt/subastion 
-WORKDIR /subastion/
 
 ENTRYPOINT [ "/bin/bash" ]
