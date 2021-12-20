@@ -1,5 +1,5 @@
 # Overview
-This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity. (The long term goal is to support Azure and GCP providers, too!)
+This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
 
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
