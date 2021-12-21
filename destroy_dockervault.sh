@@ -3,6 +3,8 @@ export ENVDIR=`pwd`/environment/dockervault/
 echo "Resetting dockervault builds..."
 
 terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
+rm -fr $ENVDIR/terraform.tfstate*
+rm -fr $ENVDIR/.terraform.lock.hcl
 
 docker kill vault > /dev/null 2>&1
 docker rm vault > /dev/null 2>&1

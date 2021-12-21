@@ -32,27 +32,6 @@ destroy-prod-bluegreen() {
   rm -fr $ENVDIR/terraform.tfstate*
   rm -fr $ENVDIR/.terraform.lock.hcl
 
-  pkill -f 'vault server -config=vault.json'
-    
-  ##NOTE: vault docker container runs as root and outputs files as root.
-  echo "Removing secrets created by docker container..."
-  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/secrets/*
-  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/vault.*.pem
-  rm -fr $ENVDIR/../../../terraform/modules/aws/vault/root.secret
-  rm -fr $ENVDIR/vaultadmin.token
-  rm -fr bluegreen.env
-
-  ##Destroy the CA and issued certs
-  echo "Resetting the CA and ICA..."
-  rm -fr $ENVDIR/../../../terraform/modules/openssl/ica/index*
-  rm -fr $ENVDIR/../../../terraform/modules/openssl/ica/serial*
-  rm -fr $ENVDIR/../../../terraform/modules/openssl/ca/index*
-  rm -fr $ENVDIR/../../../terraform/modules/openssl/ca/serial*
-  
-  git checkout terraform/modules/openssl/ca > /dev/null 2>&1
-  git checkout terraform/modules/openssl/ica > /dev/null 2>&1 
-
-  git checkout $ENVDIR/../../../terraform/modules/openssl > /dev/null 2>&1
   echo "Use 'build-prod-bluegreen' to rebuild..."  
   echo "Done!"
 
@@ -73,7 +52,7 @@ build-prod-bluegreen() {
 
   export VAULT_ADDR=https://localhost:8200
   export VAULT_TOKEN=`cat $ENVDIR/vaultadmin.token`
-  export VAULT_CACERT=`pwd`/terraform/modules/aws/vault/vault.cert.pem
+  export VAULT_CACERT=`pwd`/terraform/modules/dockervault/vault.cert.pem
   export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
   export SUBASTION_GREEN_IP=$(vault read -field=ip subastion/prod_green_subastion_ec2) 
   export SUBASTION_BLUE_KEYFILE=$HOME/.ssh/prod_blue_subastion_ec2

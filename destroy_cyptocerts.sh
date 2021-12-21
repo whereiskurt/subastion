@@ -4,6 +4,9 @@ echo "Resetting the CA and ICA..."
 
 terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
 
+rm -fr $ENVDIR/terraform.tfstate*
+rm -fr $ENVDIR/.terraform.lock.hcl
+
 rm -fr $ENVDIR../../terraform/modules/openssl/ica/index*
 rm -fr $ENVDIR../../terraform/modules/openssl/ica/serial*
 rm -fr $ENVDIR../../terraform/modules/openssl/ica/*.pem

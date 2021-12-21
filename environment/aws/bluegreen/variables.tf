@@ -27,15 +27,15 @@ variable "aws_kms_key_id" {
 ##Leaving this false prevents private/manage networks for getting out the Internet via outbound NAT.
 variable build_nat_gateway {
   type = bool
-  default = false
+  default = true
 }
 
 variable "vault_env" {
   type = map
   default = {
     VAULT_ADDR = "https://localhost:8200"
-    VAULT_CACERT = "../../../terraform/modules/openssl/aws_bluegreen.ca.ica.pem"
-    VAULT_SECRETS_FILE = "../../../terraform/modules/aws/vault/root.secret"
+    VAULT_CACERT = "../../../terraform/modules/openssl/ca.ica.pem"
+    VAULT_SECRETS_FILE = "../../../terraform/modules/dockervault/root.secret"
     DOCKER_HOST_PORT=8200
     DOCKER_CONTAINER_PORT=8200
   }
@@ -70,10 +70,10 @@ variable "openssl_env" {
     CHAIN_PFX_FILE = "../../../terraform/modules/openssl/ca.ica.pfx"
     CHAIN_CERT_FILE = "../../../terraform/modules/openssl/aws_bluegreen.ca.ica.pem"
    
-    VAULT_TPL = "../../../terraform/modules/aws/vault/vault.openssl.conf.tpl"
-    VAULT_CONF = "../../../terraform/modules/aws/vault/vault.openssl.conf"
-    VAULT_KEY_FILE = "../../../terraform/modules/aws/vault/vault.key.pem"
-    VAULT_CSR_FILE = "../../../terraform/modules/aws/vault/vault.csr.pem"
-    VAULT_CERT_FILE = "../../../terraform/modules/aws/vault/vault.cert.pem"
+    VAULT_TPL = "../../../terraform/modules/dockervault/vault.openssl.conf.tpl"
+    VAULT_CONF = "../../../terraform/modules/dockervault/vault.openssl.conf"
+    VAULT_KEY_FILE = "../../../terraform/modules/dockervault/vault.key.pem"
+    VAULT_CSR_FILE = "../../../terraform/modules/dockervault/vault.csr.pem"
+    VAULT_CERT_FILE = "../../../terraform/modules/dockervault/vault.cert.pem"
   }
 }
