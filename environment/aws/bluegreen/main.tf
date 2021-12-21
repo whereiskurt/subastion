@@ -1,43 +1,43 @@
-module "openssl" {
-  source = "../../../terraform/modules/openssl"
-  openssl_env= var.openssl_env
-
-  ##Self-signed Certificate Authority 
-  ca_cert_commonname="Private Company (CA)"
-  ca_cert_organization="Private Company"
-  ca_cert_location="Toronto"
-  ca_cert_state="ON"
-  ca_cert_country="CA"
-
-  ##Intermediary-Certifiated Authority signed by CA (ie. self signed)
-  ica_cert_commonname="Private Company (ICA)"
-  ica_cert_organization="Private Company"
-  ica_cert_location="Toronto"
-  ica_cert_state="ON"
-  ica_cert_country="CA"
-}
-
-module "awsvault" {
-  depends_on=[module.openssl]
-  source = "../../../terraform/modules/aws/vault"
-  aws_build_tags = var.aws_build_tags
-  aws_region = var.aws_region
-  aws_kms_key_id = var.aws_kms_key_id
-  aws_kms_key_alias = var.aws_kms_key_alias
-
-  ##CA/ICA certificates/keys for signing vault certs
-  openssl_env=var.openssl_env
-  vault_env = var.vault_env
-
-  vault_cert_nscomment = "Private Company - Vault Certificate"
-  vault_cert_organization = "Private Company"
-  vault_cert_location = "Toronto"
-  vault_cert_state = "ON"
-  vault_cert_country = "CA"
-  vault_cert_commonname = "Private Company (CommonName)"
-  vault_cert_dns = ["localhost","vault","vault.golden.lab"]
-  vault_cert_ip = ["127.0.0.1", "192.168.1.229"]
-}
+# module "openssl" {
+#   source = "../../../terraform/modules/openssl"
+#   openssl_env= var.openssl_env
+#
+#   ##Self-signed Certificate Authority 
+#   ca_cert_commonname="Private Company (CA)"
+#   ca_cert_organization="Private Company"
+#   ca_cert_location="Toronto"
+#   ca_cert_state="ON"
+#   ca_cert_country="CA"
+#
+#   ##Intermediary-Certifiated Authority signed by CA (ie. self signed)
+#   ica_cert_commonname="Private Company (ICA)"
+#   ica_cert_organization="Private Company"
+#   ica_cert_location="Toronto"
+#   ica_cert_state="ON"
+#   ica_cert_country="CA"
+# }
+#
+# module "awsvault" {
+#   depends_on=[module.openssl]
+#   source = "../../../terraform/modules/aws/vault"
+#   aws_build_tags = var.aws_build_tags
+#   aws_region = var.aws_region
+#   aws_kms_key_id = var.aws_kms_key_id
+#   aws_kms_key_alias = var.aws_kms_key_alias
+#
+#   ##CA/ICA certificates/keys for signing vault certs
+#   openssl_env=var.openssl_env
+#   vault_env = var.vault_env
+#
+#   vault_cert_nscomment = "Private Company - Vault Certificate"
+#   vault_cert_organization = "Private Company"
+#   vault_cert_location = "Toronto"
+#   vault_cert_state = "ON"
+#   vault_cert_country = "CA"
+#   vault_cert_commonname = "Private Company (CommonName)"
+#   vault_cert_dns = ["localhost","vault","vault.golden.lab"]
+#   vault_cert_ip = ["127.0.0.1", "192.168.1.229"]
+# }
 
 module "vpc" {
   name="prod"

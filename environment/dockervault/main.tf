@@ -1,0 +1,20 @@
+module "awsvault" {
+  source = "../../terraform/modules/dockervault"
+  aws_build_tags = var.aws_build_tags
+  aws_region = var.aws_region
+  aws_kms_key_id = var.aws_kms_key_id
+  aws_kms_key_alias = var.aws_kms_key_alias
+
+  ##CA/ICA certificates/keys for signing vault certs
+  openssl_env=var.openssl_env
+  vault_env = var.vault_env
+
+  vault_cert_nscomment = "Private Company - Vault Certificate"
+  vault_cert_organization = "Private Company"
+  vault_cert_location = "Toronto"
+  vault_cert_state = "ON"
+  vault_cert_country = "CA"
+  vault_cert_commonname = "Private Company (CommonName)"
+  vault_cert_dns = ["localhost","vault","vault.golden.lab"]
+  vault_cert_ip = ["127.0.0.1", "192.168.1.229"]
+}

@@ -48,6 +48,9 @@ destroy-prod-bluegreen() {
   rm -fr $ENVDIR/../../../terraform/modules/openssl/ica/serial*
   rm -fr $ENVDIR/../../../terraform/modules/openssl/ca/index*
   rm -fr $ENVDIR/../../../terraform/modules/openssl/ca/serial*
+  
+  git checkout terraform/modules/openssl/ca > /dev/null 2>&1
+  git checkout terraform/modules/openssl/ica > /dev/null 2>&1 
 
   git checkout $ENVDIR/../../../terraform/modules/openssl > /dev/null 2>&1
   echo "Use 'build-prod-bluegreen' to rebuild..."  

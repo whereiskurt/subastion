@@ -54,6 +54,27 @@ resource "null_resource" "validate_certificates" {
   }
 }
 
+resource "local_file" "vault_key_file" {
+  depends_on = [null_resource.makecert_vault]
+  file_permission = 0400
+  source  = var.openssl_env.VAULT_KEY_FILE
+  filename = "../../../docker/vault/volumes/config/vault.key.pem"
+}
+
+resource "local_file" "vault_cert_file" {
+  depends_on = [null_resource.makecert_vault]
+  file_permission = 0444
+  source  = var.openssl_env.VAULT_CERT_FILE
+  filename = "../../../docker/vault/volumes/config/vault.cert.pem"
+}
+
+resource "local_file" "vault_config" {
+  depends_on = [local_file.vault_cert_file, local_file.vault_key_file]
+  file_permission = 0400
+  content  = data.template_file.vault_conf.rendered
+  filename = "../../../docker/vault/volumes/config/vault.json"
+}
+
 resource "null_resource" "wait_for_iam" {
   depends_on = [aws_iam_access_key.vault_root_access_key]
   provisioner "local-exec" {
@@ -61,48 +82,26 @@ resource "null_resource" "wait_for_iam" {
   }
 }
 
-resource "local_file" "vault_config" {
-  depends_on = [null_resource.makecert_vault]
+resource "local_file" "docker_compose_config" {
   file_permission = 0400
-  content  = data.template_file.vault_conf.rendered
-  filename = "${path.module}/vault.json"
-}
-
-resource "local_file" "vault_systemd" {
-  depends_on = [null_resource.makecert_vault]
-  file_permission = 0400
-  content  = data.template_file.vault_systemd.rendered
-  filename = "${path.module}/vault.subastion.service"
+  content  = data.template_file.docker_compose_conf.rendered
+  filename = "../../../docker/vault/docker-compose.yml"
 }
 
 
 resource "null_resource" "vault_start" {
-  depends_on = [local_file.vault_config, local_file.vault_systemd, null_resource.wait_for_iam]
+  depends_on = [local_file.vault_config, null_resource.wait_for_iam, local_file.docker_compose_config]
   provisioner "local-exec" {
-    working_dir = "${path.module}"
     command = <<-EOT
-    mkdir -p $HOME/.config/systemd/user/ && \
-    cp vault.subastion.service $HOME/.config/systemd/user/ && \
-    systemctl --user enable vault.subastion && \
-    systemctl --user start vault.subastion
-EOT
-  }
-
-  provisioner "local-exec" {
-    when = destroy
-    working_dir = "${path.module}"
-    command = <<-EOT
-    systemctl --user stop vault.subastion && \
-    systemctl --user disable vault.subastion && \
-    rm $HOME/.config/systemd/user/vault.subastion.service
-EOT
+      cd ../../../docker/vault/ && docker-compose up -d
+    EOT
   }
 }
 
 resource "null_resource" "wait_for_vault" {
   depends_on = [null_resource.vault_start]
   provisioner "local-exec" {
-    command = "sleep 1"
+    command = "sleep 5"
   }
 }
 

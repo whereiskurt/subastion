@@ -9,15 +9,15 @@
     },
     "backend": {
         "file": {
-            "path": "secrets"
+            "path": "/vault/file"
         }
     },
     "listener": {
         "tcp": {
             "address": "0.0.0.0:${docker_container_port}",
             "tls_disable": 0,
-            "tls_cert_file": "vault.cert.pem",
-            "tls_key_file": "vault.key.pem"
+            "tls_cert_file": "/vault/config/vault.cert.pem",
+            "tls_key_file": "/vault/config/vault.key.pem"
         }
     },
     "ui": true
