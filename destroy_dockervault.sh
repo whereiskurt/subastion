@@ -6,8 +6,8 @@ terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.t
 rm -fr $ENVDIR/terraform.tfstate*
 rm -fr $ENVDIR/.terraform.lock.hcl
 
-docker kill vault > /dev/null 2>&1
-docker rm vault > /dev/null 2>&1
+docker kill vaultsubastion > /dev/null 2>&1
+docker rm vaultsubastion > /dev/null 2>&1
 
 rm -fr $ENVDIR../../terraform/modules/dockervault/*.pem
 rm -fr $ENVDIR../../terraform/modules/dockervault/root.secret

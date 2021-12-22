@@ -2,7 +2,7 @@ version: '2'
 services:
   vault:
     image: vault
-    container_name: vault
+    container_name: vaultsubastion
     ports:
       - "${docker_container_port}:${docker_host_port}"
     restart: always
@@ -13,3 +13,7 @@ services:
     cap_add:
       - IPC_LOCK
     entrypoint: vault server -config=/vault/config/vault.json
+
+networks:
+  default:
+    name: subastion

@@ -15,6 +15,6 @@ module "awsvault" {
   vault_cert_state = "ON"
   vault_cert_country = "CA"
   vault_cert_commonname = "Private Company (CommonName)"
-  vault_cert_dns = ["localhost","vault","vault.golden.lab"]
+  vault_cert_dns = ["localhost","vault","vaultsubastion"]
   vault_cert_ip = ["127.0.0.1", "192.168.1.229"]
 }
