@@ -1,0 +1,26 @@
+version: '2'
+services:
+  subastion:
+    build:
+      context: .
+      dockerfile: Dockerfile.subastion
+      args:
+        aws_access_key: changewithbuildarg
+        aws_secret_key: changewithbuildarg
+        aws_kms_key_id: changewithbuildarg
+        aws_kms_alias: "orchestration"
+        aws_region: "ca-central-1"
+        aws_zones: '["ca-central-1a", "ca-central-1b"]'
+        aws_build_nat: "false"
+        vault_addr: "https://vault:8200"
+        vault_cacert_file: terraform/modules/dockervault/vault.cert.pem
+    cap_add:
+      - IPC_LOCK
+    stdin_open: true 
+    tty: true        
+
+networks:
+  default:
+    name: subastion
+
+#docker-compose build --build-arg aws_access_key=AKIAXAKHUY4UVFDXGKML   --build-arg aws_secret_key=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   --build-arg aws_kms_key_id=edac385f-c393-4e9c-aab7-808e1bc3c899   --build-arg aws_kms_alias=orchestration

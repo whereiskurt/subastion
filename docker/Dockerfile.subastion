@@ -9,7 +9,7 @@
 #      .
 #
 # docker rmi $(docker images -f "dangling=true" -q)
-#
+# 
 # docker run --tty --interactive --rm subastion:v1
 #
 # docker rmi subastion:v1
@@ -31,7 +31,7 @@ ARG aws_zones='["ca-central-1a", "ca-central-1b"]'
 ARG aws_build_nat="false"
 
 ARG vault_addr="https://vault:8200"
-ARG vault_cacert_file=terraform/modules/dockervault/vault.cert.pem
+ARG vault_cacert_file=../terraform/modules/dockervault/vault.cert.pem
 
 ENV AWS_ACCESS_KEY_ID=$aws_access_key \
     AWS_SECRET_ACCESS_KEY=$aws_secret_key \

@@ -9,10 +9,10 @@ rm -fr $ENVDIR/.terraform.lock.hcl
 docker kill vaultsubastion > /dev/null 2>&1
 docker rm vaultsubastion > /dev/null 2>&1
 
-rm -fr $ENVDIR../../terraform/modules/dockervault/*.pem
-rm -fr $ENVDIR../../terraform/modules/dockervault/root.secret
+rm -fr terraform/modules/dockervault/*.pem
+rm -fr terraform/modules/dockervault/root.secret
   
 ##NOTE: vault docker container runs as root and outputs files as root.
 echo "Removing files created by docker container..."
-sudo rm -fr $ENVDIR/../../../docker/vault/volumes/file/*
-sudo rm -fr $ENVDIR/../../../docker/vault/volumes/log/*
+sudo rm -fr docker/vault/volumes/file/*
+sudo rm -fr docker/vault/volumes/log/*
