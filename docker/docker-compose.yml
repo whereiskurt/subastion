@@ -22,5 +22,3 @@ services:
 networks:
   default:
     name: subastion
-
-#docker-compose build --build-arg aws_access_key=AKIAXAKHUY4UVFDXGKML   --build-arg aws_secret_key=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   --build-arg aws_kms_key_id=edac385f-c393-4e9c-aab7-808e1bc3c899   --build-arg aws_kms_alias=orchestration
