@@ -33,8 +33,12 @@ RUN git clone -b vault_nosystemd_docker_hostnetwork --single-branch https://gith
 
 COPY ${vault_cacert_file} /home/subastion/
 COPY vault.cert.pem /home/subastion/terraform/modules/dockervault/vault.cert.pem
+
 COPY ca.ica.pem /home/subastion/terraform/modules/dockervault/ca.ica.pem
 COPY ca.ica.pem /home/subastion/terraform/modules/openssl/ca.ica.pem
+COPY ca.ica.pem /home/subastion/ca.ica.pem
+
 COPY vaultadmin.token /home/subastion/environment/aws/bluegreen/
 
+RUN vault login - < /home/subastion/environment/aws/bluegreen/vaultadmin.token
 ENTRYPOINT [ "/bin/bash" ]
