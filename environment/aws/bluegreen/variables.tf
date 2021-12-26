@@ -32,7 +32,7 @@ variable build_nat_gateway {
 variable "vault_env" {
   type = map
   default = {
-    VAULT_ADDR = "https://localhost:8200"
+    VAULT_ADDR = "https://vaultsubastion:8200"
     VAULT_CACERT = "../../../terraform/modules/openssl/ca.ica.pem"
     DOCKER_HOST_PORT=8200
     DOCKER_CONTAINER_PORT=8200
