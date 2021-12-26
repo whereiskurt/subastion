@@ -40,5 +40,4 @@ COPY ca.ica.pem /home/subastion/ca.ica.pem
 
 COPY vaultadmin.token /home/subastion/environment/aws/bluegreen/
 
-RUN vault login - < /home/subastion/environment/aws/bluegreen/vaultadmin.token
 ENTRYPOINT [ "/bin/bash" ]
