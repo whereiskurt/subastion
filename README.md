@@ -157,3 +157,4 @@ module "ec2_subastion_blue" {
 
 - Move module outputs of PEM files from terraform/modules to the environment/ area
 - All module outputs to the environment folder!
+- In the destroy from aws_bluegreen remove the green/blue subastion keys from vault
