@@ -7,6 +7,14 @@ variable name {
   type = string
 }
 
+variable "vault_env" {
+  type = map
+  default = {
+    VAULT_ADDR = "https://vaultsubastion:8200"
+    VAULT_CACERT = "../../../terraform/modules/openssl/ca.ica.pem"
+  }
+}
+
 
 variable openvpn_network {
   type=string
