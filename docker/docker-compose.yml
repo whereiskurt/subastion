@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   subastion:
     image: subastion:v1
@@ -6,17 +6,18 @@ services:
       context: .
       dockerfile: Dockerfile.subastion
       args:
-        aws_access_key_id: ${AWS_ACCESS_KEY_ID:?You must provide the AWS_ACCESS_KEY_ID in an environment variable or build arg.}
-        aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY:?You must provide the AWS_SECRET_ACCESS_KEY in an environment variable or build arg.}
-        aws_kms_key_id: ${AWS_KMS_KEY_ID:?You must provide the AWS_KMS_KEY_ID in an environment variable or build arg.}
-        aws_kms_alias: ${AWS_KMS_ALIAS:-orchestration}
+        aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+        aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        aws_kms_key_id: ${AWS_KMS_KEY_ID}
+        aws_kms_alias: ${AWS_KMS_ALIAS}
         aws_region: "ca-central-1"
         aws_zones: '["ca-central-1a", "ca-central-1b"]'
         aws_build_nat: "false"
-        vault_addr: "https://vault:8200"
+        vault_addr: "https://vaultsubastion:8200"
         vault_cacert_file: vault.cert.pem
     cap_add:
       - IPC_LOCK
+      - NET_ADMIN
     stdin_open: true 
     tty: true        
 
