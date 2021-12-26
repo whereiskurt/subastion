@@ -1,6 +1,8 @@
 # Overview
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
 
+DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
+
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
 Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
@@ -154,3 +156,4 @@ module "ec2_subastion_blue" {
 ### TODO - Quick List
 
 - Move module outputs of PEM files from terraform/modules to the environment/ area
+- All module outputs to the environment folder!

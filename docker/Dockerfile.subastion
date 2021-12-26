@@ -39,5 +39,6 @@ COPY ca.ica.pem /home/subastion/terraform/modules/openssl/ca.ica.pem
 COPY ca.ica.pem /home/subastion/ca.ica.pem
 
 COPY vaultadmin.token /home/subastion/environment/aws/bluegreen/
+COPY vaultadmin.token /home/subastion/environment/dockervault/
 
 ENTRYPOINT [ "/bin/bash" ]

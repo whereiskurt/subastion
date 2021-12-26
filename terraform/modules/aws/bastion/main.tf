@@ -16,6 +16,7 @@ resource "null_resource" "vault_subastion_key" {
   provisioner "local-exec" {
     environment = var.vault_env
     command = <<-EOT
+      VAULT_TOKEN=`cat ${path.cwd}/environment/dockervault/vaultadmin.token` \
       vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \
         pem=${base64encode(tls_private_key.subastion.private_key_pem)} 
