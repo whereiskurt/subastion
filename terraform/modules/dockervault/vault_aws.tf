@@ -147,7 +147,7 @@ resource "null_resource" "vault_login_as_admin" {
     environment = var.vault_env
     command = <<-EOT
      cat vaultadmin.token | vault login - > /dev/null 2>&1 && \
-      vault secrets enable -path=subastion kv 
+      vault secrets enable -path=subastion kv  
     EOT
   }
 }

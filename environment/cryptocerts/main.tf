@@ -16,3 +16,14 @@ module "openssl" {
   ica_cert_state="ON"
   ica_cert_country="CA"
 }
+
+resource "null_resource" "move_certs_to_vault" {
+  depends_on = [module.openssl]
+  provisioner "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      cp -pr ${path.cwd}/terraform/modules/openssl/$CHAIN_CERT_FILE ${path.cwd}/docker/ && \
+      cp -pr ${path.cwd}/terraform/modules/openssl/$CHAIN_PFX_FILE ${path.cwd}/docker/
+EOT
+  }
+}

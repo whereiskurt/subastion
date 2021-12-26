@@ -53,7 +53,6 @@ module "ec2_subastion_green" {
   subastion_manage_ip = "10.50.16.50"
   subastion_private_ip = "10.50.32.50"
 
-  openssl_env= var.openssl_env
   vault_env = var.vault_env
 
   openvpn_network = "10.50.48.0"
@@ -98,7 +97,6 @@ module "ec2_subastion_blue" {
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_blue_subastion_ec2")
   boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
-  openssl_env= var.openssl_env
   vault_env = var.vault_env
 
   subastion_vpc_id = module.vpc.id

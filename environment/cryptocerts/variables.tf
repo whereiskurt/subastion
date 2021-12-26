@@ -16,7 +16,7 @@ variable "openssl_env" {
     ICA_CSR_FILE = "../../terraform/modules/openssl/ica/ica.csr.pem"
     ICA_CERT_FILE = "../../terraform/modules/openssl/ica/ica.cert.pem"
     
-    CHAIN_PFX_FILE = "../../terraform/modules/openssl/ca.ica.pfx"
-    CHAIN_CERT_FILE = "../../terraform/modules/openssl/ca.ica.pem"
+    CHAIN_PFX_FILE = "ca.ica.pfx"
+    CHAIN_CERT_FILE = "ca.ica.pem"
   }
 }

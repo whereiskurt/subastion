@@ -18,3 +18,13 @@ module "awsvault" {
   vault_cert_dns = ["localhost","vault","vaultsubastion"]
   vault_cert_ip = ["127.0.0.1", "192.168.1.229"]
 }
+resource "null_resource" "move_vault_pem_to_docker" {
+  depends_on = [module.awsvault]
+  provisioner "local-exec" {
+    environment = var.vault_env
+    command = <<-EOT
+      cp -pr ${path.cwd}/environment/dockervault/vaultadmin.token ${path.cwd}/docker/ && \
+      cp -pr ${path.cwd}/terraform/modules/dockervault/vault.cert.pem ${path.cwd}/docker/
+EOT
+  }
+}

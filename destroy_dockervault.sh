@@ -16,3 +16,7 @@ rm -fr terraform/modules/dockervault/root.secret
 echo "Removing files created by docker container..."
 sudo rm -fr docker/vault/volumes/file/*
 sudo rm -fr docker/vault/volumes/log/*
+
+rm -fr docker/*.pem
+rm -fr docker/*.pfx
+rm -fr docker/*.token

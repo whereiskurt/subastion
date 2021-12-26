@@ -50,7 +50,7 @@ build-prod-bluegreen() {
   terraform -chdir=$ENVDIR init  | tee log/aws_bluegreen.tfinit.log 2>&1 
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tfapply.log 2>&1
 
-  export VAULT_ADDR=https://localhost:8200
+  export VAULT_ADDR=https://vaultsubastion:8200
   export VAULT_TOKEN=`cat $ENVDIR/vaultadmin.token`
   export VAULT_CACERT=`pwd`/terraform/modules/dockervault/vault.cert.pem
   export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2

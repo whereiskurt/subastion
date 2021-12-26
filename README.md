@@ -150,3 +150,7 @@ module "ec2_subastion_blue" {
 * `openssl` cert generation with self-signed Certificate Authority (CA) and Intermediate Certificate Authoriy (ICA) signing chain
 * The offiical HashiCorp `vault` image running inside of `Docker` container, unsealed using AWS KMS and IAM user `vaultroot` with privileges seal/unsealing. A separate IAM user `vaultuser` is also created to managed the 'aws secrets' and IAM users creation/delete/group assignments.
 * `openvpn` connectivity to bastion host - just run `openvpn-prod-blue-subastion` or `openvpn-prod-green-subastion` 
+
+### TODO - Quick List
+
+- Move module outputs of PEM files from terraform/modules to the environment/ area

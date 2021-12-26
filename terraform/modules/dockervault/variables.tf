@@ -28,6 +28,7 @@ variable "openssl_env" {
     ICA_KEY_FILE = "../../terraform/modules/openssl/ica/ica.key.pem"
     ICA_CSR_FILE = "../../terraform/modules/openssl/ica/ica.csr.pem"
     ICA_CERT_FILE = "../../terraform/modules/openssl/ica/ica.cert.pem"
+    
     VAULT_TPL = "../../terraform/modules/dockervault/vault.openssl.conf.tpl"
     VAULT_CONF = "../../terraform/modules/dockervault/vault.openssl.conf"
     VAULT_KEY_FILE = "../../terraform/modules/dockervault/vault.key.pem"
