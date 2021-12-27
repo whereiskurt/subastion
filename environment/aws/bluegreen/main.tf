@@ -54,7 +54,7 @@ module "ec2_subastion_green" {
   subastion_private_ip = "10.50.32.50"
 
   vault_addr = var.vault_addr
-  vault_cacert = var.vault_addr
+  vault_cacert = var.vault_cacert
 
   openvpn_network = "10.50.48.0"
   openvpn_netmask = "255.255.255.240"
@@ -99,7 +99,7 @@ module "ec2_subastion_blue" {
   boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
   vault_addr = var.vault_addr
-  vault_cacert = var.vault_addr
+  vault_cacert = var.vault_cacert
 
   subastion_vpc_id = module.vpc.id
   security_groups=[module.vpc.subastion_security_group]
