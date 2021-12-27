@@ -54,12 +54,6 @@ To manage the AWS infrastructure using `terraform` you can either:
   openvpn-prod-green-subastion 
 
 ```
-- With the build complete access bastion hosts over `ssh`:
-
-| <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
-|:--:|
-| ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
-
 
 ## Detailed Steps
 ### 1. AWS KMS CMK Setup
@@ -113,6 +107,13 @@ This is indicating you have two bastion hosts setup:
 subastion_blue_public_ip = "35.183.231.248"
 subastion_green_public_ip = "3.97.186.194"
 ```
+
+With the build complete access bastion hosts over `ssh`:
+
+| <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
+|:--:|
+| ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
+
 
 #### 5b. Run Terraform in Docker
 To run `terraform` with-in a docker container:
