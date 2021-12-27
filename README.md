@@ -5,10 +5,12 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 ## Getting Started
 ### 1. AWS KMS CMK Setup
 The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
-| ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
-|:--:|
 | <b>AWS console showing `orchestration` alias and key id</b>|
+|:--:|
+| ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
+
 This allows the `vault` to unseal using a configuration like this:
+| ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png) |
 
 ### 2. Clone the Repository
 With the AWS KMS customer managed key aliased 'orchestration' in-place, execute `git clone https://github.com/subastion` and prepare to build your own AWS environment:
