@@ -2,34 +2,39 @@
 DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
 
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure template in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
-## Running
-### AWS KMS CMK Setup
+## Getting Started
+### 1. AWS KMS CMK Setup
 The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
 |:--:|
 | <b>AWS console showing `orchestration` alias and key id</b>|
+This allows the `vault` to unseal using a configuration like this:
 
-### AWS KMS CMK Setup
+### 2. Clone the Repository
 With the AWS KMS customer managed key aliased 'orchestration' in-place, execute `git clone https://github.com/subastion` and prepare to build your own AWS environment:
 |![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
 |:--:|
-| <b>Using `git clone` to retrieve latest subastion and set default environment varaibles with `environments.sh`.</b>|
+| <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
 
-### Self-signed CA/ICA Creation
+### 3. Create Local Self-signed CA/ICA Certs
 Build self-signed certificate authority and intermediate certificate authority:
 |![build-cryptocerts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcerts.gif)|
 |:--:|
-| <b>Executebash function `build-cryptocerts`</b>|
+| <b>Executebash function `source environments.sh && build-cryptocerts`</b>|
 
-### Hashicorp Vault in Docker
+### 4. Start Hashicorp Vault in Docker
 Build/run a docker container to host the Hashicorp vault: 
 |![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
 |:--:|
-| <b>Executebash function `build-dockervault`</b>|
+| <b>Executebash function `source environments.sh && build-dockervault`</b>|
 
+### 5. Run Terraform locally or Docker
+#### 5a. Run Terraform locally or Docker
+This setup will run `terraform` from your local system and store the state locally:
 
+#### 5b. Run Terraform in Docker
+To run `terraform` with-in a docker container:
 
-Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
 
 ![ssh-prod-green-subastion demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.gif)
 
