@@ -36,6 +36,7 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
   build-prod-bluegreen
 ```
 - With the build complete access bastion hosts over `ssh`:
+
 | <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
 |:--:|
 | ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
