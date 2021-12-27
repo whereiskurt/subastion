@@ -63,6 +63,12 @@ ssh-prod-blue-subastion
 ## OR! We can extend our network through blue/green bastion using `openvpn`:
 openvpn-prod-blue-subastion
 openvpn-prod-green-subastion 
+
+## Destroy AWS blue/green
+sudo killall openvpn
+destroy-prod-bluegreen
+destroy-dockervault
+destroy-cryptocerts
 ```
 
 ## Detailed Steps
@@ -134,6 +140,14 @@ cd docker && docker-compose run subastion
 ```
 Then you can use `source environments.sh && build-prod-bluegreen` with the container to execute the `terraform` deployment.
 
+### 6. Destroy AWS Blue/Green, vaultsubastion and CA/ICA
+```shell
+## Destroy AWS blue/green
+sudo killall openvpn
+destroy-prod-bluegreen
+destroy-dockervault
+destroy-cryptocerts
+```
 
 # Requirements
 ## Packages
