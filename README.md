@@ -19,6 +19,9 @@ These steps are fully explained in the next section, but the quick start is here
 2) Manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
 - **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
+
+3) To destroy AWS infrastructure run `destroy-prod-bluegreen` (and `build-prod-bluegreen` to build it again!)
+
 ### 1. Common Steps
 These are executed for both options:
 ```shell 
@@ -259,7 +262,7 @@ module "ec2_subastion_blue" {
 2. Re-using the AWS subnet module:
   1. Create subnets `green-public`, `green-manage` and `green-private`, residing in an Availability Zone `ca-central-1a` (as per subnets)
   2. Create subnets `blue-public` , `blue-manage` and `blue-private`, residing in an Availability Zone `ca-central-1b` (as per subnets)
-3. To destroy AWS infrastructure run `destroy-prod-bluegreen` (*)and `build-prod-bluegreen` to build it again later.)
+
 
 ### TODO - Quick List
 
