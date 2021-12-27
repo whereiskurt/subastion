@@ -13,7 +13,7 @@ This allows the `vault` to automatically unseal using a configuration tied to AW
 ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png)
 
 ### 2. Clone the Repository
-With the AWS KMS customer managed key aliased 'orchestration' in-place, execute `git clone https://github.com/subastion` and prepare to build your own AWS environment:
+With the AWS KMS customer managed key aliased 'orchestration' in-place and prepare to build your own AWS environment:
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
 |:--:|
 |![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
@@ -26,13 +26,14 @@ Build self-signed certificate authority and intermediate certificate authority:
 
 ### 4. Start Hashicorp Vault in Docker
 Build/run a docker container to host the Hashicorp vault: 
-| <b>Executebash function `source environments.sh && build-dockervault`</b>|
+| <b>Execute bash function `source environments.sh && build-dockervault`</b>|
 |:--:|
 |![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
 
 ### 5. Run Terraform locally or Docker
 #### 5a. Run Terraform locally or Docker
 This setup will run `terraform` from your local system and store the state locally:
+
 
 #### 5b. Run Terraform in Docker
 To run `terraform` with-in a docker container:
