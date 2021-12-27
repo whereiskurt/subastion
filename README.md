@@ -1,8 +1,12 @@
 # Overview
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure template in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
-## Getting Started - tl;dr;
-- You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
-- To manage the AWS infrastructure using `terraform` you can either use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed:
+## Quick Start
+These steps are fully explained in the next section, but the quick start is here. :-)
+You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
+
+To manage the AWS infrastructure using `terraform` you can either:
+- **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
+- **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed:
 ### Option A: Build using local host terraform
 ```shell 
   ##Get latest code
@@ -16,6 +20,13 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
   build-cryptocerts
   build-dockervault
   build-prod-bluegreen
+
+  ## Now the environment is built, we can connect over `ssh`:
+  ssh-prod-green-subastion
+  ssh-prod-blue-subastion
+  ## OR! We can extend our network through blue/green using `openvpn`:
+  openvpn-prod-blue-subastion
+  openvpn-prod-green-subastion 
 ```
 ### Option B: Build with Subastion in Docker
 ```shell 
@@ -34,6 +45,14 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
   source environments.sh
   ## From with-in Docker create AWS Blue/Green using terraform
   build-prod-bluegreen
+
+  ## Now the environment is built, we can connect over `ssh`:
+  ssh-prod-green-subastion
+  ssh-prod-blue-subastion
+  ## OR! We can extend our network through blue/green using `openvpn`:
+  openvpn-prod-blue-subastion
+  openvpn-prod-green-subastion 
+
 ```
 - With the build complete access bastion hosts over `ssh`:
 
@@ -42,7 +61,7 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 | ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
 
 
-
+## Detailed Steps
 ### 1. AWS KMS CMK Setup
 The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 | <b>AWS console showing `orchestration` alias and key id</b>|
