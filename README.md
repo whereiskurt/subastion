@@ -10,8 +10,9 @@ The only requirement is using the AWS KMS to create a customer managed key (CMK)
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
 
 This allows the `vault` to automatically unseal using a configuration tied to AWS CMK:
+<p align="center">
 ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png)
-
+</p>
 ### 2. Clone the Repository
 With the AWS KMS customer managed key aliased 'orchestration' in-place and prepare to build your own AWS environment:
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
@@ -30,12 +31,16 @@ Build/run a docker container to host the Hashicorp vault:
 |:--:|
 |![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
 
-Run `docker ps` to see the officially Hashicorp vault image labeled 'vaultsubastion' is started with mapped local host ports onto the container port running vault:
+Run `docker ps` to see the official Hashicorp vault image labeled 'vaultsubastion' is started with mapped local host ports onto the container port running vault:
+<p align="center">
 ![docker running and port mapped](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/dockerrunning.png)
-
+</p>
 ### 5. Run Terraform Locally or Run Terraform in Docker
 #### 5a. Run Terraform Locally 
 This setup will run `terraform` from your local system and store the state locally:
+| <b>Execute bash function `source environments.sh && build-prod-bluegreen`</b>|
+|:--:|
+|![build terraform locally](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildprodgreenblue.local.gif)|
 
 
 #### 5b. Run Terraform in Docker
