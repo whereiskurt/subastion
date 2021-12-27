@@ -14,46 +14,46 @@ These steps are fully explained in the next section, but the quick start is here
 2) To manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
 - **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
-### Common Steps
+### 1. Common Steps
 These are executed for both options:
 ```shell 
-  ##Get latest code
-  git clone https://github.com/whereiskurt/subastion
-  cd subastion
-  
-  ##Load bash functions and environment variables
-  source environments.sh
-  
-  ##Build certs/dockervault and create AWS Blue/Green from local terraform install
-  build-cryptocerts
-  build-dockervault
+##Get latest code
+git clone https://github.com/whereiskurt/subastion
+cd subastion
+
+##Load bash functions and environment variables
+source environments.sh
+
+##Build certs/dockervault and create AWS Blue/Green from local terraform install
+build-cryptocerts
+build-dockervault
 ```
-### Option A: Build using local host terraform
+### 2. Option A: Build using local host terraform
 Run on local system:
 ```shell 
-  ## Locally execute the build step
-  build-prod-bluegreen
+## Locally execute the build step
+build-prod-bluegreen
 ```
-### Option B: Build with Subastion in Docker
+### 2. Option B: Build with Subastion in Docker
 Run from within Docker:
 ```shell 
-  ## Move into a docker container for subastion build
-  cd docker && docker-compose run subastion
+## Move into a docker container for subastion build
+cd docker && docker-compose run subastion
 
-  ## From with-in Docker load bash functions and environment variables
-  source environments.sh
-  ## From with-in Docker create AWS Blue/Green using terraform
-  build-prod-bluegreen
+## From with-in Docker load bash functions and environment variables
+source environments.sh
+## From with-in Docker create AWS Blue/Green using terraform
+build-prod-bluegreen
 ```
-### Common Steps
+### 3. Common Steps
 Once complete in either environment:
 ```shell
-  ## Now the environment is built, we can connect over `ssh` to the bastion hosts:
-  ssh-prod-green-subastion
-  ssh-prod-blue-subastion
-  ## OR! We can extend our network through blue/green bastion using `openvpn`:
-  openvpn-prod-blue-subastion
-  openvpn-prod-green-subastion 
+## Now the environment is built, we can connect over `ssh` to the bastion hosts:
+ssh-prod-green-subastion
+ssh-prod-blue-subastion
+## OR! We can extend our network through blue/green bastion using `openvpn`:
+openvpn-prod-blue-subastion
+openvpn-prod-green-subastion 
 ```
 
 ## Detailed Steps
@@ -108,8 +108,7 @@ This is indicating you have two bastion hosts setup:
 subastion_blue_public_ip = "35.183.231.248"
 subastion_green_public_ip = "3.97.186.194"
 ```
-
-With the build complete access bastion hosts over `ssh`:
+To access the hosts over `ssh`:
 
 | <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
 |:--:|
