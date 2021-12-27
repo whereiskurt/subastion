@@ -29,6 +29,8 @@ Build/run a docker container to host the Hashicorp vault:
 | <b>Execute bash function `source environments.sh && build-dockervault`</b>|
 |:--:|
 |![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
+Run 'docker ps' to see the vault labeled 'vaultsubastion' is started mapping local host port into the container port.
+|![docker running and port mapped](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/dockerrunning.png)|
 
 ### 5. Run Terraform locally or Docker
 #### 5a. Run Terraform locally or Docker
