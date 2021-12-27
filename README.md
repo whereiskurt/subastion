@@ -10,13 +10,13 @@ The only requirement is using the AWS KMS to create a customer managed key (CMK)
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
 
 This allows the `vault` to automatically unseal using a configuration tied to AWS CMK:
-| ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png) |
+![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png)
 
 ### 2. Clone the Repository
 With the AWS KMS customer managed key aliased 'orchestration' in-place, execute `git clone https://github.com/subastion` and prepare to build your own AWS environment:
-|![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
-|:--:|
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
+|:--:|
+|![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
 
 ### 3. Create Local Self-signed CA/ICA Certs
 Build self-signed certificate authority and intermediate certificate authority:
