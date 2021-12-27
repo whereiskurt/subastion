@@ -1,0 +1,6 @@
+## These files are not included in the docker-compose build context 
+## if we ignore them.
+#
+## Best practices: https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+#
+vault/*

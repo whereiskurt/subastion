@@ -3,9 +3,9 @@ resource "null_resource" "makepfx_chain" {
   provisioner "local-exec" {
     environment = var.openssl_env
     command = <<-EOT
-      cat $CA_CERT_FILE $ICA_CERT_FILE | tee $CHAIN_CERT_FILE | \
+      cat $CA_CERT_FILE $ICA_CERT_FILE | tee ${path.module}/$CHAIN_CERT_FILE | \
        openssl pkcs12 -export -passout pass: -nokeys -in - \
-         -out $CHAIN_PFX_FILE
+         -out ${path.module}/$CHAIN_PFX_FILE
     EOT
   }
 }
@@ -45,14 +45,14 @@ resource "null_resource" "makecert_ca" {
   }
 }
 
-# resource "null_resource" "make_dh2048" {
-#   provisioner "local-exec" {
-#     environment = var.openssl_env
-#     command = <<-EOT
-#       [[ -f $DH_ENTROPY_FILE ]] || openssl dhparam -out $DH_ENTROPY_FILE 2048
-#     EOT
-#   }
-# }
+resource "null_resource" "make_dh2048" {
+  provisioner "local-exec" {
+    environment = var.openssl_env
+    command = <<-EOT
+      [[ -f $DH_ENTROPY_FILE ]] || openssl dhparam -out $DH_ENTROPY_FILE 2048
+    EOT
+  }
+}
 
 resource "local_file" "openssl_ica_conf" {
   file_permission = 0400

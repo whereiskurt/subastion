@@ -1,0 +1,35 @@
+version: '2.1'
+services:
+  subastion:
+    devices:
+    - "/dev/net/tun:/dev/net/tun"
+    image: subastion:v1
+    build:
+      context: .
+      dockerfile: Dockerfile.subastion
+      args:
+        aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+        aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+        aws_kms_key_id: ${AWS_KMS_KEY_ID}
+        aws_kms_alias: ${AWS_KMS_KEY_ALIAS}
+        aws_region: "ca-central-1"
+        aws_zones: '["ca-central-1a", "ca-central-1b"]'
+        aws_build_nat: "false"
+        vault_addr: "https://vaultsubastion:8200"
+        vault_cacert_file: vault.cert.pem
+    cap_add:
+      - IPC_LOCK
+      - NET_ADMIN
+      - MKNOD
+    stdin_open: true 
+    tty: true        
+
+networks:
+  default:
+    name: subastion
+
+# docker-compose build \
+#   --build-arg aws_access_key_id=`aws configure get default.aws_access_key_id` \
+#   --build-arg aws_secret_access_key=`aws configure get default.aws_secret_access_key` \
+#   --build-arg aws_kms_key_id=edac385f-c393-4e9c-aab7-808e1bc3c899   \
+#   --build-arg aws_kms_alias=orchestration

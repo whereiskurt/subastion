@@ -14,8 +14,10 @@ resource "null_resource" "vault_subastion_key" {
   depends_on = [ aws_key_pair.subastion_key ]
 
   provisioner "local-exec" {
-    environment = var.vault_env
     command = <<-EOT
+      VAULT_ADDR=${var.vault_addr} \
+      VAULT_CACERT=${var.vault_cacert} \
+      VAULT_TOKEN=`cat ${path.cwd}/environment/dockervault/vaultadmin.token` \
       vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \
         pem=${base64encode(tls_private_key.subastion.private_key_pem)} 
@@ -26,7 +28,7 @@ resource "null_resource" "vault_subastion_key" {
 resource "local_file" "bastion_key_pem" {
   depends_on = [aws_key_pair.subastion_key]
   file_permission = 0400
-  content  = "${tls_private_key.subastion.private_key_pem}"
+  content  = tls_private_key.subastion.private_key_pem
   filename = var.key_filename
 }
 

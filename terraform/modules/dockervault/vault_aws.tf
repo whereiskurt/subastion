@@ -92,7 +92,7 @@ resource "null_resource" "vault_enable_aws_secret" {
     environment = var.vault_env
     command = <<-EOT
       vault secrets enable aws &&
-      vault policy write admin ../../../terraform/modules/aws/vault/admin_policy.hcl &&
+      vault policy write admin ${path.module}/admin_policy.hcl &&
       vault token create -format=json -policy="admin" | jq -r ".auth.client_token" > vaultadmin.token
     EOT
   }
@@ -147,7 +147,7 @@ resource "null_resource" "vault_login_as_admin" {
     environment = var.vault_env
     command = <<-EOT
      cat vaultadmin.token | vault login - > /dev/null 2>&1 && \
-      vault secrets enable -path=subastion kv 
+      vault secrets enable -path=subastion kv  
     EOT
   }
 }

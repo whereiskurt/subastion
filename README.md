@@ -1,6 +1,8 @@
 # Overview
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
 
+DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
+
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
 Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
@@ -23,7 +25,7 @@ The following packages are required to use this project:
 2) HashiCorp `vault` client+server to put/get secrets from the `vault` 
 5) `jq` to manipulate JSON outpus from `terraform`
 4) `openssl` to create .x509 certs
-3) `docker` if you want to run project in a container
+3) `docker` and `docker-compose` to run
 
 **NOTE**: TODO: Make this a Dockerfile!
 
@@ -150,3 +152,9 @@ module "ec2_subastion_blue" {
 * `openssl` cert generation with self-signed Certificate Authority (CA) and Intermediate Certificate Authoriy (ICA) signing chain
 * The offiical HashiCorp `vault` image running inside of `Docker` container, unsealed using AWS KMS and IAM user `vaultroot` with privileges seal/unsealing. A separate IAM user `vaultuser` is also created to managed the 'aws secrets' and IAM users creation/delete/group assignments.
 * `openvpn` connectivity to bastion host - just run `openvpn-prod-blue-subastion` or `openvpn-prod-green-subastion` 
+
+### TODO - Quick List
+
+- Move module outputs of PEM files from terraform/modules to the environment/ area
+- All module outputs to the environment folder!
+- In the destroy from aws_bluegreen remove the green/blue subastion keys from vault
