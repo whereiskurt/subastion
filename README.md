@@ -9,7 +9,7 @@ The only requirement is using the AWS KMS to create a customer managed key (CMK)
 |:--:|
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
 
-This allows the `vault` to unseal using a configuration like this:
+This allows the `vault` to automatically unseal using a configuration tied to AWS CMK:
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png) |
 
 ### 2. Clone the Repository
@@ -20,15 +20,15 @@ With the AWS KMS customer managed key aliased 'orchestration' in-place, execute 
 
 ### 3. Create Local Self-signed CA/ICA Certs
 Build self-signed certificate authority and intermediate certificate authority:
-|![build-cryptocerts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcerts.gif)|
+| <b>Execute bash function `source environments.sh && build-cryptocerts`</b>|
 |:--:|
-| <b>Executebash function `source environments.sh && build-cryptocerts`</b>|
+|![build-cryptocerts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcerts.gif)|
 
 ### 4. Start Hashicorp Vault in Docker
 Build/run a docker container to host the Hashicorp vault: 
-|![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
-|:--:|
 | <b>Executebash function `source environments.sh && build-dockervault`</b>|
+|:--:|
+|![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
 
 ### 5. Run Terraform locally or Docker
 #### 5a. Run Terraform locally or Docker
