@@ -1,5 +1,11 @@
 #!/bin/bash
-export ENVDIR=`pwd`/environment/aws/bluegreen
+export AWS_KMS_KEY_ID="edac385f-c393-4e9c-aab7-808e1bc3c899"
+export AWS_KMS_KEY_ALIAS="orchestration"
+export AWS_ACCESS_KEY_ID=`aws configure get default.aws_access_key_id`
+export AWS_SECRET_ACCESS_KEY=`aws configure get default.aws_secret_access_key`
+
+export TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
+export TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
 
 ssh-prod-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
@@ -24,16 +30,14 @@ openvpn-prod-blue-subastion () {
 }
 
 destroy-prod-bluegreen() {
-  echo "Destroying AWS infrastructure with terraform and destroying vault instance..."
+  ENVDIR=`pwd`/environment/aws/bluegreen
+
   mkdir log > /dev/null 2>&1
   
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tfdestroy.log 2>&1
 
   rm -fr $ENVDIR/terraform.tfstate*
   rm -fr $ENVDIR/.terraform.lock.hcl
-
-  echo "Use 'build-prod-bluegreen' to rebuild..."  
-  echo "Done!"
 
   unset VAULT_TOKEN
   unset VAULT_ADDR
@@ -43,8 +47,9 @@ destroy-prod-bluegreen() {
   unset SUBASTION_BLUE_IP
 }
 
-
 build-prod-bluegreen() {
+  ENVDIR=`pwd`/environment/aws/bluegreen
+
   mkdir log > /dev/null 2>&1
 
   terraform -chdir=$ENVDIR init  | tee log/aws_bluegreen.tfinit.log 2>&1 
@@ -72,6 +77,75 @@ EOF
   source bluegreen.env
 }
 
+
+build-cryptocerts() {
+  ENVDIR=`pwd`/environment/cryptocerts/
+
+  mkdir log > /dev/null 2>&1
+
+  terraform -chdir=$ENVDIR init  | tee log/cryptocerts.tfinit.log 2>&1 
+  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/cryptocerts.tfapply.log 2>&1
+}
+
+destroy-cryptocerts() {
+  ENVDIR=`pwd`/environment/cryptocerts/
+
+  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
+
+  rm -fr $ENVDIR/terraform.tfstate*
+  rm -fr $ENVDIR/.terraform.lock.hcl
+
+  rm -fr terraform/modules/openssl/ica/index*
+  rm -fr terraform/modules/openssl/ica/serial*
+  rm -fr terraform/modules/openssl/ica/*.pem
+  rm -fr terraform/modules/openssl/ica/ica.openssl.conf
+
+  rm -fr terraform/modules/openssl/ca/index*
+  rm -fr terraform/modules/openssl/ca/serial*
+  rm -fr terraform/modules/openssl/ca/*.pem
+  rm -fr terraform/modules/openssl/ca/ca.openssl.conf
+
+  ##TEMP: it's faster to leave this!
+  ##rm -fr terraform/modules/openssl/dh.2048.pem
+  rm -fr terraform/modules/openssl/ca.ica.pfx
+  rm -fr terraform/modules/openssl/ca.ica.pem
+
+  git checkout terraform/modules/openssl/ca > /dev/null 2>&1
+  git checkout terraform/modules/openssl/ica > /dev/null 2>&1
+
+}
+
+build-dockervault() {
+  ENVDIR=`pwd`/environment/dockervault/
+
+  mkdir log > /dev/null 2>&1
+
+  terraform -chdir=$ENVDIR init  | tee log/dockervault.tfinit.log 2>&1 
+  terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
+}
+
+destroy-dockervault() {
+  ENVDIR=`pwd`/environment/dockervault/
+
+  terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
+  rm -fr $ENVDIR/terraform.tfstate*
+  rm -fr $ENVDIR/.terraform.lock.hcl
+
+  docker kill vaultsubastion > /dev/null 2>&1
+  docker rm vaultsubastion > /dev/null 2>&1
+
+  rm -fr terraform/modules/dockervault/*.pem
+  rm -fr terraform/modules/dockervault/root.secret
+    
+  ##NOTE: vault docker container runs as root and outputs files as root.
+  sudo rm -fr docker/vault/volumes/file/*
+  sudo rm -fr docker/vault/volumes/log/*
+
+  rm -fr docker/*.pem
+  rm -fr docker/*.pfx
+  rm -fr docker/*.token
+}
+
 export -f build-prod-bluegreen
 export -f destroy-prod-bluegreen
 
@@ -80,3 +154,8 @@ export -f openvpn-prod-green-subastion
 
 export -f ssh-prod-blue-subastion
 export -f openvpn-prod-blue-subastion
+
+export -f build-cryptocerts
+export -f destroy-cryptocerts
+export -f build-dockervault
+export -f destroy-dockervault

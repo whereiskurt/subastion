@@ -25,7 +25,7 @@ The following packages are required to use this project:
 2) HashiCorp `vault` client+server to put/get secrets from the `vault` 
 5) `jq` to manipulate JSON outpus from `terraform`
 4) `openssl` to create .x509 certs
-3) `docker` if you want to run project in a container
+3) `docker` and `docker-compose` to run
 
 **NOTE**: TODO: Make this a Dockerfile!
 
