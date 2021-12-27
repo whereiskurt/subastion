@@ -105,7 +105,7 @@ This setup will run `terraform` from your local system and store the state local
 
 After approximately 2-3mins the build should complete:
 <p align="center">
-<img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcomplete.png" />
+<img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcomplete.local.png" />
 </p>
 
 This is indicating you have two bastion hosts setup:
