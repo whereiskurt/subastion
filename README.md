@@ -43,6 +43,16 @@ This setup will run `terraform` from your local system and store the state local
 |:--:|
 |![build terraform locally](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildprodgreenblue.local.gif)|
 
+After approximately 2-3mins the build should complete:
+<p align="center">
+<img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcomplete.png" />
+</p>
+
+This is indicating you have two bastion hosts setup:
+```go
+subastion_blue_public_ip = "35.183.231.248"
+subastion_green_public_ip = "3.97.186.194"
+```
 
 #### 5b. Run Terraform in Docker
 To run `terraform` with-in a docker container:
