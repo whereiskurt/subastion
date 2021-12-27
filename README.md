@@ -22,6 +22,7 @@ These steps are fully explained in the next section, but the quick start is here
 
 3) To destroy AWS infrastructure run `destroy-prod-bluegreen` (and `build-prod-bluegreen` to build it again!)
 
+## Blue/Green Environment Build Steps
 ### 1. Common Steps
 These are executed for both options:
 ```shell 
