@@ -21,6 +21,14 @@ variable "aws_kms_key_alias" {
 variable "aws_kms_key_id" {
   type = string
 }
+variable vault_addr {
+  type=string
+  default = "https://localhost:8200"
+}
+variable vault_cacert {
+  type = string
+  default = "../../../terraform/modules/openssl/ca.ica.pem"
+}
 
 ##Leaving this false prevents private/manage networks for getting out the Internet via outbound NAT.
 variable build_nat_gateway {

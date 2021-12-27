@@ -6,6 +6,10 @@ export AWS_SECRET_ACCESS_KEY=`aws configure get default.aws_secret_access_key`
 
 export TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
 export TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
+export TF_VAR_build_nat_gateway=false
+
+export TF_VAR_vault_addr="https://localhost:8200"
+export TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
 
 ssh-prod-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
@@ -49,13 +53,13 @@ destroy-prod-bluegreen() {
 
 build-prod-bluegreen() {
   ENVDIR=`pwd`/environment/aws/bluegreen
-
+  
   mkdir log > /dev/null 2>&1
 
   terraform -chdir=$ENVDIR init  | tee log/aws_bluegreen.tfinit.log 2>&1 
   terraform -chdir=$ENVDIR apply -no-color -auto-approve | tee log/aws_bluegreen.tfapply.log 2>&1
 
-  export VAULT_ADDR=https://vaultsubastion:8200
+  export VAULT_ADDR=$TF_VAR_vault_addr
   export VAULT_TOKEN=`cat environment/dockervault/vaultadmin.token`
   export VAULT_CACERT=`pwd`/terraform/modules/dockervault/vault.cert.pem
   export SUBASTION_GREEN_KEYFILE=$HOME/.ssh/prod_green_subastion_ec2
@@ -136,6 +140,7 @@ destroy-dockervault() {
 
   rm -fr terraform/modules/dockervault/*.pem
   rm -fr terraform/modules/dockervault/root.secret
+  rm -fr environment/dockervault/vaultadmin.token
     
   ##NOTE: vault docker container runs as root and outputs files as root.
   sudo rm -fr docker/vault/volumes/file/*
@@ -143,19 +148,19 @@ destroy-dockervault() {
 
   rm -fr docker/*.pem
   rm -fr docker/*.pfx
-  rm -fr docker/*.token
+  rm -fr docker/*.token 
 }
+
+export -f build-cryptocerts
+export -f destroy-cryptocerts
+
+export -f build-dockervault
+export -f destroy-dockervault
 
 export -f build-prod-bluegreen
 export -f destroy-prod-bluegreen
 
 export -f ssh-prod-green-subastion
 export -f openvpn-prod-green-subastion
-
 export -f ssh-prod-blue-subastion
 export -f openvpn-prod-blue-subastion
-
-export -f build-cryptocerts
-export -f destroy-cryptocerts
-export -f build-dockervault
-export -f destroy-dockervault
