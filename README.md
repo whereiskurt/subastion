@@ -3,6 +3,9 @@ This collection of `terraform` modules provide the **"Infrastructure as Code"** 
 
 DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
 
+
+![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png)
+
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
 Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
