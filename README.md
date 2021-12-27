@@ -1,8 +1,47 @@
 # Overview
-DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
-
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure template in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
-## Getting Started
+## Getting Started - tl;dr;
+- You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
+- To manage the AWS infrastructure using `terraform` you can either use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed:
+### Option A: Build using local host terraform
+```shell 
+  ##Get latest code
+  git clone https://github.com/whereiskurt/subastion
+  cd subastion
+  
+  ##Load bash functions and environment variables
+  source environments.sh
+  
+  ##Build certs/dockervault and create AWS Blue/Green from local terraform install
+  build-cryptocerts
+  build-dockervault
+  build-prod-bluegreen
+```
+### Option B: Build with Subastion in Docker
+```shell 
+  ##Get latest code
+  git clone https://github.com/whereiskurt/subastion
+  cd subastion
+  ##Load bash functions and environment variables
+  source environments.sh
+
+  ##Build certs/dockervault
+  build-cryptocerts
+  build-dockervault
+  ## Build / run docker image for subastion
+  cd docker && docker-compose run subastion
+  ## From with-in Docker load bash functions and environment variables
+  source environments.sh
+  ## From with-in Docker create AWS Blue/Green using terraform
+  build-prod-bluegreen
+```
+- With the build complete access bastion hosts over `ssh`:
+| <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
+|:--:|
+| ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
+
+
+
 ### 1. AWS KMS CMK Setup
 The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 | <b>AWS console showing `orchestration` alias and key id</b>|
@@ -15,7 +54,7 @@ This allows the `vault` to automatically unseal using a configuration tied to AW
 </p>
 
 ### 2. Clone the Repository
-With the AWS KMS customer managed key aliased 'orchestration' in-place and prepare to build your own AWS environment:
+With the AWS KMS customer managed key aliased 'orchestration' in-place and get the latest version of subastion:
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
 |:--:|
 |![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
@@ -196,8 +235,8 @@ module "ec2_subastion_blue" {
 ### Description
 1. Create a new Virtual Private Cloud (VPC) called `prod` in the AWS Region `ca-central-1`.  This VPC will be referenced by other modules - for example the 
 2. Re-using the AWS subnet module:
-    1. Create subnets `green-public`, `green-manage` and `green-private`, residing in an Availability Zone `ca-central-1a` (as per subnets)
-   2. Create subnets `blue-public` , `blue-manage` and `blue-private`, residing in an Availability Zone `ca-central-1b` (as per subnets)
+  1. Create subnets `green-public`, `green-manage` and `green-private`, residing in an Availability Zone `ca-central-1a` (as per subnets)
+  2. Create subnets `blue-public` , `blue-manage` and `blue-private`, residing in an Availability Zone `ca-central-1b` (as per subnets)
 
 ### Certificates and Vault
 * `openssl` cert generation with self-signed Certificate Authority (CA) and Intermediate Certificate Authoriy (ICA) signing chain
