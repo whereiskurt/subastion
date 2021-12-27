@@ -1,21 +1,28 @@
 # Overview
 DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
 
-This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
+This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure template in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
 
-
-
+The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
 |:--:|
 | <b>AWS console showing `orchestration` alias and key id</b>|
 
+With the AWS KMS customer managed key aliased 'orchestration' in-place, execute `git clone https://github.com/subastion` and prepare to build your own AWS environment:
+|![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
+|:--:|
+| <b>Using `git clone` to retrieve latest subastion and set default environment varaibles with `environments.sh`.</b>|
 
-The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
-![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png)
+Build self-signed certificate authority and intermediate certificate authority:
+|![build-cryptocerts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcerts.gif)|
+|:--:|
+| <b>Executing bash function `build-cryptocerts` creates CA/ICA artifacts</b>|
 
+Build/run a docker container to host the Hashicorp vault: 
+|![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
+|:--:|
+| <b>Use the official Hashicorp Docker vault image to store secrets.</b>|
 
-
-![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
 Calling `build-aws-bluegreen` (shown above) will begin to 1) securely configures a local HashiCorp `vault` instance with `systemd --user` unsealed by an AWS KMS Customer Key and 2) create an AWS VPC with restricted network ACL, security groups, NAT gateways for private subnets, and bastion hosts with openvpn/ssh connectivity.
 
