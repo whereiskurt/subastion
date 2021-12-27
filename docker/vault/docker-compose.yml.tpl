@@ -4,7 +4,7 @@ services:
     image: vault
     container_name: vaultsubastion
     ports:
-      - "${docker_container_port}:${docker_host_port}"
+      - "${docker_host_port}:${docker_container_port}"
     restart: always
     volumes:
       - ./volumes/logs:/vault/logs
