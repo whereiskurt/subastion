@@ -95,6 +95,7 @@ Run `docker ps` to see the official Hashicorp vault image labeled 'vaultsubastio
 <p align="center">
 <img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/dockerrunning.png" />
 </p>
+
 ### 5. Run Terraform Locally or Run Terraform in Docker
 #### 5a. Run Terraform Locally 
 This setup will run `terraform` from your local system and store the state locally:
