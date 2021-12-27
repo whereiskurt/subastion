@@ -254,7 +254,7 @@ module "ec2_subastion_blue" {
   ...
 }
 ```
-### Description
+### Description of Terraform Actions
 1. Create a new Virtual Private Cloud (VPC) called `prod` in the AWS Region `ca-central-1`.  This VPC will be referenced by other modules - for example the 
 2. Re-using the AWS subnet module:
   1. Create subnets `green-public`, `green-manage` and `green-private`, residing in an Availability Zone `ca-central-1a` (as per subnets)
@@ -263,7 +263,7 @@ module "ec2_subastion_blue" {
 
 ### TODO - Quick List
 
-- Move module outputs of PEM files from terraform/modules to the environment/ area
-- All module outputs to the environment folder!
-- In the destroy from aws_bluegreen remove the green/blue subastion keys from vault
 - Add a environment/aws/kms
+- All module outputs to the environment folder!
+- Move module outputs of PEM files from terraform/modules to the environment/ area
+- In the destroy from aws_bluegreen remove the green/blue subastion keys from vault
