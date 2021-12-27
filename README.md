@@ -6,6 +6,8 @@ This collection of `terraform` modules provides the **"Infrastructure as Code"**
 
 Once `openvpn` is connected to the bastion host, local traffic flows over VPN and through the AWS public network internet gateway, effectively proxying our outbound traffic.
 
+After `build-aws-bluegreen` completes you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
+
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
 
@@ -57,6 +59,7 @@ openvpn-prod-green-subastion
 ```
 
 ## Detailed Steps
+These are the expanded instructions from above.
 ### 1. AWS KMS CMK Setup
 The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 | <b>AWS console showing `orchestration` alias and key id</b>|
@@ -69,19 +72,20 @@ This allows the `vault` to automatically unseal using a configuration tied to AW
 </p>
 
 ### 2. Clone the Repository
-With the AWS KMS customer managed key aliased 'orchestration' in-place and get the latest version of subastion:
+With the AWS KMS customer managed key aliased `orchestration` in-place get the latest version of `subastion`:
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
 |:--:|
 |![git clone and sourcing environment](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/gitclone.gif)|
 
 ### 3. Create Local Self-signed CA/ICA Certs
-Build self-signed certificate authority and intermediate certificate authority:
+Create a self-signed certificate authority and intermediate certificate authority:
 | <b>Execute bash function `source environments.sh && build-cryptocerts`</b>|
 |:--:|
 |![build-cryptocerts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/buildcerts.gif)|
+This CA/ICA are used to build the certificats for `vault`.
 
 ### 4. Start Hashicorp Vault in Docker
-Build/run a docker container to host the Hashicorp vault: 
+Deploy Hashicorp `vault` to a Docker container: 
 | <b>Execute bash function `source environments.sh && build-dockervault`</b>|
 |:--:|
 |![build-dockervault](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/builddocker.gif)|
@@ -108,12 +112,11 @@ This is indicating you have two bastion hosts setup:
 subastion_blue_public_ip = "35.183.231.248"
 subastion_green_public_ip = "3.97.186.194"
 ```
-To access the hosts over `ssh`:
+To access the bastion hosts over `ssh` use these `bash` functions:
 
-| <b>Run `ssh-prod-blue-subastion` and `ssh-prod-green-subastion` </b>|
+| <b>Run bash function `ssh-prod-blue-subastion` and/or `ssh-prod-green-subastion` </b>|
 |:--:|
 | ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
-
 
 #### 5b. Run Terraform in Docker
 To run `terraform` with-in a docker container:
@@ -121,7 +124,6 @@ To run `terraform` with-in a docker container:
 
 ![ssh-prod-green-subastion demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.gif)
 
-After `build-aws-bluegreen` completes you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
 
 Destroying the environment is as easy as running `destroy-prod-bluegreen` (this does not delete the KMS key):
 ![destroy-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/destroy.gif)
