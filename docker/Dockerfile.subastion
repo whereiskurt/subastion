@@ -30,7 +30,7 @@ USER subastion
 WORKDIR /home/subastion/
 
 ## Pull the latest repo.
-RUN git clone --depth 1 -b vault_nosystemd_docker_hostnetwork --single-branch https://github.com/whereiskurt/subastion . 
+RUN git clone --depth 1 --single-branch https://github.com/whereiskurt/subastion . 
 
 ##Copy CA/ICA and vault certs into Docker
 COPY ${vault_cacert_file} /home/subastion/

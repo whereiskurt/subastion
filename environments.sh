@@ -3,13 +3,7 @@ export AWS_KMS_KEY_ID="edac385f-c393-4e9c-aab7-808e1bc3c899"
 export AWS_KMS_KEY_ALIAS="orchestration"
 export AWS_ACCESS_KEY_ID=`aws configure get default.aws_access_key_id`
 export AWS_SECRET_ACCESS_KEY=`aws configure get default.aws_secret_access_key`
-
-export TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
-export TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
-export TF_VAR_build_nat_gateway=false
-
-export TF_VAR_vault_addr="https://localhost:8200"
-export TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
+export VAULT_ADDR="https://localhost:8200"
 
 ssh-prod-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
@@ -36,6 +30,12 @@ openvpn-prod-blue-subastion () {
 destroy-prod-bluegreen() {
   ENVDIR=`pwd`/environment/aws/bluegreen
 
+  TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
+  TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
+  TF_VAR_build_nat_gateway=false
+  TF_VAR_vault_addr=$VAULT_ADDR
+  TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
+
   mkdir log > /dev/null 2>&1
   
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/aws_bluegreen.tfdestroy.log 2>&1
@@ -53,7 +53,13 @@ destroy-prod-bluegreen() {
 
 build-prod-bluegreen() {
   ENVDIR=`pwd`/environment/aws/bluegreen
-  
+
+  TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
+  TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
+  TF_VAR_build_nat_gateway=false
+  TF_VAR_vault_addr=$VAULT_ADDR
+  TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
+
   mkdir log > /dev/null 2>&1
 
   terraform -chdir=$ENVDIR init  | tee log/aws_bluegreen.tfinit.log 2>&1 
@@ -121,6 +127,11 @@ destroy-cryptocerts() {
 
 build-dockervault() {
   ENVDIR=`pwd`/environment/dockervault/
+  TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
+  TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
+  TF_VAR_build_nat_gateway=false
+  TF_VAR_vault_addr=$VAULT_ADDR
+  TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
 
   mkdir log > /dev/null 2>&1
 
@@ -130,6 +141,11 @@ build-dockervault() {
 
 destroy-dockervault() {
   ENVDIR=`pwd`/environment/dockervault/
+  TF_VAR_aws_kms_key_id=$AWS_KMS_KEY_ID
+  TF_VAR_aws_kms_key_alias=$AWS_KMS_KEY_ALIAS
+  TF_VAR_build_nat_gateway=false
+  TF_VAR_vault_addr=$VAULT_ADDR
+  TF_VAR_vault_cacert="../../../terraform/modules/openssl/ca.ica.pem"
 
   terraform -chdir=$ENVDIR destroy -no-color -auto-approve | tee log/dockervault.tfapply.log 2>&1
   rm -fr $ENVDIR/terraform.tfstate*
