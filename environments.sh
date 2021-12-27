@@ -1,10 +1,11 @@
 #!/bin/bash
-export AWS_KMS_KEY_ID="edac385f-c393-4e9c-aab7-808e1bc3c899"
-export AWS_KMS_KEY_ALIAS="orchestration"
+export AWS_KMS_KEY_ALIAS=${AWS_KMS_KEY_ALIAS:-orchestration}
+export CONFIG_MAKE_NATGATEWAY=${CONFIG_MAKE_NATGATEWAY:-false}
+
+export VAULT_ADDR=${VAULT_ADDR:-https://localhost:8200}
+export AWS_KMS_KEY_ID=${AWS_KMS_KEY_ID:-`aws kms list-aliases |jq -r '.Aliases| .[] | select (.AliasName == "alias/'$AWS_KMS_KEY_ALIAS'") |.TargetKeyId'`}
 export AWS_ACCESS_KEY_ID=`aws configure get default.aws_access_key_id`
 export AWS_SECRET_ACCESS_KEY=`aws configure get default.aws_secret_access_key`
-export VAULT_ADDR="https://localhost:8200"
-export CONFIG_MAKE_NATGATEWAY=false
 
 ssh-prod-green-subastion () { 
   ssh -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP
