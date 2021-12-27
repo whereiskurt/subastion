@@ -8,6 +8,9 @@ Once `openvpn` is connected to the bastion host, local traffic flows over VPN an
 
 After `build-prod-bluegreen` completes you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
 
+# What is a Blue/Green Deployment strategy?
+>A [blue/green deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) is a deployment strategy in which you create two separate, but identical environments. One environment (blue) is running the current application version and one environment (green) is running the new application version. 
+
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
 
@@ -98,7 +101,7 @@ Run `docker ps` to see the official Hashicorp vault image labeled 'vaultsubastio
 The offiical HashiCorp `vault` image running inside of `Docker` container, unsealed using AWS KMS and IAM user `vaultroot` with privileges seal/unsealing. A separate IAM user `vaultuser` is also created to managed the 'aws secrets' and IAM users creation/delete/group assignments.
 
 ### 5. Run Terraform Locally or Run Terraform in Docker
-#### 5a. Run Terraform Locally 
+#### Option A: Run Terraform Locally 
 This setup will run `terraform` from your local system and store the state locally:
 | <b>Execute bash function `source environments.sh && build-prod-bluegreen`</b>|
 |:--:|
@@ -120,15 +123,13 @@ To access the bastion hosts over `ssh` use these `bash` functions:
 |:--:|
 | ![ssh into bastion hosts](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/ssh.bluegreen.gif) |
 
-#### 5b. Run Terraform in Docker
+#### Option B: Run Terraform in Docker
 To run `terraform` with-in a docker container:
 ```shell
 cd docker && docker-compose run subastion
 ```
 Then you can use `source environments.sh && build-prod-bluegreen` with the container to execute the `terraform` deployment.
 
-## What is a Blue/Green Deployment strategy?
->A [blue/green deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) is a deployment strategy in which you create two separate, but identical environments. One environment (blue) is running the current application version and one environment (green) is running the new application version. 
 
 # Requirements
 ## Packages
