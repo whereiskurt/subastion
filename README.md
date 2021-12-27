@@ -11,8 +11,9 @@ The only requirement is using the AWS KMS to create a customer managed key (CMK)
 
 This allows the `vault` to automatically unseal using a configuration tied to AWS CMK:
 <p align="center">
-![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png)
+<img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/vaultseal.png" />
 </p>
+
 ### 2. Clone the Repository
 With the AWS KMS customer managed key aliased 'orchestration' in-place and prepare to build your own AWS environment:
 | <b>Using `git clone https://github.com/whereiskurt/subastion` to retrieve latest subastion and set default environment varaibles with `source environments.sh`.</b>|
@@ -33,7 +34,7 @@ Build/run a docker container to host the Hashicorp vault:
 
 Run `docker ps` to see the official Hashicorp vault image labeled 'vaultsubastion' is started with mapped local host ports onto the container port running vault:
 <p align="center">
-![docker running and port mapped](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/dockerrunning.png)
+<img src="https://github.com/whereiskurt/subastion/blob/main/docs/gifs/dockerrunning.png" />
 </p>
 ### 5. Run Terraform Locally or Run Terraform in Docker
 #### 5a. Run Terraform Locally 
