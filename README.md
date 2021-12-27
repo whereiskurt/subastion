@@ -6,8 +6,9 @@ You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be
 
 To manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
-- **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed:
-### Option A: Build using local host terraform
+- **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
+
+## Common Steps for both Options
 ```shell 
   ##Get latest code
   git clone https://github.com/whereiskurt/subastion
@@ -19,41 +20,33 @@ To manage the AWS infrastructure using `terraform` you can either:
   ##Build certs/dockervault and create AWS Blue/Green from local terraform install
   build-cryptocerts
   build-dockervault
-  build-prod-bluegreen
+```
 
-  ## Now the environment is built, we can connect over `ssh`:
-  ssh-prod-green-subastion
-  ssh-prod-blue-subastion
-  ## OR! We can extend our network through blue/green using `openvpn`:
-  openvpn-prod-blue-subastion
-  openvpn-prod-green-subastion 
+### Option A: Build using local host terraform
+```shell 
+  ## Locally execute the build step
+  build-prod-bluegreen
 ```
 ### Option B: Build with Subastion in Docker
 ```shell 
-  ##Get latest code
-  git clone https://github.com/whereiskurt/subastion
-  cd subastion
-  ##Load bash functions and environment variables
-  source environments.sh
+  ## Move into a docker container for subastion build
 
-  ##Build certs/dockervault
-  build-cryptocerts
-  build-dockervault
-  ## Build / run docker image for subastion
   cd docker && docker-compose run subastion
   ## From with-in Docker load bash functions and environment variables
   source environments.sh
   ## From with-in Docker create AWS Blue/Green using terraform
   build-prod-bluegreen
-
-  ## Now the environment is built, we can connect over `ssh`:
+```
+Once complete in either environment:
+```shell
+  ## Now the environment is built, we can connect over `ssh` to the bastion hosts:
   ssh-prod-green-subastion
   ssh-prod-blue-subastion
-  ## OR! We can extend our network through blue/green using `openvpn`:
+  ## OR! We can extend our network through blue/green bastion using `openvpn`:
   openvpn-prod-blue-subastion
   openvpn-prod-green-subastion 
-
 ```
+
 
 ## Detailed Steps
 ### 1. AWS KMS CMK Setup
