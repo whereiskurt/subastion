@@ -1,9 +1,9 @@
 FROM alpine:3.14
 
-ARG aws_access_key_id=changewithbuildarg
-ARG aws_secret_access_key=changewithbuildarg
-ARG aws_kms_key_id=changewithbuildarg
-ARG aws_kms_alias="orchestration"
+ARG aws_access_key_id
+ARG aws_secret_access_key
+ARG aws_kms_key_id
+ARG aws_kms_alias
 ARG aws_region="ca-central-1"
 ARG aws_zones='["ca-central-1a", "ca-central-1b"]'
 ARG aws_build_nat="false"
