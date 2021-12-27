@@ -1,10 +1,10 @@
 # Overview
 This collection of `terraform` modules provides the **"Infrastructure as Code"** to deploy a secure blue/green infrastructure in AWS - usually in under 2minutes. The goal is to provision two bastion hosts (blue/green) in a securely configured AWS environment with `openvpn` and `ssh` access.
-| <b>Connect over `ssh` or extend network using `openvpn`</b>|
+| <b>Connect to bastion host over `ssh` or extend local network through bastion host using `openvpn`</b>|
 |:--:|
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/sshopenvpn.gif) |
 
-Once `openvpn` is connected local traffic flows through the bastion host and out of AWS, effectively proxying our outbound traffic.
+Once `openvpn` is connected to the bastion host, local traffic flows over VPN and through the AWS public network internet gateway, effectively proxying our outbound traffic.
 
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
