@@ -4,13 +4,14 @@ This collection of `terraform` modules provides the **"Infrastructure as Code"**
 |:--:|
 | ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/sshopenvpn.gif) |
 
-Once openvpn is connected traffic flowing through the bastion host and out of AWS.
+Once `openvpn` is connected local traffic flows through the bastion host and out of AWS, effectively proxying our outbound traffic.
 
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
-You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
 
-To manage the AWS infrastructure using `terraform` you can either:
+1) You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
+
+2) To manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
 - **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
 ### Common Steps
