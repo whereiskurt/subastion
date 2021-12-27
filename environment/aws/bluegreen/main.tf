@@ -99,7 +99,7 @@ module "ec2_subastion_blue" {
   boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
 
   vault_addr = var.vault_addr
-  vault_cacert = var.vault_addr
+  vault_cacert = var.vault_cacert
 
   subastion_vpc_id = module.vpc.id
   security_groups=[module.vpc.subastion_security_group]
