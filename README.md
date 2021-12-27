@@ -1,5 +1,7 @@
 # Overview
 This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure template in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
+
+
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
 You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1)
@@ -8,7 +10,8 @@ To manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
 - **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
 
-## Common Steps for both Options
+### Common Steps for both Options
+These are executed for both options:
 ```shell 
   ##Get latest code
   git clone https://github.com/whereiskurt/subastion
@@ -23,20 +26,23 @@ To manage the AWS infrastructure using `terraform` you can either:
 ```
 
 ### Option A: Build using local host terraform
+Run on local system:
 ```shell 
   ## Locally execute the build step
   build-prod-bluegreen
 ```
 ### Option B: Build with Subastion in Docker
+Run from within Docker:
 ```shell 
   ## Move into a docker container for subastion build
-
   cd docker && docker-compose run subastion
+
   ## From with-in Docker load bash functions and environment variables
   source environments.sh
   ## From with-in Docker create AWS Blue/Green using terraform
   build-prod-bluegreen
 ```
+### Common Steps for both Options
 Once complete in either environment:
 ```shell
   ## Now the environment is built, we can connect over `ssh` to the bastion hosts:
@@ -46,7 +52,6 @@ Once complete in either environment:
   openvpn-prod-blue-subastion
   openvpn-prod-green-subastion 
 ```
-
 
 ## Detailed Steps
 ### 1. AWS KMS CMK Setup
