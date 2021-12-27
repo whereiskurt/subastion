@@ -1,10 +1,19 @@
 # Overview
-This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
-
 DOCUMENTATION UPDATE UNDER WAY! :-) This is changing!
 
+This collection of `terraform` modules provide the **"Infrastructure as Code"** for a secure blue/green infrastructure in AWS - usually builds in under 2minutes. Changing a few configuration variables results in a complete AWS Virtual Private Cloud with security controls and bastion host connectivity.
 
+
+
+| ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png) |
+|:--:|
+| <b>AWS console showing `orchestration` alias and key id</b>|
+
+
+The only requirement is using the AWS KMS to create a customer managed key (CMK) with an alias 'orchestration':
 ![aws kms alias and key](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/kms.alias.orchestration.with.keyid.png)
+
+
 
 ![build-aws-bluegreen demo](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/build.gif)
 
