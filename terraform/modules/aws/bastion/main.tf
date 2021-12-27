@@ -14,8 +14,9 @@ resource "null_resource" "vault_subastion_key" {
   depends_on = [ aws_key_pair.subastion_key ]
 
   provisioner "local-exec" {
-    environment = var.vault_env
     command = <<-EOT
+      VAULT_ADDR=${var.vault_addr} \
+      VAULT_CACERT=${var.vault_cacert} \
       VAULT_TOKEN=`cat ${path.cwd}/environment/dockervault/vaultadmin.token` \
       vault kv put subastion/${var.key_name} \
         ip=${aws_eip.subastion.public_ip} \

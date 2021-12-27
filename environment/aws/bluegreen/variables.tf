@@ -20,23 +20,12 @@ variable "aws_kms_key_alias" {
 
 variable "aws_kms_key_id" {
   type = string
-  sensitive = true
 }
 
 ##Leaving this false prevents private/manage networks for getting out the Internet via outbound NAT.
 variable build_nat_gateway {
   type = bool
   default = true
-}
-
-variable "vault_env" {
-  type = map
-  default = {
-    VAULT_ADDR = "https://vaultsubastion:8200"
-    VAULT_CACERT = "../../../terraform/modules/openssl/ca.ica.pem"
-    DOCKER_HOST_PORT=8200
-    DOCKER_CONTAINER_PORT=8200
-  }
 }
 
 variable "aws_build_tags" {
