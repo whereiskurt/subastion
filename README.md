@@ -280,7 +280,7 @@ module "ec2_subastion_blue" {
 
 
 ### TODO - Quick List
-
+- Expose a t2.XXX variable for setting bastion host size.... https://aws.amazon.com/ec2/pricing/on-demand/
 - Add a environment/aws/kms
 - All module outputs to the environment folder!
 - Move module outputs of PEM files from terraform/modules to the environment/ area
