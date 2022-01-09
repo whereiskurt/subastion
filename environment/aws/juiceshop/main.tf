@@ -6,6 +6,7 @@ module "vpc" {
   openvpn_port = "11194"
 }
 
+## The NAT is attached to public network and provied a gateway to the manage/private networks
 module "nat_juice" {
   count = var.build_nat_gateway ? 1 : 0
   depends_on=[module.subnet_juice]
@@ -32,6 +33,19 @@ module "subnet_juice" {
   private_subnets ="10.51.32.0/20"
 }
 
+data "aws_ami" "target_ami" {
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+  owners = ["099720109477"] # Canonical
+}
+
 module "ec2_juiceshop" {
   depends_on=[module.subnet_juice]
   source = "../../../terraform/modules/aws/bastion"
@@ -41,7 +55,8 @@ module "ec2_juiceshop" {
   key_name="${module.vpc.name}_application_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_application_ec2")
   boot_template="juiceshop_application_boot.sh.tpl"
-  
+  instance_type = "t2.large"
+  ami_id = data.aws_ami.target_ami.id
   security_groups=[module.vpc.subastion_security_group]
   
   subastion_vpc_id = module.vpc.id

@@ -1,3 +1,15 @@
+variable "instance_type" {
+  description = "The EC2 instance type to create - defaults to small"
+  default="t2.small"
+  type = string
+}
+
+variable "ami_id" {
+  description = "This is the reference to "
+  default = "" ## This will ensure data.aws_ami.ubuntu.id
+  type = string
+}
+
 variable "aws_build_tags" {
   type = map
 }
