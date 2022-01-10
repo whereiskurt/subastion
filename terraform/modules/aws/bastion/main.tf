@@ -93,14 +93,16 @@ resource "aws_instance" "subastion" {
   } 
 }
 
+## The 'zone_name' is looked-up.
 data "aws_route53_zone" "zone" {
+  count = var.zone_name == "" ? 0 : 1
   name         = var.zone_name
   private_zone = false
 }
 
 resource "aws_route53_record" "record" {
   count = var.record_name == "" ? 0 : 1
-  zone_id = data.aws_route53_zone.zone.zone_id
+  zone_id = data.aws_route53_zone.zone[0].zone_id
   name    = var.record_name
   type    = "A"
   ttl     = "60"

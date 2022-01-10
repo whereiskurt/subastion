@@ -22,10 +22,12 @@ variable name {
 variable zone_name {
   description = "Name of DNS zone"
   type = string
+  default = ""
 }
 variable record_name {
   description = "The name to put into the A record"
   type = string
+  default = ""
 }
 
 variable vault_addr {
