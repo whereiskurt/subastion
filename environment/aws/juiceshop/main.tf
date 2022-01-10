@@ -52,12 +52,15 @@ module "ec2_juiceshop" {
   name="${module.vpc.name}_application"
   aws_build_tags = var.aws_build_tags
   
+  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
+  record_name="juice.kurthundeck.com"
+
   key_name="${module.vpc.name}_application_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_application_ec2")
-  boot_template="juiceshop_application_boot.sh.tpl"
+  boot_template="juiceshop_boot.sh.tpl"
   instance_type = "t2.large"
   ami_id = data.aws_ami.target_ami.id
-  security_groups=[module.vpc.subastion_security_group]
+  security_groups=[module.vpc.subastion_security_group, module.vpc.http_security_group]
   
   subastion_vpc_id = module.vpc.id
   public_subnet_id = module.subnet_juice.public_subnet_id
@@ -76,4 +79,3 @@ module "ec2_juiceshop" {
   openvpn_cidr = "10.51.48.0/20"
   openvpn_hostport = "11194"
 }
-

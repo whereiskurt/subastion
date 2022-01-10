@@ -19,6 +19,15 @@ variable name {
   type = string
 }
 
+variable zone_name {
+  description = "Name of DNS zone"
+  type = string
+}
+variable record_name {
+  description = "The name to put into the A record"
+  type = string
+}
+
 variable vault_addr {
   type=string
 }

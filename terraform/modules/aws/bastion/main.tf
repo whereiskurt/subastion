@@ -92,3 +92,17 @@ resource "aws_instance" "subastion" {
     device_index         = 2
   } 
 }
+
+data "aws_route53_zone" "zone" {
+  name         = var.zone_name
+  private_zone = false
+}
+
+resource "aws_route53_record" "record" {
+  count = var.record_name == "" ? 0 : 1
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = var.record_name
+  type    = "A"
+  ttl     = "60"
+  records = [aws_eip.subastion.public_ip]
+}

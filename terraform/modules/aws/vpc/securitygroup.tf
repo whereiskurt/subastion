@@ -52,3 +52,23 @@ resource "aws_security_group" "subastion_public" {
   ]
   tags = merge(var.aws_build_tags, {Name = "${var.name}_subastion_public"})
 }
+
+resource "aws_security_group" "http_only" {
+  name = "juicebox_http_public"
+  description = "Allow HTTP inbound traffic"
+  vpc_id      = aws_vpc.golden.id
+  ingress = [
+    {
+      description      = "HTTP port to VPC"
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      self=true
+      prefix_list_ids=[]
+      security_groups=[]
+    }
+  ]
+  tags = merge(var.aws_build_tags, {Name = "${var.name}_http_public"})
+}
