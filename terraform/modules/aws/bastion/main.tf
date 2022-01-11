@@ -67,15 +67,15 @@ resource "aws_eip" "subastion" {
   vpc                       = true
   network_interface         = aws_network_interface.subastion_public.id
   associate_with_private_ip = var.subastion_public_ip
-  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
+  tags = merge(var.aws_build_tags, {Name = var.name})
 }
 
 resource "aws_instance" "subastion" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.small"
+  ami           = var.ami_id == "" ? data.aws_ami.ubuntu.id : var.ami_id
+  instance_type = var.instance_type
   key_name      = aws_key_pair.subastion_key.key_name
  
-  tags = merge(var.aws_build_tags, {Name = "${var.name}"})
+  tags = merge(var.aws_build_tags, {Name = var.name})
 
   user_data = data.template_file.bastion_boot.rendered
 
@@ -91,4 +91,20 @@ resource "aws_instance" "subastion" {
     network_interface_id = aws_network_interface.subastion_private.id
     device_index         = 2
   } 
+}
+
+## The 'zone_name' is looked-up.
+data "aws_route53_zone" "zone" {
+  count = var.zone_name == "" ? 0 : 1
+  name         = var.zone_name
+  private_zone = false
+}
+
+resource "aws_route53_record" "record" {
+  count = var.record_name == "" ? 0 : 1
+  zone_id = data.aws_route53_zone.zone[0].zone_id
+  name    = var.record_name
+  type    = "A"
+  ttl     = "60"
+  records = [aws_eip.subastion.public_ip]
 }

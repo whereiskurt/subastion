@@ -1,3 +1,15 @@
+variable "instance_type" {
+  description = "The EC2 instance type to create - defaults to small"
+  default="t2.small"
+  type = string
+}
+
+variable "ami_id" {
+  description = "This is the reference to "
+  default = "" ## This will ensure data.aws_ami.ubuntu.id
+  type = string
+}
+
 variable "aws_build_tags" {
   type = map
 }
@@ -5,6 +17,17 @@ variable "aws_build_tags" {
 variable name {
   description = "The name of the bastion host"
   type = string
+}
+
+variable zone_name {
+  description = "Name of DNS zone"
+  type = string
+  default = ""
+}
+variable record_name {
+  description = "The name to put into the A record"
+  type = string
+  default = ""
 }
 
 variable vault_addr {

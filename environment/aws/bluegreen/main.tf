@@ -37,10 +37,13 @@ module "ec2_subastion_green" {
   source = "../../../terraform/modules/aws/bastion"
   name="${module.vpc.name}_green_subastion"
   aws_build_tags = var.aws_build_tags
-  
+
+  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
+  record_name="green.kurthundeck.com"
+ 
   key_name="${module.vpc.name}_green_subastion_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_green_subastion_ec2")
-  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  boot_template="bastion_boot.sh.tpl"
   
   security_groups=[module.vpc.subastion_security_group]
   
@@ -93,10 +96,13 @@ module "ec2_subastion_blue" {
   source = "../../../terraform/modules/aws/bastion"
   name="${module.vpc.name}_blue_subastion"
   aws_build_tags = var.aws_build_tags
+  
+  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
+  record_name="blue.kurthundeck.com"
 
   key_name="${module.vpc.name}_blue_subastion_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_blue_subastion_ec2")
-  boot_template="../../../terraform/modules/aws/bastion/bastion_boot.sh.tpl"
+  boot_template="bastion_boot.sh.tpl"
 
   vault_addr = var.vault_addr
   vault_cacert = var.vault_cacert

@@ -29,6 +29,16 @@ resource "aws_default_network_acl" "default" {
     to_port    = 443
   }
   
+  ##Allow plain HTTP
+  ingress {
+    protocol   = "tcp"
+    rule_no    = 105
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 80
+    to_port    = 80
+  }
+
   ingress {
     protocol   = "tcp"
     rule_no    = 111
