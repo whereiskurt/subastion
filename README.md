@@ -9,7 +9,9 @@ Once `openvpn` is connected to the bastion host, local traffic flows over VPN an
 After `build-prod-bluegreen` completes you have access to 2x EC2 bastion hosts straddling public/manage/private portions of their blue/green networks. Executing `openvpn-prod-blue-subastion` will extend your local network and tunnel your outbound traffic through AWS. Executing `ssh-prod-green-subastion` will land you on the green bastion host, straddling the subnets.
 
 # What is a Blue/Green Deployment strategy?
->A [blue/green deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) is a deployment strategy in which you create two separate, but identical environments. One environment (blue) is running the current application version and one environment (green) is running the new application version. 
+>A [blue/green deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) is a deployment strategy in which you create two separate, but identical environments. One environment (blue) is running the current application version and one environment (green) is running the new application version.
+
+![subastion arch overview](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/arch.subastion.bluegreen.png) 
 
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
