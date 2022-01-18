@@ -11,6 +11,9 @@ After `build-prod-bluegreen` completes you have access to 2x EC2 bastion hosts s
 # What is a Blue/Green Deployment strategy?
 >A [blue/green deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) is a deployment strategy in which you create two separate, but identical environments. One environment (blue) is running the current application version and one environment (green) is running the new application version.
 
+## What Subastion Builds
+This is an overview of the actual blue/green AWS components created:
+
 ![subastion arch overview](https://github.com/whereiskurt/subastion/blob/main/docs/gifs/arch.subastion.bluegreen.png) 
 
 ## Quick Start
