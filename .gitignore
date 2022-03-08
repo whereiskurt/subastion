@@ -6,5 +6,5 @@ vault.secrets*
 *.log
 *.key
 *.token
-*.secret
+*.secret*
 *.env
