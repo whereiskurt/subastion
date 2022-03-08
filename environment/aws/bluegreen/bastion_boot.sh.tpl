@@ -2,7 +2,7 @@
 hostnamectl set-hostname ${name}
 
 apt update
-apt install -y openvpn easy-rsa
+apt install -y openvpn easy-rsa squid
 
 [[ -f /etc/openvpn/keys/ ]] || mkdir /etc/openvpn/keys/
 chmod 700 /etc/openvpn/keys/         
@@ -43,7 +43,7 @@ dh /etc/openvpn/easy_ca/pki/dh.pem
 cipher AES-256-CBC
 auth SHA512
 server ${openvpn_network} ${openvpn_netmask}
-push "redirect-gateway def1 bypass-dhcp"
+;push "redirect-gateway def1 bypass-dhcp"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
 ifconfig-pool-persist ipp.txt
@@ -80,6 +80,7 @@ ns-cert-type server
 comp-lzo
 verb 0
 tls-client
+;redirect-gateway def1
 ;tls-auth pfs.key.pem
 EOT
 chmod 600 /etc/openvpn/client/client.conf 
@@ -119,3 +120,6 @@ echo net.ipv4.ip_forward = 1 >> /etc/sysctl.d/99-sysctl.conf
 iptables-save > /etc/iptables.rules
 
 nohup openvpn /etc/openvpn/server/server.conf > ~/nohup.${name}.out &
+
+sed -i 's/\#http_access allow localnet/http_access allow localnet/g' /etc/squid/squid.conf
+systemctl restart squid.service

@@ -27,7 +27,7 @@ resource "null_resource" "vault_subastion_key" {
 
 resource "local_file" "bastion_key_pem" {
   depends_on = [aws_key_pair.subastion_key]
-  file_permission = 0666
+  file_permission = 0600
   content  = tls_private_key.subastion.private_key_pem
   filename = var.key_filename
 }
