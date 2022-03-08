@@ -19,8 +19,21 @@ This is an overview of the actual blue/green AWS components created:
 ## Quick Start
 These steps are fully explained in the next section, but the quick start is here. :-)
 
-1) You MUST create the AWS KMS CMK manually in the AWS console. The key needs to be in the region you are building (e.g. ca-central-1) and have the alias `orchestration`.
+1) You MUST create the AWS KMS CMK manually in the AWS management console. The key needs to be in the region you are building (e.g. ca-central-1) and have the alias `orchestration`. 
 
+2) Create a `non-root` account in the AWS IAM management console. Ensure account has admin rights over the AWS KMS CMK. Run `aws configure` on your system to log in as the non-root account.
+
+3) You MUST edit the `environment/dockervault/variables.tf` to reflect your region and your AWS KMS CMK ID associated with the 'orchestration' alias.
+
+4) You MUST edit `environment/aws/juiceshop/main.tf` `environment/aws/bluegreen/main.tf` and provide the AWS Zone/Route53 entry OR! Empty the values out for both the Blue and Green `'ec2_subastion_blue'` and `'ec2_subastion_green'`:
+```hcl
+zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
+record_name="blue.kurthundeck.com"
+
+//Becomes:
+zone_name="" 
+record_name=""
+```   
 2) Manage the AWS infrastructure using `terraform` you can either:
 - **Option A)** use the local machine which needs to have `terraform`, `vault`, `openssl` and `jq` installed, or 
 - **Option B)** run subastion inside a Docker image using `docker-compose` to create an Alpine Linux image with the binaries and subastion installed
@@ -35,6 +48,9 @@ These are executed for both options:
 git clone https://github.com/whereiskurt/subastion
 cd subastion
 
+##MAKE THE MANDATORY EDITS FOR AWS CMK ID, Regions
+##and Route53 zone names!
+ 
 ##Load bash functions and environment variables
 source environments.sh
 
