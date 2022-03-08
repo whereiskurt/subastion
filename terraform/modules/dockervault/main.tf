@@ -1,5 +1,5 @@
 resource "local_file" "openssl_vault_conf" {
-  file_permission = 0400
+  file_permission = 0666
 
   content = templatefile("${var.openssl_env.VAULT_TPL}", {
     vault_ica_folder=var.openssl_env.ICA_DIR
@@ -56,21 +56,21 @@ resource "null_resource" "validate_certificates" {
 
 resource "local_file" "vault_key_file" {
   depends_on = [null_resource.makecert_vault]
-  file_permission = 0400
+  file_permission = 0666
   source  = var.openssl_env.VAULT_KEY_FILE
   filename = "${path.cwd}/docker/vault/volumes/config/vault.key.pem"
 }
 
 resource "local_file" "vault_cert_file" {
   depends_on = [null_resource.makecert_vault]
-  file_permission = 0444
+  file_permission = 0666
   source  = var.openssl_env.VAULT_CERT_FILE
   filename = "${path.cwd}/docker/vault/volumes/config/vault.cert.pem"
 }
 
 resource "local_file" "vault_config" {
   depends_on = [local_file.vault_cert_file, local_file.vault_key_file]
-  file_permission = 0400
+  file_permission = 0666
   content  = data.template_file.vault_conf.rendered
   filename = "${path.cwd}/docker/vault/volumes/config/vault.json"
 }
@@ -83,7 +83,7 @@ resource "null_resource" "wait_for_iam" {
 }
 
 resource "local_file" "docker_compose_config" {
-  file_permission = 0400
+  file_permission = 0666
   content  = data.template_file.docker_compose_conf.rendered
   filename = "${path.cwd}/docker/vault/docker-compose.yml"
 }
@@ -110,18 +110,28 @@ resource "null_resource" "vault_init" {
   provisioner "local-exec" {
     environment = var.vault_env
     command = <<-EOT
-      vault operator init | \
-        cut -d " " -f 4 | awk 'NF' | head -n -3  > $VAULT_SECRETS_FILE
+      vault operator init > $VAULT_SECRETS_FILE.working
+    EOT
+  }
+}
+
+resource "null_resource" "vault_have_token" {
+  depends_on = [null_resource.vault_init]
+  provisioner "local-exec" {
+    environment = var.vault_env
+    command = <<-EOT
+      grep -ie 'Initial Root Token: s.' $VAULT_SECRETS_FILE.working \
+      | cut -b21- > $VAULT_SECRETS_FILE
     EOT
   }
 }
 
 resource "null_resource" "vault_login" {
-  depends_on = [null_resource.vault_init]
+  depends_on = [null_resource.vault_have_token]
   provisioner "local-exec" {
     environment = var.vault_env
     command = <<-EOT
-      tail -n1 $VAULT_SECRETS_FILE | \
+      cat $VAULT_SECRETS_FILE | \
         vault login - > /dev/null 2>&1
     EOT
   }

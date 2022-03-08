@@ -4,14 +4,14 @@ resource "null_resource" "makepfx_chain" {
     environment = var.openssl_env
     command = <<-EOT
       cat $CA_CERT_FILE $ICA_CERT_FILE | tee ${path.module}/$CHAIN_CERT_FILE | \
-       openssl pkcs12 -export -passout pass: -nokeys -in - \
+       openssl pkcs12 -export -passout pass: -nokeys \
          -out ${path.module}/$CHAIN_PFX_FILE
     EOT
   }
 }
 
 resource "local_file" "openssl_ca_conf" {
-  file_permission = 0400
+  file_permission = 0666
 
   content = templatefile(var.openssl_env.CA_TPL, {
     ca_folder=var.openssl_env.CA_DIR
@@ -55,7 +55,7 @@ resource "null_resource" "make_dh2048" {
 }
 
 resource "local_file" "openssl_ica_conf" {
-  file_permission = 0400
+  file_permission = 0666
 
   content = templatefile("${var.openssl_env.ICA_TPL}", {
     ica_folder=var.openssl_env.ICA_DIR
