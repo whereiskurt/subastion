@@ -12,10 +12,12 @@ ssh-prod-green-subastion () {
 }
 
 openvpn-prod-green-subastion () { 
+  echo Copying GREEN OVPN profile connection to .ssh folder
   scp -i $SUBASTION_GREEN_KEYFILE ubuntu@$SUBASTION_GREEN_IP:/home/ubuntu/openvpn/prod_green_subastion.ovpn ~/.ssh/ && \
-  chmod 600 ~/.ssh/prod_green_subastion.ovpn && \
-  OVPN=$HOME && \
-  sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
+  chmod 600 ~/.ssh/prod_green_subastion.ovpn
+  ## On Linux systems that command will complete the connection and route ALL traffic through AWS as a gateway
+  #OVPN=$HOME && \
+  #sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_green_subastion.ovpn > ~/nohup.green.out 2>&1 &"
 }
 
 ssh-prod-blue-subastion () { 
@@ -23,10 +25,12 @@ ssh-prod-blue-subastion () {
 }
 
 openvpn-prod-blue-subastion () { 
+  echo Copying BLUE OVPN profile connection to .ssh folder
   scp -i $SUBASTION_BLUE_KEYFILE ubuntu@$SUBASTION_BLUE_IP:/home/ubuntu/openvpn/prod_blue_subastion.ovpn ~/.ssh/ && \
-  chmod 600 ~/.ssh/prod_blue_subastion.ovpn && \
-  OVPN=$HOME && \
-  sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out 2>&1 &"
+  chmod 600 ~/.ssh/prod_blue_subastion.ovpn
+  ## On Linux systems that command will complete the connection and route ALL traffic through AWS as a gateway
+  #OVPN=$HOME && \
+  #sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/prod_blue_subastion.ovpn > ~/nohup.blue.out 2>&1 &"
 }
 
 destroy-prod-bluegreen() {
