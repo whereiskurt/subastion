@@ -14,8 +14,8 @@ ssh-juicebox-subastion () {
 openvpn-juicebox-subastion () { 
   scp -i $JUICESHOP_KEYFILE ubuntu@$JUICESHOP_IP:/home/ubuntu/openvpn/juiceapplication.ovpn ~/.ssh/ && \
   chmod 600 ~/.ssh/juiceapplication.ovpn && \
-  OVPN=$HOME && \
-  sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/juiceapplication.ovpn > ~/nohup.juice.out 2>&1 &"
+  ##OVPN=$HOME && \
+  ##sudo sh -c "nohup openvpn --redirect-gateway autolocal --config $OVPN/.ssh/juiceapplication.ovpn > ~/nohup.juice.out 2>&1 &"
 }
 
 build-juiceshop() {
