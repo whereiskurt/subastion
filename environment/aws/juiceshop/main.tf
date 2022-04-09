@@ -52,8 +52,8 @@ module "ec2_juiceshop" {
   name="${module.vpc.name}_application"
   aws_build_tags = var.aws_build_tags
   
-  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
-  record_name="juice.kurthundeck.com"
+  zone_name="fwdsec.xyz." ##NOTICE the '.' at the end!
+  record_name="later.juice.fwdsec.xyz"
 
   key_name="${module.vpc.name}_application_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_application_ec2")

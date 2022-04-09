@@ -20,7 +20,7 @@ variable "aws_kms_key_alias" {
 
 variable "aws_kms_key_id" {
   type = string
-  default = "edac385f-c393-4e9c-aab7-808e1bc3c899"
+  default = "635bbf8d-7f95-4854-bb0e-648738605834"
   sensitive = true
 }
 

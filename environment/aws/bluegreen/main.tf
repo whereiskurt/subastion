@@ -38,8 +38,8 @@ module "ec2_subastion_green" {
   name="${module.vpc.name}_green_subastion"
   aws_build_tags = var.aws_build_tags
 
-  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
-  record_name="green.kurthundeck.com"
+  zone_name="fwdsec.xyz." ##NOTICE the '.' at the end!
+  record_name="green.fwdsec.xyz"
  
   key_name="${module.vpc.name}_green_subastion_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_green_subastion_ec2")
@@ -97,8 +97,8 @@ module "ec2_subastion_blue" {
   name="${module.vpc.name}_blue_subastion"
   aws_build_tags = var.aws_build_tags
   
-  zone_name="kurthundeck.com." ##NOTICE the '.' at the end!
-  record_name="blue.kurthundeck.com"
+  zone_name="fwdsec.xyz." ##NOTICE the '.' at the end!
+  record_name="blue.fwdsec.xyz"
 
   key_name="${module.vpc.name}_blue_subastion_ec2"
   key_filename=pathexpand("~/.ssh/${module.vpc.name}_blue_subastion_ec2")

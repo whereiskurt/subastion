@@ -68,6 +68,17 @@ resource "aws_security_group" "http_only" {
       self=true
       prefix_list_ids=[]
       security_groups=[]
+    },
+     {
+      description      = "HTTP port to VPC"
+      from_port        = 8080
+      to_port          = 8080
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      self=true
+      prefix_list_ids=[]
+      security_groups=[]
     }
   ]
   tags = merge(var.aws_build_tags, {Name = "${var.name}_http_public"})

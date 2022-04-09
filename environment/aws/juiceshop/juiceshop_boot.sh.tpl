@@ -145,3 +145,5 @@ chown ubuntu:ubuntu $JUICE_SCRIPT
 chmod +x $JUICE_SCRIPT
 
 su --command $JUICE_SCRIPT - ubuntu
+
+## Need to log back in an change config/default.yml to '8080'
